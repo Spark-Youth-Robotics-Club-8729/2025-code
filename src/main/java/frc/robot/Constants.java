@@ -29,6 +29,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+
+    public static final int kAprilTagBlue = 21;
+    public static final int kAprilTagRed = 10;
   }
 
   public static class VisionConstants {
