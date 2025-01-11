@@ -29,12 +29,12 @@ public class VisionSubsystem extends SubsystemBase{
     private double lastEstTime;
 
     public VisionSubsystem() { // Constructor
-        camera = new PhotonCamera(CAMERA_NAME);
+        camera = new PhotonCamera(kCameraName);
         
         poseEstimator = new PhotonPoseEstimator(
             TAG_LAYOUT, 
             PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
-            ROBOT_TO_CAM
+            kRobotToCam
         );
         poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY); // What to use if only 1 tag found
     }
@@ -58,7 +58,7 @@ public class VisionSubsystem extends SubsystemBase{
 
     // Returns standard deviations (essentially trustworthiness) of the estimated pose (to be used alongside swerve to align robot)
     public Matrix<N3, N1> getEstimationStdDevs(Pose2d estimatedPose) {
-        var estStdDevs = SINGLE_TAG_SD;
+        var estStdDevs = kSingleTagSD;
         var targets = camera.getLatestResult().getTargets();
         int numTags = 0;
         double avgDist = 0;
@@ -80,7 +80,7 @@ public class VisionSubsystem extends SubsystemBase{
         avgDist /= numTags;
         // If more than 1 tag -> need to use a more trusting SD
         if (numTags > 1)
-            estStdDevs = MULTI_TAG_SD;
+            estStdDevs = kMultiTagSD;
         // If only 1 tag and distance is very far (untrustworthy)
         if (numTags == 1 && avgDist > 4)
             estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
