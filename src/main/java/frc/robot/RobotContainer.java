@@ -40,21 +40,42 @@ public class RobotContainer {
     configureBindings();
 
     m_driveSubsystem.setDefaultCommand(
-        // Left joystick -> moving 
-        // Right joystick -> rotation
-        // Deadband to avoid small movements
-        new RunCommand(
-            () -> m_driveSubsystem.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OperatorConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OperatorConstants.kDriveDeadband),
-                true),
-            m_driveSubsystem));
+                                // The left stick controls translation of the robot.
+                                // Turning is controlled by the X axis of the right stick.
+                                new RunCommand(
+                                                () -> m_driveSubsystem.drive(
+                                                                -MathUtil.applyDeadband(
+                                                                                m_driverController.getRawAxis(1),
+                                                                                OperatorConstants.kDriveDeadband),
+                                                                -MathUtil.applyDeadband(
+                                                                                m_driverController.getRawAxis(0),
+                                                                                OperatorConstants.kDriveDeadband),
+                                                                -MathUtil.applyDeadband(
+                                                                                m_driverController.getRawAxis(4),
+                                                                                OperatorConstants.kDriveDeadband),
+                                                                true),
+                                                                m_driveSubsystem));
+
+    // m_driveSubsystem.setDefaultCommand(
+    //     // Left joystick -> moving 
+    //     // Right joystick -> rotation
+    //     // Deadband to avoid small movements
+    //     new RunCommand(
+    //         () -> m_driveSubsystem.drive(
+    //             -MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband),
+    //             -MathUtil.applyDeadband(m_driverController.getLeftX(), OperatorConstants.kDriveDeadband),
+    //             -MathUtil.applyDeadband(m_driverController.getRightX(), OperatorConstants.kDriveDeadband),
+    //             true),
+    //         m_driveSubsystem));
   }
 
   // Binds commands to buttons
   private void configureBindings() {
     m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
+  }
+
+  public DriveSubsystem getDriveSubsystem() {
+    return m_driveSubsystem;
   }
 
   // Temporary

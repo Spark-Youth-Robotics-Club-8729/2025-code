@@ -29,7 +29,7 @@ public final class Constants {
   }
 
   public static class VisionConstants {
-    public static final String kCameraName = "Microsoft_LifeCam_HD-3000";
+    public static final String kCameraName = "testingcam";
 
     // April Tag Layout for Pose Estimator
     public static final AprilTagFieldLayout TAG_LAYOUT = AprilTagFields.kDefaultField.loadAprilTagLayoutField();
