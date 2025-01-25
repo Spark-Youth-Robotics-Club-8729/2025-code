@@ -75,6 +75,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    m_robotContainer.getDriveSubsystem().resetWheelOrientation();
+
   }
 
   /** This function is called periodically during operator control. */
@@ -85,6 +88,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+
   }
 
   /** This function is called periodically during test mode. */
