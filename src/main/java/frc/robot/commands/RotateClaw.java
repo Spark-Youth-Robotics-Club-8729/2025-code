@@ -3,11 +3,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeClawSubsystem;
 
-public class SetClawAngle extends Command {
+public class RotateClaw extends Command {
     private final IntakeClawSubsystem m_intakeClawSubsystem;
     private final double m_targetPosition;
 
-    public SetClawAngle(IntakeClawSubsystem subsystem, double targetPosition) {
+    public RotateClaw(IntakeClawSubsystem subsystem, double targetPosition) {
         m_intakeClawSubsystem = subsystem;
         m_targetPosition = targetPosition;
 
@@ -23,8 +23,7 @@ public class SetClawAngle extends Command {
 
     @Override
     public void execute() {
-        // Continuously call the setPosition method in case of updates
-        m_intakeClawSubsystem.setDesiredPosition(m_targetPosition);
+        //m_intakeClawSubsystem.setDesiredPosition(m_targetPosition); // No need to call because of pid controller handling it in initialize
     }
 
     @Override
@@ -36,6 +35,6 @@ public class SetClawAngle extends Command {
     @Override
     public boolean isFinished() {
         // Check if the position is within tolerance
-        return Math.abs(m_intakeClawSubsystem.getPosition() - m_targetPosition) <= 0.1;
+        return m_intakeClawSubsystem.isAtSetpoint();
     }
 }

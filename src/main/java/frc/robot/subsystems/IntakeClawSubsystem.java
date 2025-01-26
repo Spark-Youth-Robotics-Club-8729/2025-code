@@ -10,18 +10,16 @@ import com.revrobotics.RelativeEncoder;
 import frc.robot.Constants.IntakeClawConstants;
 
 public class IntakeClawSubsystem extends SubsystemBase{
-    private final SparkMax m_clawMotor;
+    private final SparkMax m_clawMotor = new SparkMax(IntakeClawConstants.kClawRotationCanId, MotorType.kBrushless);
     private final RelativeEncoder m_encoder;
     private final PIDController pidController;
 
-    public IntakeClawSubsystem(int CANID) {
-        m_clawMotor = new SparkMax(CANID, MotorType.kBrushless);
-        
+    public IntakeClawSubsystem() {
         m_encoder = m_clawMotor.getEncoder();
       
         // Initialize PID controller
         pidController = new PIDController(IntakeClawConstants.kP, IntakeClawConstants.kI, IntakeClawConstants.kD);
-        // pidController.setTolerance(1.0); // the tolerance is set in the SetClawAngle Command
+        pidController.setTolerance(1.0); // the tolerance is set in the SetClawAngle Command
 
 
         m_encoder.setPosition(0);
@@ -48,6 +46,9 @@ public class IntakeClawSubsystem extends SubsystemBase{
     public void setDesiredPosition(double desiredPosition) {
         double currentPosition = getPosition();
         double output = pidController.calculate(currentPosition, desiredPosition);
+
+        // Clamp output
+        output = Math.max(-1.0, Math.min(1.0, output));
     
         // Apply the calculated output to the motor
         rotate(output);
@@ -61,6 +62,11 @@ public class IntakeClawSubsystem extends SubsystemBase{
     /** Zeroes all the encoders. */
     public void resetEncoders() {
         m_encoder.setPosition(0);
+    }
+
+    // PID controller is within tolerance
+    public boolean isAtSetpoint() {
+        return pidController.atSetpoint();
     }
 }
 
