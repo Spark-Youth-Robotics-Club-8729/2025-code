@@ -12,7 +12,7 @@ public class SetClawAngle extends Command {
         m_targetPosition = targetPosition;
 
         // Declare subsystem dependencies
-        // addRequirements(m_intakeClawSubsystem); //IntakeSubsystem is not a subsystem
+        addRequirements(m_intakeClawSubsystem); 
     }
 
     @Override

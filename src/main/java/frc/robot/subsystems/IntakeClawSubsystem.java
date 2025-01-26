@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
@@ -8,7 +9,7 @@ import com.revrobotics.RelativeEncoder;
 
 import frc.robot.Constants.IntakeClawConstants;
 
-public class IntakeClawSubsystem {
+public class IntakeClawSubsystem extends SubsystemBase{
     private final SparkMax m_clawMotor;
     private final RelativeEncoder m_encoder;
     private final PIDController pidController;
