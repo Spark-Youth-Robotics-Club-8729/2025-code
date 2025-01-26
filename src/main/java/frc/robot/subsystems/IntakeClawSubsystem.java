@@ -3,33 +3,24 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
 
 import frc.robot.Constants.IntakeClawConstants;
 
 public class IntakeClawSubsystem {
-    private final SparkMax m_sparkMax;
+    private final SparkMax m_clawMotor;
     private final RelativeEncoder m_encoder;
     private final PIDController pidController;
 
-    public IntakeClawSubsystem(int CANId) {
-        m_sparkMax = new SparkMax(CANId, MotorType.kBrushless);
-        SparkMaxConfig configDriving = new SparkMaxConfig();
-        configDriving
-        .inverted(false)
-        .idleMode(IdleMode.kBrake);
-        m_sparkMax.configure(configDriving, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-        m_encoder = m_sparkMax.getEncoder();
+    public IntakeClawSubsystem(int CANID) {
+        m_clawMotor = new SparkMax(CANID, MotorType.kBrushless);
+        
+        m_encoder = m_clawMotor.getEncoder();
       
         // Initialize PID controller
         pidController = new PIDController(IntakeClawConstants.kP, IntakeClawConstants.kI, IntakeClawConstants.kD);
-        pidController.setTolerance(1.0); // Set acceptable error tolerance
+        // pidController.setTolerance(1.0); // the tolerance is set in the SetClawAngle Command
 
 
         m_encoder.setPosition(0);
@@ -50,7 +41,7 @@ public class IntakeClawSubsystem {
      * @param speed The speed
      */
     public void rotate(double speed) {
-        m_sparkMax.set(speed); 
+        m_clawMotor.set(speed); 
     }
 
     public void setDesiredPosition(double desiredPosition) {
