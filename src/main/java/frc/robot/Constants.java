@@ -156,4 +156,13 @@ public final class Constants {
     public static final int kClawRotationCanId = 9;
     public static final double kDesiredClawAngle = 10.0;
   }
+
+  public static final class ElevatorConstants {
+    public static final int kRightKrakenCanId = 10;
+    public static final int kLeftKrakenCanId = 11;
+
+    public static final double kKrakenP = 0.5;
+    public static final double kKrakenI = 0;
+    public static final double kKrakenD = 0;
+  }
 }
