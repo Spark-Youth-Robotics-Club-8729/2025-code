@@ -159,8 +159,10 @@ public final class Constants {
 
   /** Constants for Claw Wheels Subsystem. */
 public class ClawWheelsConstants {
-    public static final double INTAKE_ALGAE_SPEED = 0.5; // Speed for algae intake
-    public static final double SHOOT_ALGAE_SPEED = 0.5; // Speed for algae outtake
-    public static final double SHOOT_CORAL_SPEED = 0.5; // Speed for coral outtake
+    public static final double kIntakeAlgaeSpeed = 0.5; // Speed for algae intake
+    public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
+    public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
+    public static final int kTopWheelMotorID = 11;
+    public static final int kBottomWheelMotorID = 12;
 }
 }
