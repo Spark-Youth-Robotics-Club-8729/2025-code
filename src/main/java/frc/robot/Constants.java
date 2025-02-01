@@ -149,7 +149,7 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
-  public static final class IntakeClawConstants {
+  public static final class RotateClawConstants {
     public static final double kP = 1;
     public static final double kI = 0;
     public static final double kD = 0;
@@ -169,6 +169,9 @@ public final class Constants {
 
     public static final int kRightEncoderCanId = 10;
     public static final int kLeftEncoderCanId = 11;
+
+    public static final int kElevatorDesiredRotations = 0;
+
   }
 
   /** Constants for Claw Wheels Subsystem. */

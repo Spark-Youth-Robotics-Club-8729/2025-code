@@ -5,15 +5,24 @@
 package frc.robot;
 
 import frc.robot.Constants.ClimbConstants;
-import frc.robot.Constants.IntakeClawConstants;
+import frc.robot.Constants.RotateClawConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.*;
+
+
+import frc.robot.subsystems.ClawWheelsSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeClawSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.RotateClawSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.AlignRobot;
 import frc.robot.commands.ClimberSet;
+import frc.robot.commands.ElevatorMove;
+import frc.robot.commands.IntakeAlgaeCommand;
 import frc.robot.commands.RotateClaw;
+import frc.robot.commands.ShootAlgaeCommand;
+import frc.robot.commands.ShootCoralCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -33,8 +42,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
-  private final IntakeClawSubsystem m_intakeClawSubsystem = new IntakeClawSubsystem();
-  private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
+  private final RotateClawSubsystem m_rotateClawSubsystem = new RotateClawSubsystem();
+  private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+  private final ClawWheelsSubsystem m_clawWheelsSubsystems = new ClawWheelsSubsystem();
+  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -81,9 +92,14 @@ public class RobotContainer {
   // Binds commands to buttons
   private void configureBindings() {
     m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
-    m_driverController.b().onTrue(new RotateClaw(m_intakeClawSubsystem, IntakeClawConstants.kDesiredClawAngle));
-    m_operatorController.povLeft().whileTrue(new ClimberSet(m_robotClimb, ClimbConstants.kDesiredClimbAngle));
-    m_operatorController.povRight().whileTrue(new ClimberSet(m_robotClimb, -ClimbConstants.kDesiredClimbAngle)); 
+    m_driverController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawAngle));
+
+    m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, ClimbConstants.kDesiredClimbAngle));
+    m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -ClimbConstants.kDesiredClimbAngle)); 
+    // add elevator command when PID
+    m_operatorController.a().whileTrue(new IntakeAlgaeCommand(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
+    m_operatorController.b().whileTrue(new ShootAlgaeCommand(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeAlgaeSpeed));
+    m_operatorController.x().whileTrue(new ShootCoralCommand(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
   }
 
   public DriveSubsystem getDriveSubsystem() {

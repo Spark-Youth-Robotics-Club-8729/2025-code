@@ -1,13 +1,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeClawSubsystem;
+import frc.robot.subsystems.RotateClawSubsystem;
 
 public class RotateClaw extends Command {
-    private final IntakeClawSubsystem m_intakeClawSubsystem;
+    private final RotateClawSubsystem m_intakeClawSubsystem;
     private final double m_targetPosition;
 
-    public RotateClaw(IntakeClawSubsystem subsystem, double targetPosition) {
+    public RotateClaw(RotateClawSubsystem subsystem, double targetPosition) {
         m_intakeClawSubsystem = subsystem;
         m_targetPosition = targetPosition;
 

@@ -1,5 +1,4 @@
-// controls elevator up and down
-// NOTE: add button bindings that enter speed positive when pressing one button and speed negative when pressing another button
+// Needs to be changed to PID
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;

@@ -7,18 +7,18 @@ import edu.wpi.first.math.controller.PIDController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
-import frc.robot.Constants.IntakeClawConstants;
+import frc.robot.Constants.RotateClawConstants;
 
-public class IntakeClawSubsystem extends SubsystemBase{
-    private final SparkMax m_clawMotor = new SparkMax(IntakeClawConstants.kClawRotationCanId, MotorType.kBrushless);
+public class RotateClawSubsystem extends SubsystemBase{
+    private final SparkMax m_clawMotor = new SparkMax(RotateClawConstants.kClawRotationCanId, MotorType.kBrushless);
     private final RelativeEncoder m_encoder;
     private final PIDController pidController;
 
-    public IntakeClawSubsystem() {
+    public RotateClawSubsystem() {
         m_encoder = m_clawMotor.getEncoder();
       
         // Initialize PID controller
-        pidController = new PIDController(IntakeClawConstants.kP, IntakeClawConstants.kI, IntakeClawConstants.kD);
+        pidController = new PIDController(RotateClawConstants.kP, RotateClawConstants.kI, RotateClawConstants.kD);
         pidController.setTolerance(1.0); // the tolerance is set in the SetClawAngle Command
 
 
