@@ -4,12 +4,15 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.IntakeClawConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeClawSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.AlignRobot;
+import frc.robot.commands.ClimberSet;
 import frc.robot.commands.RotateClaw;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -31,10 +34,14 @@ public class RobotContainer {
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final IntakeClawSubsystem m_intakeClawSubsystem = new IntakeClawSubsystem();
+  private final ClimbSubsystem m_robotClimb = new ClimbSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_operatorController = new CommandXboxController(
+        OperatorConstants.kOperatorControllerPort);
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -75,6 +82,8 @@ public class RobotContainer {
   private void configureBindings() {
     m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
     m_driverController.b().onTrue(new RotateClaw(m_intakeClawSubsystem, IntakeClawConstants.kDesiredClawAngle));
+    m_operatorController.povLeft().whileTrue(new ClimberSet(m_robotClimb, ClimbConstants.kDesiredClimbAngle));
+    m_operatorController.povRight().whileTrue(new ClimberSet(m_robotClimb, -ClimbConstants.kDesiredClimbAngle)); 
   }
 
   public DriveSubsystem getDriveSubsystem() {
