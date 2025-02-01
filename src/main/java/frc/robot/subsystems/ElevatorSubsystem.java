@@ -1,30 +1,30 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.ElevatorConstants;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.math.MathUtil;
  import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.revrobotics.RelativeEncoder;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 
+import edu.wpi.first.units.Units;
 
 /* need to change to CANrange encoder!! */
 public class ElevatorSubsystem extends SubsystemBase{
     private final TalonFX m_rightKraken = new TalonFX(ElevatorConstants.kRightKrakenCanId);
     private final TalonFX m_leftKraken = new TalonFX(ElevatorConstants.kLeftKrakenCanId);
 
-    private final RelativeEncoder m_rightEncoder;
-    private final RelativeEncoder m_leftEncoder;
+    private final CANcoder m_rightEncoder;
+    private final CANcoder m_leftEncoder;
+
     
     private final PIDController pidController;
 
     public ElevatorSubsystem () {
 
-        m_rightEncoder = m_rightKraken.getEncoder();
-        m_leftEncoder = m_leftKraken.getEncoder();
+        m_rightEncoder = new CANcoder(ElevatorConstants.kRightEncoderCanId);
+        m_leftEncoder = new CANcoder(ElevatorConstants.kLeftEncoderCanId);
         
         // Initialize PID controller
         pidController = new PIDController(ElevatorConstants.kKrakenP, ElevatorConstants.kKrakenI, ElevatorConstants.kKrakenD);
@@ -40,8 +40,8 @@ public class ElevatorSubsystem extends SubsystemBase{
      * @param speed The speed 
      */
     public void rotateMotors(double speed) {
-        m_rightKraken.setRotate(speed); 
-        m_leftKraken.setRotate(speed);
+        m_rightKraken.set(speed); 
+        m_leftKraken.set(speed);
     }
 
     public void setDesiredPosition(double desiredPosition) {
@@ -57,12 +57,19 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public double getPosition() {
         // averaging position because they should be in sync
-        return (m_rightEncoder.getPosition() + m_leftEncoder.getPosition()) / 2.0;
+        m_rightEncoder.getPosition().refresh();
+        m_leftEncoder.getPosition().refresh();
+    
+        // Convert to rotations
+        double rightPosition = m_rightEncoder.getPosition().getValue().in(Units.Rotations);
+        double leftPosition = m_leftEncoder.getPosition().getValue().in(Units.Rotations);
+    
+        return (rightPosition + leftPosition) / 2.0;
     }
 
     // Method to stop the motor
     public void stop() {
-        rotate(0);
+        rotateMotors(0);
     }
     
     // Zeroes all the encoders.

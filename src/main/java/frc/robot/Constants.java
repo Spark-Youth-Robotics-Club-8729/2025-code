@@ -164,5 +164,8 @@ public final class Constants {
     public static final double kKrakenP = 0.5;
     public static final double kKrakenI = 0;
     public static final double kKrakenD = 0;
+
+    public static final int kRightEncoderCanId = 10;
+    public static final int kLeftEncoderCanId = 11;
   }
 }
