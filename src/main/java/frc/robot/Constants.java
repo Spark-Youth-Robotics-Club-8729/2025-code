@@ -156,4 +156,13 @@ public final class Constants {
     public static final int kClawRotationCanId = 9;
     public static final double kDesiredClawAngle = 10.0;
   }
+
+  /** Constants for Claw Wheels Subsystem. */
+public class ClawWheelsConstants {
+    public static final double kIntakeAlgaeSpeed = 0.5; // Speed for algae intake
+    public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
+    public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
+    public static final int kTopWheelMotorID = 11;
+    public static final int kBottomWheelMotorID = 12;
+}
 }
