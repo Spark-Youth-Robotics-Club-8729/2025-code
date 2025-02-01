@@ -157,12 +157,26 @@ public final class Constants {
     public static final double kDesiredClawAngle = 10.0;
   }
 
+
+  public static final class ElevatorConstants {
+    public static final int kRightKrakenCanId = 10;
+    public static final int kLeftKrakenCanId = 11;
+
+    public static final double kKrakenP = 0.5;
+    public static final double kKrakenI = 0;
+    public static final double kKrakenD = 0;
+
+    public static final int kRightEncoderCanId = 10;
+    public static final int kLeftEncoderCanId = 11;
+  }
+
   /** Constants for Claw Wheels Subsystem. */
-public class ClawWheelsConstants {
-    public static final double kIntakeAlgaeSpeed = 0.5; // Speed for algae intake
-    public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
-    public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
-    public static final int kTopWheelMotorID = 11;
-    public static final int kBottomWheelMotorID = 12;
+  public class ClawWheelsConstants {
+      public static final double kIntakeAlgaeSpeed = 0.5; // Speed for algae intake
+      public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
+      public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
+      public static final int kTopWheelMotorID = 11;
+      public static final int kBottomWheelMotorID = 12;
+  }
 }
-}
+
