@@ -22,6 +22,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControllerPort = 1;
     public static final double kDriveDeadband = 0.05;
 
     public static final int kAprilTagBlue = 21;
@@ -178,5 +179,16 @@ public final class Constants {
       public static final int kTopWheelMotorID = 11;
       public static final int kBottomWheelMotorID = 12;
   }
+
+  public static final class ClimbConstants {
+    public static final double kP = 1;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double kTolerance = 1.0;
+    
+    public static final int kClimbSpinMotorCanId = 10;
+    public static final double kDesiredClimbAngle = 10.0;
+  }
+
 }
 
