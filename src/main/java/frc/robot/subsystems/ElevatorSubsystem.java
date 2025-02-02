@@ -40,8 +40,8 @@ public class ElevatorSubsystem extends SubsystemBase{
      * @param speed The speed 
      */
     public void rotateMotors(double speed) {
-        m_rightKraken.set(speed); 
-        m_leftKraken.set(speed);
+        m_rightKraken.setRotate(speed); 
+        m_leftKraken.setRotate(speed);
     }
 
     public void setDesiredPosition(double desiredPosition) {
