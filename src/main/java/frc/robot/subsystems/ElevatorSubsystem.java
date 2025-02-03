@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.configs.CANcoderConfiguration;
 
 import edu.wpi.first.units.Units;
 
@@ -28,7 +27,7 @@ public class ElevatorSubsystem extends SubsystemBase{
         
         // Initialize PID controller
         pidController = new PIDController(ElevatorConstants.kKrakenP, ElevatorConstants.kKrakenI, ElevatorConstants.kKrakenD);
-        pidController.setTolerance(0.8);
+        pidController.setTolerance(ElevatorConstants.kKrakenTolerance);
 
         m_rightEncoder.setPosition(0);
         m_leftEncoder.setPosition(0);
@@ -46,7 +45,8 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public void setDesiredPosition(double desiredPosition) {
         double currentPosition = getPosition();
-        double output = pidController.calculate(currentPosition, desiredPosition);
+        double feedforward = ElevatorConstants.kGravityFeedForward;
+        double output = pidController.calculate(currentPosition, desiredPosition) + feedforward;
 
         // elevator output
         output = Math.max(-1.0, Math.min(1.0, output));
@@ -55,11 +55,7 @@ public class ElevatorSubsystem extends SubsystemBase{
         rotateMotors(output);
     } 
 
-    public double getPosition() {
-        // averaging position because they should be in sync
-        m_rightEncoder.getPosition().refresh();
-        m_leftEncoder.getPosition().refresh();
-    
+    public double getPosition() {    
         // Convert to rotations
         double rightPosition = m_rightEncoder.getPosition().getValue().in(Units.Rotations);
         double leftPosition = m_leftEncoder.getPosition().getValue().in(Units.Rotations);

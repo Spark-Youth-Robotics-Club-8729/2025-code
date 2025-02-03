@@ -92,13 +92,14 @@ public class RobotContainer {
   // Binds commands to buttons
   private void configureBindings() {
     m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
-    m_driverController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawAngle));
+    m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawAngle));
+    m_operatorController.y().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotations));
 
     m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, ClimbConstants.kDesiredClimbAngle));
     m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -ClimbConstants.kDesiredClimbAngle)); 
     // add elevator command when PID
     m_operatorController.a().whileTrue(new IntakeAlgaeCommand(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
-    m_operatorController.b().whileTrue(new ShootAlgaeCommand(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeAlgaeSpeed));
+    m_operatorController.povUp().whileTrue(new ShootAlgaeCommand(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeAlgaeSpeed));
     m_operatorController.x().whileTrue(new ShootCoralCommand(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
   }
 
