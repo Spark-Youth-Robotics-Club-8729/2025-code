@@ -100,4 +100,26 @@ public class ElevatorSubsystem extends SubsystemBase{
         return pidController.atSetpoint();
     }
 
+    // Checks current to determine if at bottom
+    public boolean atBottom() {
+        double currentRight = m_rightKraken.getStatorCurrent().getValueAsDouble();
+        double currentLeft = m_leftKraken.getStatorCurrent().getValueAsDouble();
+
+        if (currentRight > ElevatorConstants.kBottomCurrentThreshold || currentLeft > ElevatorConstants.kBottomCurrentThreshold) {
+            return true;
+        }
+        return false;
+    }
+
+    public void resetEncodersAtBottom() {
+        if (atBottom()) {
+            resetEncoders();
+        }
+    }
+
+    @Override
+    public void periodic() {
+        resetEncodersAtBottom();
+    }
+
 }

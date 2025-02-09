@@ -177,6 +177,8 @@ public final class Constants {
 
     public static final int kTopLimitSwitchPort = 3;
     public static final int kBottomLimitSwitchPort = 4;
+    
+    public static final double kBottomCurrentThreshold = 40.0; // 40A motors
   }
 
   /** Constants for Claw Wheels Subsystem. */
