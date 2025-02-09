@@ -9,7 +9,8 @@ import com.ctre.phoenix6.hardware.CANcoder;
 
 import edu.wpi.first.units.Units;
 
-/* need to change to CANrange encoder!! */
+import edu.wpi.first.wpilibj.DigitalInput;
+
 public class ElevatorSubsystem extends SubsystemBase{
     private final TalonFX m_rightKraken = new TalonFX(ElevatorConstants.kRightKrakenCanId);
     private final TalonFX m_leftKraken = new TalonFX(ElevatorConstants.kLeftKrakenCanId);
@@ -17,7 +18,6 @@ public class ElevatorSubsystem extends SubsystemBase{
     private final CANcoder m_rightEncoder;
     private final CANcoder m_leftEncoder;
 
-    
     private final PIDController pidController;
 
     public ElevatorSubsystem () {

@@ -3,35 +3,32 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 
 import frc.robot.Constants.RotateClawConstants;
 
 public class RotateClawSubsystem extends SubsystemBase{
     private final SparkMax m_clawMotor = new SparkMax(RotateClawConstants.kClawRotationCanId, MotorType.kBrushless);
-    private final RelativeEncoder m_encoder;
+    private final DutyCycleEncoder m_encoder; // Absolute encoder
     private final PIDController pidController;
 
     public RotateClawSubsystem() {
-        m_encoder = m_clawMotor.getEncoder();
+        m_encoder = new DutyCycleEncoder(RotateClawConstants.kClawEncoderDioPort);
       
         // Initialize PID controller
         pidController = new PIDController(RotateClawConstants.kP, RotateClawConstants.kI, RotateClawConstants.kD);
         pidController.setTolerance(1.0); // the tolerance is set in the SetClawAngle Command
-
-
-        m_encoder.setPosition(0);
     }
 
     /**
-     * Returns the current position of the module.
+     * Returns the current position of the claw in rotations.
      *
-     * @return The current position of the module.
+     * @return The absolute position of the claw (in rotations)
      */
     public double getPosition() {
-        return m_encoder.getPosition();
+        return m_encoder.get()*360.0; // returns value between 0 and 1, turn into angle
     }
 
     /**
@@ -49,7 +46,7 @@ public class RotateClawSubsystem extends SubsystemBase{
 
         // Clamp output
         output = Math.max(-1.0, Math.min(1.0, output));
-    
+
         // Apply the calculated output to the motor
         rotate(output);
     } 
@@ -59,11 +56,6 @@ public class RotateClawSubsystem extends SubsystemBase{
         rotate(0);
     }
     
-    /** Zeroes all the encoders. */
-    public void resetEncoders() {
-        m_encoder.setPosition(0);
-    }
-
     // PID controller is within tolerance
     public boolean isAtSetpoint() {
         return pidController.atSetpoint();

@@ -156,6 +156,8 @@ public final class Constants {
 
     public static final int kClawRotationCanId = 9;
     public static final double kDesiredClawAngle = 10.0;
+
+    public static final int kClawEncoderDioPort = 0; // Check dio port
   }
 
   public static final class ElevatorConstants {
@@ -192,6 +194,8 @@ public final class Constants {
     
     public static final int kClimbSpinMotorCanId = 10;
     public static final double kDesiredClimbAngle = 10.0;
+
+    public static final int kClimbEncoderDioPort = 1; 
   }
 
 }

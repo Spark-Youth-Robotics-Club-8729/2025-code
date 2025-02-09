@@ -4,46 +4,38 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 
-import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import frc.robot.Constants.ClimbConstants;
-
-import org.littletonrobotics.junction.Logger;
 
 public class ClimbSubsystem extends SubsystemBase {
     // Declare motor controller for the climbing mechanism
     private SparkMax m_climbMotor = new SparkMax(ClimbConstants.kClimbSpinMotorCanId, MotorType.kBrushless);
     
     // Declare encoder to track motor position
-    private RelativeEncoder m_climbEncoder;
+    private DutyCycleEncoder m_climbEncoder;
 
     // Declare PID controller
     private final PIDController pidController;
 
-    // Paths for logging motor speed and encoder data
-    private final String CLIMBER_SPEED_LOG_PATH = "/Climber/Speeds";
-    private final String CLIMBER_ENCODER_LOG_PATH = "/Climber/Encoder";
-
     // Constructor: Initializes motor and encoder
     public ClimbSubsystem() {
         // Get encoder from the motor to track rotation position
-        m_climbEncoder = m_climbMotor.getEncoder();
+        m_climbEncoder = new DutyCycleEncoder(ClimbConstants.kClimbEncoderDioPort);
 
         // Initialize PID controller
         pidController = new PIDController(ClimbConstants.kP, ClimbConstants.kI, ClimbConstants.kD);
-        pidController.setTolerance(ClimbConstants.kTolerance); // the tolerance is set in the SetClawAngle Command
-
-
-        m_climbEncoder.setPosition(0);
+        pidController.setTolerance(ClimbConstants.kTolerance); 
     }
     
     /**
-     * Returns the current position of the module.
+     * Returns the current position of the climber in rotations.
      *
-     * @return The current position of the module.
+     * @return The absolute position of the climber (in rotations)
      */
     public double getPosition() {
-        return m_climbEncoder.getPosition();
+        return m_climbEncoder.get();
     }
 
     /**
@@ -70,25 +62,9 @@ public class ClimbSubsystem extends SubsystemBase {
     public void stop() {
         rotate(0);
     }
-    
-    /** Zeroes all the encoders. */
-    public void resetEncoders() {
-        m_climbEncoder.setPosition(0);
-    }
 
     // PID controller is within tolerance
     public boolean isAtSetpoint() {
         return pidController.atSetpoint();
-    }
-    
-    // Logs motor speed and encoder position for debugging and performance tracking
-    public void logOutputs(){
-        Logger.recordOutput(getName() + CLIMBER_SPEED_LOG_PATH, m_climbMotor.get()); // Log motor speed
-        Logger.recordOutput(getName() + CLIMBER_ENCODER_LOG_PATH, getPosition()); // Log encoder position
-    }
-
-    @Override
-    public void periodic() {
-        logOutputs(); // Automatically logs every cycle
     }
 }
