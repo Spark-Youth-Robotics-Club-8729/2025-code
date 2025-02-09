@@ -175,6 +175,8 @@ public final class Constants {
 
     public static final int kElevatorDesiredRotations = 0;
 
+    public static final int kTopLimitSwitchPort = 3;
+    public static final int kBottomLimitSwitchPort = 4;
   }
 
   /** Constants for Claw Wheels Subsystem. */

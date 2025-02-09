@@ -20,7 +20,13 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     private final PIDController pidController;
 
+    private final DigitalInput m_topLimitSwitch;
+    private final DigitalInput m_bottomLimitSwitch;
+
     public ElevatorSubsystem () {
+        m_topLimitSwitch = new DigitalInput(ElevatorConstants.kTopLimitSwitchPort);
+        m_bottomLimitSwitch = new DigitalInput(ElevatorConstants.kBottomLimitSwitchPort);
+
 
         m_rightEncoder = new CANcoder(ElevatorConstants.kRightEncoderCanId);
         m_leftEncoder = new CANcoder(ElevatorConstants.kLeftEncoderCanId);
@@ -33,12 +39,27 @@ public class ElevatorSubsystem extends SubsystemBase{
         m_leftEncoder.setPosition(0);
     }
 
+    public boolean isAtTop() {
+        return !m_topLimitSwitch.get();  // Sends signal when switch is activated (before inversion -> true when not pressed)
+    }
+
+    public boolean isAtBottom() {
+        return !m_bottomLimitSwitch.get();  
+    }
+
     /**
      * Rotate the motor at the desired speed
      *
      * @param speed The speed 
      */
     public void rotateMotors(double speed) {
+        if (speed > 0 && isAtTop()) {
+            // Stop if moving up and top limit reached
+            speed = 0;
+        } else if (speed < 0 && isAtBottom()) {
+            // Stop if moving down and bottom limit reached
+            speed = 0;
+        }
         m_rightKraken.set(speed); 
         m_leftKraken.set(speed);
     }
