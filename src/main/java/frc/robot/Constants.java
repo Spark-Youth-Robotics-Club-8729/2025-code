@@ -184,6 +184,8 @@ public final class Constants {
       public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
       public static final int kTopWheelMotorID = 11;
       public static final int kBottomWheelMotorID = 12;
+
+      public static final int kCoralBreakSensorDioPort = 2;
   }
 
   public static final class ClimbConstants {
