@@ -16,16 +16,17 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.AlignRobot;
 import frc.robot.commands.ClimberSet;
 import frc.robot.commands.ElevatorMove;
-import frc.robot.commands.IntakeAlgaeCommand;
+import frc.robot.commands.IntakeAlgae;
 import frc.robot.commands.RotateClaw;
-import frc.robot.commands.ShootAlgaeCommand;
-import frc.robot.commands.ShootCoralCommand;
+import frc.robot.commands.ShootAlgae;
+import frc.robot.commands.ShootCoral;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
@@ -91,7 +92,13 @@ public class RobotContainer {
     //             true),
     //         m_driveSubsystem));
 
-    // Build an auto chooser. 
+    // Named commands to be able to be used in the autos
+    NamedCommands.registerCommand("RotateClaw", new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawAngle));
+    NamedCommands.registerCommand("IntakeAlgae", new IntakeAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
+    NamedCommands.registerCommand("ShootCoral", new ShootCoral(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
+    NamedCommands.registerCommand("ElevatorMove", new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotations)); // Maybe change this one
+
+    // Build an auto chooser. (can be changed to specific ones -> https://pathplanner.dev/pplib-build-an-auto.html)
     autoChooser = AutoBuilder.buildAutoChooser(); // This will use Commands.none() as the default option. Put a value inside brackets for default.
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -110,9 +117,9 @@ public class RobotContainer {
     m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, ClimbConstants.kDesiredClimbAngle));
     m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -ClimbConstants.kDesiredClimbAngle)); 
     // add elevator command when PID
-    m_operatorController.a().whileTrue(new IntakeAlgaeCommand(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
-    m_operatorController.povUp().whileTrue(new ShootAlgaeCommand(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeAlgaeSpeed));
-    m_operatorController.x().whileTrue(new ShootCoralCommand(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
+    m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
+    m_operatorController.povUp().whileTrue(new ShootAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeAlgaeSpeed));
+    m_operatorController.x().whileTrue(new ShootCoral(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
   }
 
   public DriveSubsystem getDriveSubsystem() {
