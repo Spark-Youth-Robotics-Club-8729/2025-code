@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.Constants.ClimbConstants;
-import frc.robot.Constants.RotateClawConstants;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.*;
 
 
@@ -27,8 +24,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
@@ -53,6 +55,7 @@ public class RobotContainer {
   private final CommandXboxController m_operatorController = new CommandXboxController(
         OperatorConstants.kOperatorControllerPort);
   
+  private final SendableChooser<Command> autoChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -87,6 +90,15 @@ public class RobotContainer {
     //             -MathUtil.applyDeadband(m_driverController.getRightX(), OperatorConstants.kDriveDeadband),
     //             true),
     //         m_driveSubsystem));
+
+    // Build an auto chooser. 
+    autoChooser = AutoBuilder.buildAutoChooser(); // This will use Commands.none() as the default option. Put a value inside brackets for default.
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+  }
+
+  public Command getAutonomousCommand() {
+    return autoChooser.getSelected();
   }
 
   // Binds commands to buttons
@@ -105,10 +117,5 @@ public class RobotContainer {
 
   public DriveSubsystem getDriveSubsystem() {
     return m_driveSubsystem;
-  }
-
-  // Temporary
-  public Command getAutonomousCommand() {
-    return null; 
   }
 }
