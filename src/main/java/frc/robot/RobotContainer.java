@@ -73,7 +73,7 @@ public class RobotContainer {
                                                                 -MathUtil.applyDeadband(
                                                                                 m_driverController.getRawAxis(4),
                                                                                 OperatorConstants.kDriveDeadband),
-                                                                true),
+                                                                true), // True means it moves relative to the field
                                                                 m_driveSubsystem));
 
     // m_driveSubsystem.setDefaultCommand(

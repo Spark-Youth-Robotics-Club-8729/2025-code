@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants.DriveConstants;
-
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -11,8 +13,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
   private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
@@ -50,6 +54,53 @@ public class DriveSubsystem extends SubsystemBase {
       });
 
   public DriveSubsystem() {
+    RobotConfig config = null;
+
+    try{
+      config = RobotConfig.fromGUISettings(); // Config inside the pathplanner gui
+    } catch (Exception e) {
+      // Handle exception as needed
+      e.printStackTrace();
+
+      // Add backup config once know actual values:
+      /*
+        config = new RobotConfig(
+          50.0, //MassKG
+          5.0, //MOI
+          new ModuleConfig(5.0, 0.0, 0.0, 5.0, 0.0, 0.0, 3.0, 12.0), //Default ModuleConfig
+          0.6 //trackwidthMeters
+        );
+       */
+    }
+
+    // Configure AutoBuilder last
+    AutoBuilder.configure(
+            this::getPose, // Robot pose supplier
+            this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            (speeds, feedforwards) -> drive(
+              speeds.vxMetersPerSecond, 
+              speeds.vyMetersPerSecond, 
+              speeds.omegaRadiansPerSecond, false // Robot relative because pathplanner handles field relative logic
+            ), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                    new PIDConstants(DriveConstants.kTranslationP, DriveConstants.kTranslationI, DriveConstants.kTranslationD), // Translation PID constants (different from module PID, makes sure it follows trajectory)
+                    new PIDConstants(DriveConstants.kRotationP, DriveConstants.kRotationI, DriveConstants.kRotationD) // Rotation PID constants
+            ),
+            config, // The robot configuration
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red; // Will mirror if on red side
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements (mandatory for autos)
+    );
   }
   
   @Override
@@ -79,7 +130,7 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @param pose The pose to which to set the odometry.
    */
-  public void resetOdometry(Pose2d pose) {
+  public void resetPose(Pose2d pose) {
     m_odometry.resetPosition(
         Rotation2d.fromDegrees(m_gyro.getAngle()),
         new SwerveModulePosition[] {
@@ -89,6 +140,18 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         },
         pose);
+  }
+
+  /*
+   * Returns the current robot-relative ChassisSpeeds.
+   */
+  public ChassisSpeeds getRobotRelativeSpeeds() {
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(
+        m_frontLeft.getState(),
+        m_frontRight.getState(),
+        m_rearLeft.getState(),
+        m_rearRight.getState()
+    );
   }
 
   /**
