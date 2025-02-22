@@ -91,6 +91,13 @@ public final class Constants {
     public static final int kRearRightTurningCanId = 2;
 
     public static final boolean kGyroReversed = true;
+
+    public static final double kTranslationP = 5.0; 
+    public static final double kTranslationI = 0.0; // Usually leave at 0
+    public static final double kTranslationD = 0.0;
+    public static final double kRotationP = 5.0;
+    public static final double kRotationI = 0.0;
+    public static final double kRotationD = 0.0;
   }
 
   public static final class ModuleConstants {

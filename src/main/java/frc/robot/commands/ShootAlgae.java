@@ -3,12 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClawWheelsSubsystem;
 
-/** Spins the top wheel to intake algae. */
-public class IntakeAlgaeCommand extends Command {
+/** Spins both wheels to shoot algae. */
+public class ShootAlgae extends Command {
     private final ClawWheelsSubsystem m_clawWheels;
     private final double m_speed;
 
-    public IntakeAlgaeCommand(ClawWheelsSubsystem subsystem, double speed) {
+    public ShootAlgae(ClawWheelsSubsystem subsystem, double speed) {
         m_clawWheels = subsystem;
         m_speed = speed;
 
@@ -18,6 +18,7 @@ public class IntakeAlgaeCommand extends Command {
     @Override
     public void initialize() {
         m_clawWheels.spinTopWheel(m_speed);
+        m_clawWheels.spinBottomWheel(m_speed);
     }
 
     @Override
