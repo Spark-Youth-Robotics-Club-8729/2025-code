@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    m_robotContainer.getDriveSubsystem().resetWheelOrientation();
+    //m_robotContainer.getDriveSubsystem().resetWheelOrientation();
 
   }
 

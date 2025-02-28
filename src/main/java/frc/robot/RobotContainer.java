@@ -43,7 +43,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  //private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final RotateClawSubsystem m_rotateClawSubsystem = new RotateClawSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
@@ -56,29 +56,29 @@ public class RobotContainer {
   private final CommandXboxController m_operatorController = new CommandXboxController(
         OperatorConstants.kOperatorControllerPort);
   
-  private final SendableChooser<Command> autoChooser;
+  //private final SendableChooser<Command> autoChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
 
-    m_driveSubsystem.setDefaultCommand(
-                                // The left stick controls translation of the robot.
-                                // Turning is controlled by the X axis of the right stick.
-                                new RunCommand(
-                                                () -> m_driveSubsystem.drive(
-                                                                -MathUtil.applyDeadband(
-                                                                                m_driverController.getRawAxis(1),
-                                                                                OperatorConstants.kDriveDeadband),
-                                                                -MathUtil.applyDeadband(
-                                                                                m_driverController.getRawAxis(0),
-                                                                                OperatorConstants.kDriveDeadband),
-                                                                -MathUtil.applyDeadband(
-                                                                                m_driverController.getRawAxis(4),
-                                                                                OperatorConstants.kDriveDeadband),
-                                                                true), // True means it moves relative to the field
-                                                                m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //                             // The left stick controls translation of the robot.
+    //                             // Turning is controlled by the X axis of the right stick.
+    //                             new RunCommand(
+    //                                             () -> m_driveSubsystem.drive(
+    //                                                             -MathUtil.applyDeadband(
+    //                                                                             m_driverController.getRawAxis(1),
+    //                                                                             OperatorConstants.kDriveDeadband),
+    //                                                             -MathUtil.applyDeadband(
+    //                                                                             m_driverController.getRawAxis(0),
+    //                                                                             OperatorConstants.kDriveDeadband),
+    //                                                             -MathUtil.applyDeadband(
+    //                                                                             m_driverController.getRawAxis(4),
+    //                                                                             OperatorConstants.kDriveDeadband),
+    //                                                             true), // True means it moves relative to the field
+    //                                                             m_driveSubsystem));
 
     // m_driveSubsystem.setDefaultCommand(
     //     // Left joystick -> moving 
@@ -99,30 +99,31 @@ public class RobotContainer {
     NamedCommands.registerCommand("ElevatorMove", new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotations)); // Maybe change this one
 
     // Build an auto chooser. (can be changed to specific ones -> https://pathplanner.dev/pplib-build-an-auto.html)
-    autoChooser = AutoBuilder.buildAutoChooser(); // This will use Commands.none() as the default option. Put a value inside brackets for default.
+    //autoChooser = AutoBuilder.buildAutoChooser(); // This will use Commands.none() as the default option. Put a value inside brackets for default.
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    //SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    //return autoChooser.getSelected();
+    return null;
   }
 
   // Binds commands to buttons
   private void configureBindings() {
-    m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
+    //m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
     m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawAngle));
-    m_operatorController.y().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotations));
+    // m_operatorController.y().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotations));
 
-    m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, ClimbConstants.kDesiredClimbAngle));
-    m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -ClimbConstants.kDesiredClimbAngle)); 
-    // add elevator command when PID
-    m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
-    m_operatorController.povUp().whileTrue(new ShootAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeAlgaeSpeed));
-    m_operatorController.x().whileTrue(new ShootCoral(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
+    // m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, ClimbConstants.kDesiredClimbAngle));
+    // m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -ClimbConstants.kDesiredClimbAngle)); 
+    // // add elevator command when PID
+    // m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
+    // m_operatorController.povUp().whileTrue(new ShootAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeAlgaeSpeed));
+    // m_operatorController.x().whileTrue(new ShootCoral(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
   }
 
-  public DriveSubsystem getDriveSubsystem() {
-    return m_driveSubsystem;
-  }
+  // public DriveSubsystem getDriveSubsystem() {
+  //   return m_driveSubsystem;
+  // }
 }

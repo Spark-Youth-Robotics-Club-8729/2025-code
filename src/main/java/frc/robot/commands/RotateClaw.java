@@ -18,12 +18,13 @@ public class RotateClaw extends Command {
     @Override
     public void initialize() {
         // Start moving to the target position
-        m_intakeClawSubsystem.setDesiredPosition(m_targetPosition);
+        m_intakeClawSubsystem.resetPID();
     }
 
     @Override
     public void execute() {
         //m_intakeClawSubsystem.setDesiredPosition(m_targetPosition); // No need to call because of pid controller handling it in initialize
+        m_intakeClawSubsystem.rotate(m_intakeClawSubsystem.setDesiredPosition(m_targetPosition));
     }
 
     @Override

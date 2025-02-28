@@ -80,15 +80,15 @@ public final class Constants {
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 8;
-    public static final int kRearLeftDrivingCanId = 5;
-    public static final int kFrontRightDrivingCanId = 7;
+    public static final int kFrontLeftDrivingCanId = 2;
+    public static final int kRearLeftDrivingCanId = 4;
+    public static final int kFrontRightDrivingCanId = 8;
     public static final int kRearRightDrivingCanId = 6;
 
-    public static final int kFrontLeftTurningCanId = 4;
-    public static final int kRearLeftTurningCanId = 1;
-    public static final int kFrontRightTurningCanId = 3;
-    public static final int kRearRightTurningCanId = 2;
+    public static final int kFrontLeftTurningCanId = 1;
+    public static final int kRearLeftTurningCanId = 3;
+    public static final int kFrontRightTurningCanId = 7;
+    public static final int kRearRightTurningCanId = 5;
 
     public static final boolean kGyroReversed = true;
 
@@ -157,19 +157,19 @@ public final class Constants {
   }
 
   public static final class RotateClawConstants {
-    public static final double kP = 1;
-    public static final double kI = 0;
+    public static final double kP = 1.0;
+    public static final double kI = 0.05;
     public static final double kD = 0;
 
-    public static final int kClawRotationCanId = 9;
-    public static final double kDesiredClawAngle = 10.0;
-
+    public static final int kClawRotationCanId = 11;
+    
+    public static final double kDesiredClawAngle = 0.0;
     public static final int kClawEncoderDioPort = 0; // Check dio port
   }
 
   public static final class ElevatorConstants {
-    public static final int kRightKrakenCanId = 10;
-    public static final int kLeftKrakenCanId = 11;
+    public static final int kRightKrakenCanId = 9;
+    public static final int kLeftKrakenCanId = 10;
 
     public static final double kKrakenP = 0.5;
     public static final double kKrakenI = 0;
@@ -177,9 +177,9 @@ public final class Constants {
     public static final double kKrakenTolerance = 0;
     public static final double kGravityFeedForward = 0.0;
 
-    public static final int kRightEncoderCanId = 10;
-    public static final int kLeftEncoderCanId = 11;
+    public static final int kRightEncoderId = 10;
 
+    public static final int kLeftEncoderId = 11;
     public static final int kElevatorDesiredRotations = 0;
 
     public static final int kTopLimitSwitchPort = 3;
@@ -193,8 +193,8 @@ public final class Constants {
       public static final double kIntakeAlgaeSpeed = 0.5; // Speed for algae intake
       public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
       public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
-      public static final int kTopWheelMotorID = 11;
-      public static final int kBottomWheelMotorID = 12;
+      public static final int kTopWheelMotorID = 12;
+      public static final int kBottomWheelMotorID = 13;
 
       public static final int kCoralBreakSensorDioPort = 2;
   }
@@ -205,11 +205,10 @@ public final class Constants {
     public static final double kD = 0;
     public static final double kTolerance = 1.0;
     
-    public static final int kClimbSpinMotorCanId = 10;
+    public static final int kClimbSpinMotorCanId = 14;
     public static final double kDesiredClimbAngle = 10.0;
 
     public static final int kClimbEncoderDioPort = 1; 
   }
 
 }
-
