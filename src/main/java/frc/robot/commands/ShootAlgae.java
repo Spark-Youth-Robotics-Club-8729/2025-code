@@ -17,8 +17,8 @@ public class ShootAlgae extends Command {
 
     @Override
     public void initialize() {
+        //m_clawWheels.spinWheelsSync(m_speed);
         m_clawWheels.spinTopWheel(m_speed);
-        m_clawWheels.spinBottomWheel(m_speed);
     }
 
     @Override

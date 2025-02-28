@@ -182,18 +182,24 @@ public final class Constants {
     public static final int kLeftEncoderId = 11;
     public static final int kElevatorDesiredRotations = 0;
 
-    public static final int kTopLimitSwitchPort = 3;
-    public static final int kBottomLimitSwitchPort = 4;
+    public static final int kTopPosition = 1; //change
+    public static final int kBottomPosition = 0; //change
+
+
+    // public static final int kTopLimitSwitchPort = 3;
+    // public static final int kBottomLimitSwitchPort = 4;
     
     public static final double kBottomCurrentThreshold = 40.0; // 40A motors
   }
 
   /** Constants for Claw Wheels Subsystem. */
   public class ClawWheelsConstants {
-      public static final double kIntakeAlgaeSpeed = 0.5; // Speed for algae intake
+      public static final double kIntakeAlgaeSpeed = 0.2; // Speed for algae intake
       public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
       public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
+      public static final double kIntakeAlgaeStall = 0.025;
       public static final int kTopWheelMotorID = 12;
+
       public static final int kBottomWheelMotorID = 13;
 
       public static final int kCoralBreakSensorDioPort = 2;

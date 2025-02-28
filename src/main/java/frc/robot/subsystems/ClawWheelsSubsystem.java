@@ -29,7 +29,7 @@ public class ClawWheelsSubsystem extends SubsystemBase {
 
     /* Spins bottom wheel. */
     public void spinBottomWheel(double speed) {
-        bottomWheelMotor.set(speed);
+        bottomWheelMotor.set(-speed);
     }
     
     /* Spins both wheels in sync, one is inverted for intake/outake instead of opposite directions. */
