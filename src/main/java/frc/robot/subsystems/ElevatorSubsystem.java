@@ -67,6 +67,11 @@ public class ElevatorSubsystem extends SubsystemBase{
         rotate(0);
     }
 
+    // Stall
+    public void holdPosition() {
+        rotate(ElevatorConstants.kGravityFeedForward);
+    }
+
     // PID controller is within tolerance
     public boolean isAtSetpoint() {
         return pidController.atSetpoint();

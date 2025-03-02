@@ -27,7 +27,7 @@ public class ElevatorMove extends Command {
     // when button not pressed stop rotating
     @Override
     public void end(boolean interrupted) {
-        m_elevatorSubsystem.stop();
+        m_elevatorSubsystem.holdPosition();
     }
 
     @Override
