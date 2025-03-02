@@ -102,7 +102,7 @@ public class RobotContainer {
     // Named commands to be able to be used in the autos
     // NamedCommands.registerCommand(X, newX());
     NamedCommands.registerCommand("AutoIntakeAlgae", new AutoIntakeAlgae(m_clawWheelsSubsystems));
-    NamedCommands.registerCommand("AutoMoveElevator", new AutoMoveElevator(m_elevatorSubsystem));
+    NamedCommands.registerCommand("AutoMoveElevator", new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem));
     NamedCommands.registerCommand("AutoRotate", new AutoRotate(m_rotateClawSubsystem, m_clawWheelsSubsystems));
     NamedCommands.registerCommand("AutoShootCoral", new AutoShootCoral(m_rotateClawSubsystem, m_clawWheelsSubsystems, m_driveSubsystem, m_visionSubsystem, m_elevatorSubsystem, 1));
     
@@ -122,8 +122,8 @@ public class RobotContainer {
   private void configureBindings() {
     //m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
     m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotations));
-    m_operatorController.povUp().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kTopPosition));
-    m_operatorController.povDown().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kBottomPosition));
+    m_operatorController.povUp().onTrue(new ElevatorMove(m_elevatorSubsystem, m_rotateClawSubsystem, ElevatorConstants.kTopPosition));
+    m_operatorController.povDown().onTrue(new ElevatorMove(m_elevatorSubsystem, m_rotateClawSubsystem, ElevatorConstants.kBottomPosition));
 
     // m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, ClimbConstants.kDesiredClimbAngle));
     // m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -ClimbConstants.kDesiredClimbAngle)); 
