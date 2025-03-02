@@ -7,15 +7,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class ElevatorSubsystem extends SubsystemBase{
     private final TalonFX m_rightKraken = new TalonFX(ElevatorConstants.kRightKrakenCanId);
     private final TalonFX m_leftKraken = new TalonFX(ElevatorConstants.kLeftKrakenCanId);
 
-
     private final PIDController pidController;
-
 
     public ElevatorSubsystem () {
         // Initialize PID controller
@@ -38,28 +37,21 @@ public class ElevatorSubsystem extends SubsystemBase{
      *
      * @param speed The speed 
      */
-    public void rotateMotors(double speed) {
-        if (speed > 0 && (getPosition() >= ElevatorConstants.kTopPosition)) {
-            // Stop if moving up and top limit reached
-            speed = 0;
-        } else if (speed < 0 && (getPosition() <= ElevatorConstants.kBottomPosition)) {
-            // Stop if moving down and bottom limit reached
-            speed = 0;
-        }
+    public void rotate(double speed) {
         m_rightKraken.set(speed); 
-        m_leftKraken.set(speed);
+        m_leftKraken.set(-speed);
     }
 
-    public void setDesiredPosition(double desiredPosition) {
+    public double setDesiredPosition(double desiredPosition) {
         double currentPosition = getPosition();
         double feedforward = ElevatorConstants.kGravityFeedForward;
         double output = pidController.calculate(currentPosition, desiredPosition) + feedforward;
 
         // elevator output
-        output = Math.max(-1.0, Math.min(1.0, output));
+        output = Math.max(-0.3, Math.min(0.3, output));
     
         // Apply the calculated output to the motor
-        rotateMotors(output);
+        return output;
     } 
 
     public double getPosition() {    
@@ -72,7 +64,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     // Method to stop the motor
     public void stop() {
-        rotateMotors(0);
+        rotate(0);
     }
 
     // PID controller is within tolerance
@@ -103,9 +95,16 @@ public class ElevatorSubsystem extends SubsystemBase{
         }
     }
 
+    public void resetPID() {
+        pidController.reset();
+    }
+
     @Override
     public void periodic() {
         resetEncodersAtBottom();
+        SmartDashboard.putNumber("Current position", getPosition());
+        SmartDashboard.putNumber("Calculated speed top", setDesiredPosition(ElevatorConstants.kTopPosition));
+        SmartDashboard.putNumber("Calculated speed bottom", setDesiredPosition(ElevatorConstants.kBottomPosition));
     }
 
 }

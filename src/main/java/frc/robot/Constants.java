@@ -171,20 +171,16 @@ public final class Constants {
     public static final int kRightKrakenCanId = 9;
     public static final int kLeftKrakenCanId = 10;
 
-    public static final double kKrakenP = 0.5;
+    public static final double kKrakenP = 0.1;
     public static final double kKrakenI = 0;
     public static final double kKrakenD = 0;
-    public static final double kKrakenTolerance = 0;
-    public static final double kGravityFeedForward = 0.0;
+    public static final double kGravityFeedForward = 0.05;
+    
+    public static final double kKrakenTolerance = 0.1;
 
-    public static final int kRightEncoderId = 10;
-
-    public static final int kLeftEncoderId = 11;
-    public static final int kElevatorDesiredRotations = 0;
-    public static final int kElevatorDesiredRotationsMid = 0;
-
-    public static final int kTopPosition = 1; //change
-    public static final int kBottomPosition = 0; //change
+    public static final double kTopPosition = 1.0; //change
+    public static final double kMidPosition = 0.5;
+    public static final double kBottomPosition = 0.0; //change
 
 
     // public static final int kTopLimitSwitchPort = 3;

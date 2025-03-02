@@ -30,7 +30,7 @@ public class AutoShootCoral extends ParallelCommandGroup {
       new SequentialCommandGroup (
         new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotations),
         new WaitCommand(500),
-        new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotations),
+        new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kTopPosition),
         new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeed).withTimeout(0.5)
       )
     );
