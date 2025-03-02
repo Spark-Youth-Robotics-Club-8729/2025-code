@@ -13,7 +13,7 @@ import frc.robot.subsystems.RotateClawSubsystem;
 public class AutoMoveElevator extends SequentialCommandGroup {
   public AutoMoveElevator(ElevatorSubsystem m_elevatorSubsystem, RotateClawSubsystem m_rotateClaw) {
     addCommands(
-      new ElevatorMove(m_elevatorSubsystem, m_rotateClaw, ElevatorConstants.kMidPosition)
+      new ElevatorMove(m_elevatorSubsystem, m_rotateClaw, ElevatorConstants.k3Position)
     );
   }
 }

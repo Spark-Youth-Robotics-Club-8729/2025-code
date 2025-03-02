@@ -122,7 +122,7 @@ public class RobotContainer {
   private void configureBindings() {
     //m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
     m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotations));
-    m_operatorController.povUp().onTrue(new ElevatorMove(m_elevatorSubsystem, m_rotateClawSubsystem, ElevatorConstants.kTopPosition));
+    m_operatorController.povUp().onTrue(new ElevatorMove(m_elevatorSubsystem, m_rotateClawSubsystem, ElevatorConstants.k4Position));
     m_operatorController.povDown().onTrue(new ElevatorMove(m_elevatorSubsystem, m_rotateClawSubsystem, ElevatorConstants.kBottomPosition));
 
     // m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, ClimbConstants.kDesiredClimbAngle));

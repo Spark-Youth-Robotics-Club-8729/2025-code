@@ -178,8 +178,10 @@ public final class Constants {
     
     public static final double kKrakenTolerance = 0.1;
 
-    public static final double kTopPosition = 1.0; //change
-    public static final double kMidPosition = 0.5;
+    public static final double k4Position = 1.0; //change
+    public static final double k3Position = 0.8;
+    public static final double k2Position = 0.6;
+    public static final double k1Position = 0.4;
     public static final double kBottomPosition = 0.0; //change
 
 

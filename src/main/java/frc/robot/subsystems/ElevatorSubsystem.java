@@ -23,7 +23,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     // public boolean isAtTop() {
-    //     return getPosition() >= ElevatorConstants.kTopPosition;
+    //     return getPosition() >= ElevatorConstants.k4Position;
     //     // return !m_topLimitSwitch.get();  // Sends signal when switch is activated (before inversion -> true when not pressed)
     // }
 
@@ -108,7 +108,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     public void periodic() {
         resetEncodersAtBottom();
         SmartDashboard.putNumber("Current position", getPosition());
-        SmartDashboard.putNumber("Calculated speed top", setDesiredPosition(ElevatorConstants.kTopPosition));
+        SmartDashboard.putNumber("Calculated speed top", setDesiredPosition(ElevatorConstants.k4Position));
         SmartDashboard.putNumber("Calculated speed bottom", setDesiredPosition(ElevatorConstants.kBottomPosition));
     }
 
