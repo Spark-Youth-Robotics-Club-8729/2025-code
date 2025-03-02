@@ -14,6 +14,10 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.RotateClawSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.AlignRobot;
+import frc.robot.commands.AutoIntakeAlgae;
+import frc.robot.commands.AutoMoveElevator;
+import frc.robot.commands.AutoRotate;
+import frc.robot.commands.AutoShootCoral;
 import frc.robot.commands.ClawWheelsStall;
 import frc.robot.commands.ClimberSet;
 import frc.robot.commands.ElevatorMove;
@@ -50,6 +54,7 @@ public class RobotContainer {
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   private final ClawWheelsSubsystem m_clawWheelsSubsystems = new ClawWheelsSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -95,10 +100,12 @@ public class RobotContainer {
     //         m_driveSubsystem));
 
     // Named commands to be able to be used in the autos
-    NamedCommands.registerCommand("RotateClaw", new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawAngle));
-    NamedCommands.registerCommand("IntakeAlgae", new IntakeAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
-    NamedCommands.registerCommand("ShootCoral", new ShootCoral(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
-    NamedCommands.registerCommand("ElevatorMove", new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotations)); // Maybe change this one
+    // NamedCommands.registerCommand(X, newX());
+    NamedCommands.registerCommand("AutoIntakeAlgae", new AutoIntakeAlgae(m_clawWheelsSubsystems));
+    NamedCommands.registerCommand("AutoMoveElevator", new AutoMoveElevator(m_elevatorSubsystem));
+    NamedCommands.registerCommand("AutoRotate", new AutoRotate(m_rotateClawSubsystem, m_clawWheelsSubsystems));
+    NamedCommands.registerCommand("AutoShootCoral", new AutoShootCoral(m_rotateClawSubsystem, m_clawWheelsSubsystems, m_driveSubsystem, m_visionSubsystem, m_elevatorSubsystem, 1));
+    
 
     // Build an auto chooser. (can be changed to specific ones -> https://pathplanner.dev/pplib-build-an-auto.html)
     //autoChooser = AutoBuilder.buildAutoChooser(); // This will use Commands.none() as the default option. Put a value inside brackets for default.
@@ -114,7 +121,7 @@ public class RobotContainer {
   // Binds commands to buttons
   private void configureBindings() {
     //m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
-    m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawAngle));
+    m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotations));
     // m_operatorController.povUp().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotations));
 
     // m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, ClimbConstants.kDesiredClimbAngle));

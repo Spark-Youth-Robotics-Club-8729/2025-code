@@ -163,7 +163,7 @@ public final class Constants {
 
     public static final int kClawRotationCanId = 11;
     
-    public static final double kDesiredClawAngle = 0.0;
+    public static final double kDesiredClawRotations = 0.0;
     public static final int kClawEncoderDioPort = 0; // Check dio port
   }
 
@@ -181,6 +181,7 @@ public final class Constants {
 
     public static final int kLeftEncoderId = 11;
     public static final int kElevatorDesiredRotations = 0;
+    public static final int kElevatorDesiredRotationsMid = 0;
 
     public static final int kTopPosition = 1; //change
     public static final int kBottomPosition = 0; //change
