@@ -15,18 +15,25 @@ public class ElevatorMove extends Command {
 
     @Override
     public void initialize() {
-        m_elevatorSubsystem.setDesiredPosition(m_targetPosition);
+        m_elevatorSubsystem.resetPID();
     }
 
     // when button pressed rotate
     @Override
     public void execute() {
+        m_elevatorSubsystem.rotate(m_elevatorSubsystem.setDesiredPosition(m_targetPosition));
     }
 
     // when button not pressed stop rotating
+    //@Override
+    //public void end(boolean interrupted) {
+    //    m_elevatorSubsystem.stop();
+    //}
+    
+    // when button not pressed stop rotating
     @Override
     public void end(boolean interrupted) {
-        m_elevatorSubsystem.stop();
+        m_elevatorSubsystem.holdPosition(m_targetPosition);
     }
 
     @Override

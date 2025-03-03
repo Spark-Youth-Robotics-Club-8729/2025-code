@@ -11,8 +11,8 @@ import frc.robot.subsystems.ElevatorSubsystem;
 
 public class AutoMoveElevator extends SequentialCommandGroup {
   public AutoMoveElevator(ElevatorSubsystem m_elevatorSubsystem) {
-    addCommands(
-      new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotationsMid)
-    );
+    // addCommands(
+    //   new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotationsMid)
+    // );
   }
 }

@@ -163,7 +163,8 @@ public final class Constants {
 
     public static final int kClawRotationCanId = 11;
     
-    public static final double kDesiredClawRotations = 0.0;
+    public static final double kDesiredClawRotationsIntake = 0.0;
+    public static final double kDesiredClawRotationElevator = 0.981;
     public static final int kClawEncoderDioPort = 0; // Check dio port
   }
 
@@ -171,20 +172,25 @@ public final class Constants {
     public static final int kRightKrakenCanId = 9;
     public static final int kLeftKrakenCanId = 10;
 
-    public static final double kKrakenP = 0.5;
-    public static final double kKrakenI = 0;
-    public static final double kKrakenD = 0;
-    public static final double kKrakenTolerance = 0;
-    public static final double kGravityFeedForward = 0.0;
+    public static final int kLimitSwitchPort = 1;
 
-    public static final int kRightEncoderId = 10;
+    public static final double kKrakenP = 0.001; // 0.01
+    public static final double kKrakenI = 0.0; // 0.0007
+    public static final double kKrakenD = 0.0;
 
-    public static final int kLeftEncoderId = 11;
-    public static final int kElevatorDesiredRotations = 0;
-    public static final int kElevatorDesiredRotationsMid = 0;
+    public static final double kGravityFeedForward = 0.05;
+    
+    public static final double kKrakenTolerance = 0.5;
 
-    public static final int kTopPosition = 1; //change
-    public static final int kBottomPosition = 0; //change
+    public static final double kTopPosition = 34.0; //change //32.2 with 0.016
+    public static final double kMidPosition = 11.5;
+    public static final double kBottomPosition = 0.0; //change
+
+    public static final double kS = 0.0;
+    public static final double kG = 0.16;
+    public static final double kV = 11.28;
+    public static final double kA = 0.02;
+
 
 
     // public static final int kTopLimitSwitchPort = 3;

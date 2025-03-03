@@ -3,24 +3,37 @@ package frc.robot.subsystems;
 import frc.robot.Constants.ElevatorConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
  import edu.wpi.first.math.controller.PIDController;
+ import edu.wpi.first.math.controller.ElevatorFeedforward;  
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 
 public class ElevatorSubsystem extends SubsystemBase{
     private final TalonFX m_rightKraken = new TalonFX(ElevatorConstants.kRightKrakenCanId);
     private final TalonFX m_leftKraken = new TalonFX(ElevatorConstants.kLeftKrakenCanId);
 
-
     private final PIDController pidController;
 
+    private final ElevatorFeedforward feedforward;
+    private final DigitalInput m_limitSwitch;
 
     public ElevatorSubsystem () {
         // Initialize PID controller
         pidController = new PIDController(ElevatorConstants.kKrakenP, ElevatorConstants.kKrakenI, ElevatorConstants.kKrakenD);
         pidController.setTolerance(ElevatorConstants.kKrakenTolerance);
+
+        feedforward = new ElevatorFeedforward(ElevatorConstants.kS, ElevatorConstants.kG, ElevatorConstants.kV, ElevatorConstants.kA);
+
+        m_limitSwitch = new DigitalInput(ElevatorConstants.kLimitSwitchPort);
+        resetEncoders();
     }
 
     // public boolean isAtTop() {
@@ -38,29 +51,49 @@ public class ElevatorSubsystem extends SubsystemBase{
      *
      * @param speed The speed 
      */
-    public void rotateMotors(double speed) {
-        if (speed > 0 && (getPosition() >= ElevatorConstants.kTopPosition)) {
-            // Stop if moving up and top limit reached
-            speed = 0;
-        } else if (speed < 0 && (getPosition() <= ElevatorConstants.kBottomPosition)) {
-            // Stop if moving down and bottom limit reached
-            speed = 0;
+    public void rotate(double speed) {
+        if (isAtMaxHeight() && speed > 0) {
+            stop();
+            return;
         }
+
         m_rightKraken.set(speed); 
         m_leftKraken.set(speed);
     }
 
-    public void setDesiredPosition(double desiredPosition) {
+    public void setVoltage(double voltage) {
+        m_rightKraken.setVoltage(voltage); 
+        m_leftKraken.setVoltage(voltage);
+    }
+
+    public double setDesiredPosition(double desiredPosition) {
+        if (isAtMaxHeight() && desiredPosition > ElevatorConstants.kTopPosition) {
+            stop();
+            return 0;
+        }
+        
         double currentPosition = getPosition();
-        double feedforward = ElevatorConstants.kGravityFeedForward;
-        double output = pidController.calculate(currentPosition, desiredPosition) + feedforward;
+        //double feedforward = ElevatorConstants.kGravityFeedForward;
+        double output = pidController.calculate(currentPosition, desiredPosition);
+
+        double velocity = getVelocity();
+        double ffOutput = feedforward.calculate(velocity)/ElevatorConstants.kV;
+
+        double outputSpeed = output + ffOutput;
 
         // elevator output
-        output = Math.max(-1.0, Math.min(1.0, output));
+        //outputVoltage = Math.max(-0.1, Math.min(0.1, outputVoltage));
     
         // Apply the calculated output to the motor
-        rotateMotors(output);
+        return outputSpeed;
     } 
+
+    public double getVelocity() {
+        double rightVelocity = m_rightKraken.getVelocity().getValue().in(Units.RotationsPerSecond);
+        double leftVelocity = m_leftKraken.getVelocity().getValue().in(Units.RotationsPerSecond);
+        
+        return (rightVelocity + leftVelocity) / 2.0;
+    }
 
     public double getPosition() {    
         // Convert to rotations
@@ -72,7 +105,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     // Method to stop the motor
     public void stop() {
-        rotateMotors(0);
+        rotate(0);
     }
 
     // PID controller is within tolerance
@@ -103,9 +136,37 @@ public class ElevatorSubsystem extends SubsystemBase{
         }
     }
 
+    public void resetPID() {
+        pidController.reset();
+    }
+
+    public void holdPosition(double desiredPosition) {
+        double velocity = getVelocity();
+        double ffOutput = feedforward.calculate(velocity);
+        setVoltage(ffOutput);
+    }
+
+    public void setCoast() {
+        m_leftKraken.setNeutralMode(NeutralModeValue.Coast);
+        m_rightKraken.setNeutralMode(NeutralModeValue.Coast);
+    }
+
+    public void setBrake() {
+        m_leftKraken.setNeutralMode(NeutralModeValue.Brake);
+        m_rightKraken.setNeutralMode(NeutralModeValue.Brake);
+    }
+
+    public boolean isAtMaxHeight() {
+        return !m_limitSwitch.get();
+    }
+
     @Override
     public void periodic() {
         resetEncodersAtBottom();
+        SmartDashboard.putNumber("ELEVATOR Current position ", getPosition());
+        SmartDashboard.putNumber("Calculated speed top", setDesiredPosition(ElevatorConstants.kTopPosition));
+        SmartDashboard.putNumber("Calculated speed bottom", setDesiredPosition(ElevatorConstants.kBottomPosition));
+        SmartDashboard.putBoolean("Elevator at Max Height", isAtMaxHeight());
     }
 
 }

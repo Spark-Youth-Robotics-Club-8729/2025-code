@@ -68,7 +68,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    m_clawWheelsSubsystems.setDefaultCommand(new ClawWheelsStall(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeStall));
+    //m_clawWheelsSubsystems.setDefaultCommand(new ClawWheelsStall(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeStall));
 
     // m_driveSubsystem.setDefaultCommand(
     //                             // The left stick controls translation of the robot.
@@ -121,8 +121,10 @@ public class RobotContainer {
   // Binds commands to buttons
   private void configureBindings() {
     //m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
-    m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotations));
-    // m_operatorController.povUp().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotations));
+    m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationElevator));
+    // can add control to rotate for intake 
+    m_operatorController.povUp().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kTopPosition));
+    m_operatorController.povDown().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kBottomPosition));
 
     // m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, ClimbConstants.kDesiredClimbAngle));
     // m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -ClimbConstants.kDesiredClimbAngle)); 

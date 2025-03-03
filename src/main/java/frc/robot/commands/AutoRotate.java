@@ -16,7 +16,7 @@ public class AutoRotate extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotations),
+      new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationsIntake),
       new WaitCommand(500),
       new ShootCoral(m_clawWheels, 0.1).withTimeout(0.2)
     );

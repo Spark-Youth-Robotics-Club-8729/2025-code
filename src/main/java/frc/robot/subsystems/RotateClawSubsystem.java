@@ -45,7 +45,17 @@ public class RotateClawSubsystem extends SubsystemBase{
 
     public double setDesiredPosition(double desiredPosition) {
         double currentPosition = getPosition();
-        double output = pidController.calculate(currentPosition, desiredPosition);
+        double error = desiredPosition - currentPosition;
+    
+        // Normalize error to always take the shortest rotation direction
+        if (error > 0.5) {
+            error -= 1.0;  // If the difference is greater than half a rotation, go backward
+        } else if (error < -0.5) {
+            error += 1.0;  // If the difference is less than -half a rotation, go forward
+        }
+        
+
+        double output = pidController.calculate(currentPosition, currentPosition+error);
 
         // Clamp output
         // output = -Math.max(-0.05, Math.min(0.05, output));
@@ -55,10 +65,6 @@ public class RotateClawSubsystem extends SubsystemBase{
 
         if (output < -0.075) {
             output = -0.075;
-        }
-
-        if (currentPosition>0.9) {
-            return output;
         }
 
         // Apply the calculated output to the motor
