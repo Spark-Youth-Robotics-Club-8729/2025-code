@@ -63,9 +63,9 @@ public final class Constants {
     public static final double kRotationalSlewRate = 2.6; // percent per second (1 = 100%) default: 2.0
 
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(23.5);
+    public static final double kTrackWidth = Units.inchesToMeters(27.0);
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = Units.inchesToMeters(23.5);
+    public static final double kWheelBase = Units.inchesToMeters(27.0);
     // Distance between front and back wheels on robot
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -106,7 +106,7 @@ public final class Constants {
     // This changes the drive speed of the module (a pinion gear with more teeth
     // will result in a
     // robot that drives faster).
-    public static final int kDrivingMotorPinionTeeth = 12;
+    public static final int kDrivingMotorPinionTeeth = 13;
 
     // Invert the turning encoder, since the output shaft rotates in the opposite
     // direction of
@@ -115,7 +115,7 @@ public final class Constants {
 
     // Calculations required for driving motor conversion factors and feed forward
     public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
-    public static final double kWheelDiameterMeters = 0.0762;
+    public static final double kWheelDiameterMeters = Units.inchesToMeters(3);
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
     // teeth on the bevel pinion

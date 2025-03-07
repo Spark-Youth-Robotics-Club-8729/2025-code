@@ -54,7 +54,7 @@ public class RobotContainer {
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   private final ClawWheelsSubsystem m_clawWheelsSubsystems = new ClawWheelsSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
-  // private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -70,35 +70,35 @@ public class RobotContainer {
     configureBindings();
     //m_clawWheelsSubsystems.setDefaultCommand(new ClawWheelsStall(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeStall));
     
-    // m_driveSubsystem.setDefaultCommand(
-    //                             // The left stick controls translation of the robot.
-    //                             // Turning is controlled by the X axis of the right stick.
-    //                             new RunCommand(
-    //                                             () -> m_driveSubsystem.drive(
-    //                                                             -MathUtil.applyDeadband(
-    //                                                                             m_driverController.getRawAxis(1),
-    //                                                                             OperatorConstants.kDriveDeadband),
-    //                                                             -MathUtil.applyDeadband(
-    //                                                                             m_driverController.getRawAxis(0),
-    //                                                                             OperatorConstants.kDriveDeadband),
-    //                                                             -MathUtil.applyDeadband(
-    //                                                                             m_driverController.getRawAxis(4),
-    //                                                                             OperatorConstants.kDriveDeadband),
-    //                                                             true), // True means it moves relative to the field
-    //                                                             m_driveSubsystem));
+    m_driveSubsystem.setDefaultCommand(
+                                // The left stick controls translation of the robot.
+                                // Turning is controlled by the X axis of the right stick.
+                                new RunCommand(
+                                                () -> m_driveSubsystem.drive(
+                                                                -MathUtil.applyDeadband(
+                                                                                m_driverController.getRawAxis(1),
+                                                                                OperatorConstants.kDriveDeadband),
+                                                                -MathUtil.applyDeadband(
+                                                                                m_driverController.getRawAxis(0),
+                                                                                OperatorConstants.kDriveDeadband),
+                                                                -MathUtil.applyDeadband(
+                                                                                m_driverController.getRawAxis(4),
+                                                                                OperatorConstants.kDriveDeadband),
+                                                                true), // True means it moves relative to the field
+                                                                m_driveSubsystem));
 
                                                               
-    // m_driveSubsystem.setDefaultCommand(
-    //     // Left joystick -> moving 
-    //     // Right joystick -> rotation
-    //     // Deadband to avoid small movements
-    //     new RunCommand(
-    //         () -> m_driveSubsystem.drive(
-    //             -MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband),
-    //             -MathUtil.applyDeadband(m_driverController.getLeftX(), OperatorConstants.kDriveDeadband),
-    //             -MathUtil.applyDeadband(m_driverController.getRightX(), OperatorConstants.kDriveDeadband),
-    //             true),
-    //         m_driveSubsystem));
+    m_driveSubsystem.setDefaultCommand(
+        // Left joystick -> moving 
+        // Right joystick -> rotation
+        // Deadband to avoid small movements
+        new RunCommand(
+            () -> m_driveSubsystem.drive(
+                -MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftX(), OperatorConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getRightX(), OperatorConstants.kDriveDeadband),
+                true),
+            m_driveSubsystem));
 
     // Named commands to be able to be used in the autos
     // NamedCommands.registerCommand(X, newX());
@@ -127,15 +127,15 @@ public class RobotContainer {
     m_operatorController.povUp().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kTopPosition));
     m_operatorController.povDown().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kBottomPosition));
 
-    m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, 0.5));
-    m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -0.5)); 
+    // m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, 0.5));
+    // m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -0.5)); 
     // // add elevator command when PID
     // m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
     // m_operatorController.y().whileTrue(new ShootAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeAlgaeSpeed));
     // m_operatorController.x().whileTrue(new ShootCoral(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
   }
 
-  // public DriveSubsystem getDriveSubsystem() {
-  //   return m_driveSubsystem;
-  // }
+  public DriveSubsystem getDriveSubsystem() {
+    return m_driveSubsystem;
+  }
 }
