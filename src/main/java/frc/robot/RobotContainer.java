@@ -48,13 +48,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  //private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  // private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final RotateClawSubsystem m_rotateClawSubsystem = new RotateClawSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   private final ClawWheelsSubsystem m_clawWheelsSubsystems = new ClawWheelsSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  // private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -69,7 +69,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     //m_clawWheelsSubsystems.setDefaultCommand(new ClawWheelsStall(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeStall));
-
+    
     // m_driveSubsystem.setDefaultCommand(
     //                             // The left stick controls translation of the robot.
     //                             // Turning is controlled by the X axis of the right stick.
@@ -87,6 +87,7 @@ public class RobotContainer {
     //                                                             true), // True means it moves relative to the field
     //                                                             m_driveSubsystem));
 
+                                                              
     // m_driveSubsystem.setDefaultCommand(
     //     // Left joystick -> moving 
     //     // Right joystick -> rotation
@@ -101,10 +102,10 @@ public class RobotContainer {
 
     // Named commands to be able to be used in the autos
     // NamedCommands.registerCommand(X, newX());
-    NamedCommands.registerCommand("AutoIntakeAlgae", new AutoIntakeAlgae(m_clawWheelsSubsystems));
-    NamedCommands.registerCommand("AutoMoveElevator", new AutoMoveElevator(m_elevatorSubsystem));
-    NamedCommands.registerCommand("AutoRotate", new AutoRotate(m_rotateClawSubsystem, m_clawWheelsSubsystems));
-    NamedCommands.registerCommand("AutoShootCoral", new AutoShootCoral(m_rotateClawSubsystem, m_clawWheelsSubsystems, m_driveSubsystem, m_visionSubsystem, m_elevatorSubsystem, 1));
+    //NamedCommands.registerCommand("AutoIntakeAlgae", new AutoIntakeAlgae(m_clawWheelsSubsystems));
+    //NamedCommands.registerCommand("AutoMoveElevator", new AutoMoveElevator(m_elevatorSubsystem));
+    //NamedCommands.registerCommand("AutoRotate", new AutoRotate(m_rotateClawSubsystem, m_clawWheelsSubsystems));
+    //NamedCommands.registerCommand("AutoShootCoral", new AutoShootCoral(m_rotateClawSubsystem, m_clawWheelsSubsystems, m_driveSubsystem, m_visionSubsystem, m_elevatorSubsystem, 1));
     
 
     // Build an auto chooser. (can be changed to specific ones -> https://pathplanner.dev/pplib-build-an-auto.html)
@@ -126,12 +127,12 @@ public class RobotContainer {
     m_operatorController.povUp().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kTopPosition));
     m_operatorController.povDown().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kBottomPosition));
 
-    // m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, ClimbConstants.kDesiredClimbAngle));
-    // m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -ClimbConstants.kDesiredClimbAngle)); 
+    m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, 0.5));
+    m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -0.5)); 
     // // add elevator command when PID
-    m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
-    m_operatorController.y().whileTrue(new ShootAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeAlgaeSpeed));
-    m_operatorController.x().whileTrue(new ShootCoral(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
+    // m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
+    // m_operatorController.y().whileTrue(new ShootAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeAlgaeSpeed));
+    // m_operatorController.x().whileTrue(new ShootCoral(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
   }
 
   // public DriveSubsystem getDriveSubsystem() {

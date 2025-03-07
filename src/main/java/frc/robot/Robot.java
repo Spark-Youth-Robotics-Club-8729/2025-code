@@ -18,7 +18,7 @@ import frc.robot.subsystems.ElevatorSubsystem;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
+  // private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   
 
   private final RobotContainer m_robotContainer;
@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    m_elevatorSubsystem.setCoast();
+    // m_elevatorSubsystem.setCoast();
   }
 
   @Override
@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    m_elevatorSubsystem.setBrake();
+    // m_elevatorSubsystem.setBrake();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -80,13 +80,13 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    m_elevatorSubsystem.setBrake();
+    // m_elevatorSubsystem.setBrake();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
 
-    //m_robotContainer.getDriveSubsystem().resetWheelOrientation();
+    // m_robotContainer.getDriveSubsystem().resetWheelOrientation();
 
   }
 

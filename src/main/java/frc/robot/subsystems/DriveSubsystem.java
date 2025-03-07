@@ -74,6 +74,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     // Configure AutoBuilder last
+    /* 
     AutoBuilder.configure(
             this::getPose, // Robot pose supplier
             this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -101,7 +102,9 @@ public class DriveSubsystem extends SubsystemBase {
             },
             this // Reference to this subsystem to set requirements (mandatory for autos)
     );
+    */
   }
+    
   
   @Override
   public void periodic() {

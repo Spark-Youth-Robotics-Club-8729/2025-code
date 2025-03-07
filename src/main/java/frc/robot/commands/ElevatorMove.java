@@ -21,7 +21,7 @@ public class ElevatorMove extends Command {
     // when button pressed rotate
     @Override
     public void execute() {
-        m_elevatorSubsystem.rotate(m_elevatorSubsystem.setDesiredPosition(m_targetPosition));
+        m_elevatorSubsystem.setVoltage(m_elevatorSubsystem.setDesiredPosition(m_targetPosition));
     }
 
     // when button not pressed stop rotating
@@ -33,11 +33,11 @@ public class ElevatorMove extends Command {
     // when button not pressed stop rotating
     @Override
     public void end(boolean interrupted) {
-        m_elevatorSubsystem.holdPosition(m_targetPosition);
+        m_elevatorSubsystem.holdPosition();
     }
 
     @Override
     public boolean isFinished() {
-        return m_elevatorSubsystem.isAtSetpoint(); // Runs until interrupted
+        return m_elevatorSubsystem.isAtSetpoint(m_elevatorSubsystem.setDesiredPosition(m_targetPosition)); // Runs until interrupted
     }
 }

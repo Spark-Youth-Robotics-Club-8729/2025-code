@@ -52,8 +52,8 @@ public class ElevatorSubsystem extends SubsystemBase{
      * @param speed The speed 
      */
     public void rotate(double speed) {
-        if (isAtMaxHeight() && speed > 0) {
-            stop();
+        if (isAtMaxHeight(speed)) {
+            holdPosition();
             return;
         }
 
@@ -66,18 +66,17 @@ public class ElevatorSubsystem extends SubsystemBase{
         m_leftKraken.setVoltage(voltage);
     }
 
+    // public double stallSpeed() {
+    //     return feedforward.calculate(getVelocity())/ElevatorConstants.kV;
+    // }
+
     public double setDesiredPosition(double desiredPosition) {
-        if (isAtMaxHeight() && desiredPosition > ElevatorConstants.kTopPosition) {
-            stop();
-            return 0;
-        }
-        
+
         double currentPosition = getPosition();
         //double feedforward = ElevatorConstants.kGravityFeedForward;
         double output = pidController.calculate(currentPosition, desiredPosition);
 
-        double velocity = getVelocity();
-        double ffOutput = feedforward.calculate(velocity)/ElevatorConstants.kV;
+        double ffOutput = feedforward.calculate(0);
 
         double outputSpeed = output + ffOutput;
 
@@ -88,12 +87,12 @@ public class ElevatorSubsystem extends SubsystemBase{
         return outputSpeed;
     } 
 
-    public double getVelocity() {
-        double rightVelocity = m_rightKraken.getVelocity().getValue().in(Units.RotationsPerSecond);
-        double leftVelocity = m_leftKraken.getVelocity().getValue().in(Units.RotationsPerSecond);
+    // public double getVelocity() {
+    //     double rightVelocity = m_rightKraken.getVelocity().getValue().in(Units.RotationsPerSecond);
+    //     double leftVelocity = m_leftKraken.getVelocity().getValue().in(Units.RotationsPerSecond);
         
-        return (rightVelocity + leftVelocity) / 2.0;
-    }
+    //     return (rightVelocity + leftVelocity) / 2.0;
+    // }
 
     public double getPosition() {    
         // Convert to rotations
@@ -109,8 +108,8 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     // PID controller is within tolerance
-    public boolean isAtSetpoint() {
-        return pidController.atSetpoint();
+    public boolean isAtSetpoint(double speed) {
+        return pidController.atSetpoint() || isAtMaxHeight(speed);
     }
 
     // Checks current to determine if at bottom
@@ -140,9 +139,8 @@ public class ElevatorSubsystem extends SubsystemBase{
         pidController.reset();
     }
 
-    public void holdPosition(double desiredPosition) {
-        double velocity = getVelocity();
-        double ffOutput = feedforward.calculate(velocity);
+    public void holdPosition() {
+        double ffOutput = feedforward.calculate(0);
         setVoltage(ffOutput);
     }
 
@@ -156,8 +154,13 @@ public class ElevatorSubsystem extends SubsystemBase{
         m_rightKraken.setNeutralMode(NeutralModeValue.Brake);
     }
 
-    public boolean isAtMaxHeight() {
-        return !m_limitSwitch.get();
+    public boolean isAtMaxHeight(double speed) {
+        if (speed > 0) {
+            return !m_limitSwitch.get();
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
@@ -166,7 +169,7 @@ public class ElevatorSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("ELEVATOR Current position ", getPosition());
         SmartDashboard.putNumber("Calculated speed top", setDesiredPosition(ElevatorConstants.kTopPosition));
         SmartDashboard.putNumber("Calculated speed bottom", setDesiredPosition(ElevatorConstants.kBottomPosition));
-        SmartDashboard.putBoolean("Elevator at Max Height", isAtMaxHeight());
+        SmartDashboard.putBoolean("Elevator at Max Height", isAtMaxHeight(0.5));
     }
 
 }

@@ -5,11 +5,11 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 public class ClimberSet extends Command {
     private final ClimbSubsystem m_climbersubsystem;
-    private final double m_angle;
+    private final double m_speed;
 
     /** Creates a new ClimberSet. */
-    public ClimberSet(ClimbSubsystem climbersubsystem, double angle) {
-        m_angle = angle;
+    public ClimberSet(ClimbSubsystem climbersubsystem, double speed) {
+        m_speed = speed;
         m_climbersubsystem = climbersubsystem;
         addRequirements(m_climbersubsystem);
         // Use addRequirements() here to declare subsystem dependencies.
@@ -18,7 +18,7 @@ public class ClimberSet extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_climbersubsystem.setDesiredAngle(m_angle);
+        m_climbersubsystem.rotate(m_speed);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -35,6 +35,6 @@ public class ClimberSet extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return m_climbersubsystem.isAtSetpoint();
+        return false;
     }
 }

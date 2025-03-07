@@ -23,7 +23,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
-    public static final double kDriveDeadband = 0.05;
+    public static final double kDriveDeadband = 0.1;
 
     public static final int kAprilTagBlue = 21;
     public static final int kAprilTagRed = 10;
@@ -165,7 +165,7 @@ public final class Constants {
     
     public static final double kDesiredClawRotationsIntake = 0.0;
     public static final double kDesiredClawRotationElevator = 0.981;
-    public static final int kClawEncoderDioPort = 0; // Check dio port
+    // public static final int kClawEncoderDioPort = 0; // Check dio port
   }
 
   public static final class ElevatorConstants {
@@ -175,21 +175,29 @@ public final class Constants {
     public static final int kLimitSwitchPort = 1;
 
     public static final double kKrakenP = 0.001; // 0.01
-    public static final double kKrakenI = 0.0; // 0.0007
+    public static final double kKrakenI = 0.001; // 0.0007
     public static final double kKrakenD = 0.0;
 
-    public static final double kGravityFeedForward = 0.05;
+    // public static final double kGravityFeedForward = 0.05;
     
     public static final double kKrakenTolerance = 0.5;
 
-    public static final double kTopPosition = 34.0; //change //32.2 with 0.016
+    public static final double kTopPosition = 32.2; //change //32.2 with 0.016
     public static final double kMidPosition = 11.5;
     public static final double kBottomPosition = 0.0; //change
 
+    // public static final double kLevel4 = 34.0; //change //32.2 with 0.016
+    // public static final double kLevel3 = 11.5;
+    // public static final double kLevel2 = 0.0; //change
+    // public static final double kLevel1 = 0.0; //change
+    // public static final double kBottomPosition = 0.0; //change
+
+
+
     public static final double kS = 0.0;
-    public static final double kG = 0.16;
-    public static final double kV = 11.28;
-    public static final double kA = 0.02;
+    public static final double kG = 0.25;
+    public static final double kV = 5.83;
+    public static final double kA = 0.03;
 
 
 
@@ -221,7 +229,7 @@ public final class Constants {
     public static final int kClimbSpinMotorCanId = 14;
     public static final double kDesiredClimbAngle = 10.0;
 
-    public static final int kClimbEncoderDioPort = 1; 
+    // public static final int kClimbEncoderDioPort = 1; 
   }
 
 }
