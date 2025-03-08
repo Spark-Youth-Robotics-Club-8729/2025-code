@@ -22,7 +22,7 @@ public class ClimbSubsystem extends SubsystemBase {
     // Constructor: Initializes motor and encoder
     public ClimbSubsystem() {
         // Get encoder from the motor to track rotation position
-        m_climbEncoder = new DutyCycleEncoder(ClimbConstants.kClimbEncoderDioPort);
+        // m_climbEncoder = new DutyCycleEncoder(ClimbConstants.kClimbEncoderDioPort);
 
         // Initialize PID controller
         pidController = new PIDController(ClimbConstants.kP, ClimbConstants.kI, ClimbConstants.kD);

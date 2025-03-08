@@ -30,7 +30,7 @@ public class RotateClaw extends Command {
     @Override
     public void end(boolean interrupted) {
         // Stop the motor when the command ends
-        m_intakeClawSubsystem.stop();
+        m_intakeClawSubsystem.stop(); //add a stall?
     }
 
     @Override

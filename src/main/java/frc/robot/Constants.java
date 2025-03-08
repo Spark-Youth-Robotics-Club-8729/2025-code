@@ -23,7 +23,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
-    public static final double kDriveDeadband = 0.05;
+    public static final double kDriveDeadband = 0.1;
 
     public static final int kAprilTagBlue = 21;
     public static final int kAprilTagRed = 10;
@@ -58,14 +58,10 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 4.1;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-    public static final double kDirectionSlewRate = 2.3; // radians per second default: 1.2
-    public static final double kMagnitudeSlewRate = 3.0; // percent per second (1 = 100%) default: 1.8
-    public static final double kRotationalSlewRate = 2.6; // percent per second (1 = 100%) default: 2.0
-
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(23.5);
+    public static final double kTrackWidth = Units.inchesToMeters(26.5);
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = Units.inchesToMeters(23.5);
+    public static final double kWheelBase = Units.inchesToMeters(26.5);
     // Distance between front and back wheels on robot
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -91,27 +87,13 @@ public final class Constants {
     public static final int kRearRightTurningCanId = 5;
 
     public static final boolean kGyroReversed = true;
-
-    public static final double kTranslationP = 5.0; 
-    public static final double kTranslationI = 0.0; // Usually leave at 0
-    public static final double kTranslationD = 0.0;
-    public static final double kRotationP = 5.0;
-    public static final double kRotationI = 0.0;
-    public static final double kRotationD = 0.0;
   }
 
   public static final class ModuleConstants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T,
-    // 13T, or 14T.
-    // This changes the drive speed of the module (a pinion gear with more teeth
-    // will result in a
-    // robot that drives faster).
+    // 13T, or 14T. This changes the drive speed of the module (a pinion gear with
+    // more teeth will result in a robot that drives faster).
     public static final int kDrivingMotorPinionTeeth = 12;
-
-    // Invert the turning encoder, since the output shaft rotates in the opposite
-    // direction of
-    // the steering motor in the MAXSwerve Module.
-    public static final boolean kTurningEncoderInverted = true;
 
     // Calculations required for driving motor conversion factors and feed forward
     public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
@@ -122,34 +104,6 @@ public final class Constants {
     public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
     public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
         / kDrivingMotorReduction;
-
-    public static final double kDrivingEncoderPositionFactor = (kWheelDiameterMeters * Math.PI)
-        / kDrivingMotorReduction; // meters
-    public static final double kDrivingEncoderVelocityFactor = ((kWheelDiameterMeters * Math.PI)
-        / kDrivingMotorReduction) / 60.0; // meters per second
-
-    public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
-    public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
-
-    public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
-    public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
-
-    public static final double kDrivingP = 0.04;
-    public static final double kDrivingI = 0;
-    public static final double kDrivingD = 0;
-    public static final double kDrivingFF = 1 / kDriveWheelFreeSpeedRps;
-    public static final double kDrivingMinOutput = -1;
-    public static final double kDrivingMaxOutput = 1;
-
-    public static final double kTurningP = 1;
-    public static final double kTurningI = 0;
-    public static final double kTurningD = 0;
-    public static final double kTurningFF = 0;
-    public static final double kTurningMinOutput = -1;
-    public static final double kTurningMaxOutput = 1;
-
-    public static final int kDrivingMotorCurrentLimit = 60; // amps
-    public static final int kTurningMotorCurrentLimit = 40; // amps
   }
 
   public static final class NeoMotorConstants {
@@ -157,32 +111,51 @@ public final class Constants {
   }
 
   public static final class RotateClawConstants {
-    public static final double kP = 1.0;
-    public static final double kI = 0.05;
+    public static final double kP = 1.5;
+    public static final double kI = 0.6;
     public static final double kD = 0;
 
     public static final int kClawRotationCanId = 11;
     
-    public static final double kDesiredClawRotations = 0.0;
-    public static final int kClawEncoderDioPort = 0; // Check dio port
+    public static final double kDesiredClawRotationsIntake = 0.0;
+    public static final double kDesiredClawRotationElevator = 0.981;
+    public static final double kDesiredClawRotationOutake = 0.97;
+    // public static final int kClawEncoderDioPort = 0; // Check dio port
   }
 
   public static final class ElevatorConstants {
     public static final int kRightKrakenCanId = 9;
     public static final int kLeftKrakenCanId = 10;
 
-    public static final double kKrakenP = 0.1;
-    public static final double kKrakenI = 0;
-    public static final double kKrakenD = 0;
-    public static final double kGravityFeedForward = 0.05;
-    
-    public static final double kKrakenTolerance = 0.1;
 
-    public static final double k4Position = 1.0; //change
-    public static final double k3Position = 0.8;
-    public static final double k2Position = 0.6;
-    public static final double k1Position = 0.4;
+    public static final int kLimitSwitchPort = 1;
+
+    public static final double kKrakenP = 0.08; // 0.01
+    public static final double kKrakenI = 0.005; // 0.0007
+    public static final double kKrakenD = 0.0;
+
+    // public static final double kGravityFeedForward = 0.05;
+    
+    public static final double kKrakenTolerance = 0.5;
+
+    public static final double kL4 = 32.3; //change //32.2 with 0.016
+    public static final double kL3 = 21.5;
+    public static final double kL2 = 12.0;
+    public static final double kL1 = 9.5;
     public static final double kBottomPosition = 0.0; //change
+
+    // public static final double kLevel4 = 34.0; //change //32.2 with 0.016
+    // public static final double kLevel3 = 11.5;
+    // public static final double kLevel2 = 0.0; //change
+    // public static final double kLevel1 = 0.0; //change
+    // public static final double kBottomPosition = 0.0; //change
+
+
+
+    public static final double kS = 0.15; //test at min
+    public static final double kG = 0.387; //test at max
+    public static final double kV = 0.00;
+    public static final double kA = 0.00;
 
 
     // public static final int kTopLimitSwitchPort = 3;
@@ -213,7 +186,7 @@ public final class Constants {
     public static final int kClimbSpinMotorCanId = 14;
     public static final double kDesiredClimbAngle = 10.0;
 
-    public static final int kClimbEncoderDioPort = 1; 
+    // public static final int kClimbEncoderDioPort = 1; 
   }
 
 }

@@ -21,18 +21,20 @@ public class ElevatorMove extends Command {
     @Override
     public void initialize() {
         m_elevatorSubsystem.resetPID();
-        new SequentialCommandGroup(
-            new RotateClaw(m_rotateSubsystem, RotateClawConstants.kDesiredClawRotations),
-            this // Refer to current elevator command
-        ).schedule();
     }
 
     // when button pressed rotate
     @Override
     public void execute() {
-        m_elevatorSubsystem.rotate(m_elevatorSubsystem.setDesiredPosition(m_targetPosition));
+        m_elevatorSubsystem.setVoltage(m_elevatorSubsystem.setDesiredPosition(m_targetPosition));
     }
 
+    // when button not pressed stop rotating
+    //@Override
+    //public void end(boolean interrupted) {
+    //    m_elevatorSubsystem.stop();
+    //}
+    
     // when button not pressed stop rotating
     @Override
     public void end(boolean interrupted) {
@@ -41,6 +43,6 @@ public class ElevatorMove extends Command {
 
     @Override
     public boolean isFinished() {
-        return m_elevatorSubsystem.isAtSetpoint(); // Runs until interrupted
+        return m_elevatorSubsystem.isAtSetpoint(m_elevatorSubsystem.setDesiredPosition(m_targetPosition), m_targetPosition, m_elevatorSubsystem.getPosition()); // Runs until interrupted
     }
 }

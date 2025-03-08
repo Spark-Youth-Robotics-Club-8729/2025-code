@@ -25,12 +25,14 @@ public class AutoShootCoral extends ParallelCommandGroup {
     ElevatorSubsystem m_elevatorSubsystem,
     int m_targetId // Need to figure out how to get this working
   ) {
-    addCommands(
-      new AlignRobot(m_driveSubsystem, m_visionSubsystem, m_targetId),
-      new SequentialCommandGroup (
-        new ElevatorMove(m_elevatorSubsystem, m_rotateClaw, ElevatorConstants.k4Position),
-        new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeed).withTimeout(0.5)
-      )
-    );
+    // addCommands(
+    //   new AlignRobot(m_driveSubsystem, m_visionSubsystem, m_targetId),
+    //   new SequentialCommandGroup (
+    //     new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotations),
+    //     new WaitCommand(500),
+    //     new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kElevatorDesiredRotations),
+    //     new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeed).withTimeout(0.5)
+    //   )
+    // );
   }
 }
