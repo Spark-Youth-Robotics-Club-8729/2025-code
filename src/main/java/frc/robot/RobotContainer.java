@@ -84,6 +84,7 @@ public class RobotContainer {
 
     // Named commands to be able to be used in the autos
     // NamedCommands.registerCommand(X, newX());
+
     //NamedCommands.registerCommand("AutoIntakeAlgae", new AutoIntakeAlgae(m_clawWheelsSubsystem));
     //NamedCommands.registerCommand("AutoMoveElevator", new AutoMoveElevator(m_elevatorSubsystem));
     //NamedCommands.registerCommand("AutoRotate", new AutoRotate(m_rotateClawSubsystem, m_clawWheelsSubsystem));
@@ -104,10 +105,10 @@ public class RobotContainer {
   // Binds commands to buttons
   private void configureBindings() {
     //m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
+
     m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationsIntake));
     m_operatorController.rightTrigger().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationOutake));
     m_operatorController.rightBumper().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationsIntake));
-    
     
     // can add control to rotate for intake 
     m_operatorController.povUp().onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL4));

@@ -24,7 +24,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     private final ElevatorFeedforward feedforward;
     private final DigitalInput m_limitSwitch;
-
+  
     public ElevatorSubsystem () {
         // Initialize PID controller
         pidController = new PIDController(ElevatorConstants.kKrakenP, ElevatorConstants.kKrakenI, ElevatorConstants.kKrakenD);
@@ -58,9 +58,8 @@ public class ElevatorSubsystem extends SubsystemBase{
             holdPosition();
             return;
         }
-
         m_rightKraken.set(speed); 
-        m_leftKraken.set(speed);
+        m_leftKraken.set(-speed);
     }
 
     public void setVoltage(double voltage) {
@@ -167,6 +166,10 @@ public class ElevatorSubsystem extends SubsystemBase{
         else {
             return false;
         }
+    }
+
+    public void resetPID() {
+        pidController.reset();
     }
 
     @Override

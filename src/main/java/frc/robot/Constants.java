@@ -127,6 +127,7 @@ public final class Constants {
     public static final int kRightKrakenCanId = 9;
     public static final int kLeftKrakenCanId = 10;
 
+
     public static final int kLimitSwitchPort = 1;
 
     public static final double kKrakenP = 0.08; // 0.01
@@ -155,7 +156,6 @@ public final class Constants {
     public static final double kG = 0.387; //test at max
     public static final double kV = 0.00;
     public static final double kA = 0.00;
-
 
 
     // public static final int kTopLimitSwitchPort = 3;
