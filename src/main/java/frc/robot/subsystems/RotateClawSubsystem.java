@@ -77,7 +77,7 @@ public class RotateClawSubsystem extends SubsystemBase{
 
     // Method to stop the motor
     public void stop() {
-        rotate(0);
+        rotate(0.01);
     }
     
     // PID controller is within tolerance

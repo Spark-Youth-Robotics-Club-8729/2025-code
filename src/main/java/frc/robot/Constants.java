@@ -157,14 +157,15 @@ public final class Constants {
   }
 
   public static final class RotateClawConstants {
-    public static final double kP = 1.0;
-    public static final double kI = 0.05;
+    public static final double kP = 1.5;
+    public static final double kI = 0.6;
     public static final double kD = 0;
 
     public static final int kClawRotationCanId = 11;
     
     public static final double kDesiredClawRotationsIntake = 0.0;
     public static final double kDesiredClawRotationElevator = 0.981;
+    public static final double kDesiredClawRotationOutake = 0.97;
     // public static final int kClawEncoderDioPort = 0; // Check dio port
   }
 
@@ -174,16 +175,18 @@ public final class Constants {
 
     public static final int kLimitSwitchPort = 1;
 
-    public static final double kKrakenP = 0.001; // 0.01
-    public static final double kKrakenI = 0.001; // 0.0007
+    public static final double kKrakenP = 0.08; // 0.01
+    public static final double kKrakenI = 0.005; // 0.0007
     public static final double kKrakenD = 0.0;
 
     // public static final double kGravityFeedForward = 0.05;
     
     public static final double kKrakenTolerance = 0.5;
 
-    public static final double kTopPosition = 32.2; //change //32.2 with 0.016
-    public static final double kMidPosition = 11.5;
+    public static final double kL4 = 32.3; //change //32.2 with 0.016
+    public static final double kL3 = 21.5;
+    public static final double kL2 = 12.0;
+    public static final double kL1 = 9.5;
     public static final double kBottomPosition = 0.0; //change
 
     // public static final double kLevel4 = 34.0; //change //32.2 with 0.016
@@ -194,10 +197,10 @@ public final class Constants {
 
 
 
-    public static final double kS = 0.0;
-    public static final double kG = 0.25;
-    public static final double kV = 5.83;
-    public static final double kA = 0.03;
+    public static final double kS = 0.15; //test at min
+    public static final double kG = 0.387; //test at max
+    public static final double kV = 0.00;
+    public static final double kA = 0.00;
 
 
 

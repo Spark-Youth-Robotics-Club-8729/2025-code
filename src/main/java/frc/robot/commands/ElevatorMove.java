@@ -38,6 +38,6 @@ public class ElevatorMove extends Command {
 
     @Override
     public boolean isFinished() {
-        return m_elevatorSubsystem.isAtSetpoint(m_elevatorSubsystem.setDesiredPosition(m_targetPosition)); // Runs until interrupted
+        return m_elevatorSubsystem.isAtSetpoint(m_elevatorSubsystem.setDesiredPosition(m_targetPosition), m_targetPosition, m_elevatorSubsystem.getPosition()); // Runs until interrupted
     }
 }

@@ -29,6 +29,8 @@ public class ElevatorSubsystem extends SubsystemBase{
         // Initialize PID controller
         pidController = new PIDController(ElevatorConstants.kKrakenP, ElevatorConstants.kKrakenI, ElevatorConstants.kKrakenD);
         pidController.setTolerance(ElevatorConstants.kKrakenTolerance);
+        pidController.setSetpoint(ElevatorConstants.kL4);
+
 
         feedforward = new ElevatorFeedforward(ElevatorConstants.kS, ElevatorConstants.kG, ElevatorConstants.kV, ElevatorConstants.kA);
 
@@ -37,7 +39,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     // public boolean isAtTop() {
-    //     return getPosition() >= ElevatorConstants.kTopPosition;
+    //     return getPosition() >= ElevatorConstants.kL4;
     //     // return !m_topLimitSwitch.get();  // Sends signal when switch is activated (before inversion -> true when not pressed)
     // }
 
@@ -73,6 +75,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     public double setDesiredPosition(double desiredPosition) {
 
         double currentPosition = getPosition();
+
         //double feedforward = ElevatorConstants.kGravityFeedForward;
         double output = pidController.calculate(currentPosition, desiredPosition);
 
@@ -87,6 +90,9 @@ public class ElevatorSubsystem extends SubsystemBase{
         return outputSpeed;
     } 
 
+    public void setSetpoint(double desiredPosition) {
+        pidController.setSetpoint(desiredPosition);
+    }
     // public double getVelocity() {
     //     double rightVelocity = m_rightKraken.getVelocity().getValue().in(Units.RotationsPerSecond);
     //     double leftVelocity = m_leftKraken.getVelocity().getValue().in(Units.RotationsPerSecond);
@@ -108,8 +114,8 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     // PID controller is within tolerance
-    public boolean isAtSetpoint(double speed) {
-        return pidController.atSetpoint() || isAtMaxHeight(speed);
+    public boolean isAtSetpoint(double speed, double desiredPosition, double currentPosition) {
+        return (Math.abs(desiredPosition-currentPosition) < ElevatorConstants.kKrakenTolerance) || isAtMaxHeight(speed);
     }
 
     // Checks current to determine if at bottom
@@ -131,7 +137,7 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     public void resetEncodersAtBottom() {
         if (atBottom()) {
-            resetEncoders();
+            // resetEncoders();
         }
     }
 
@@ -167,9 +173,10 @@ public class ElevatorSubsystem extends SubsystemBase{
     public void periodic() {
         resetEncodersAtBottom();
         SmartDashboard.putNumber("ELEVATOR Current position ", getPosition());
-        SmartDashboard.putNumber("Calculated speed top", setDesiredPosition(ElevatorConstants.kTopPosition));
+        SmartDashboard.putNumber("Calculated speed top", setDesiredPosition(ElevatorConstants.kL4));
         SmartDashboard.putNumber("Calculated speed bottom", setDesiredPosition(ElevatorConstants.kBottomPosition));
-        SmartDashboard.putBoolean("Elevator at Max Height", isAtMaxHeight(0.5));
+        SmartDashboard.putBoolean("Elevator at Max Height", isAtSetpoint(0.5, ElevatorConstants.kL4, getPosition()));
+        SmartDashboard.putNumber("Elevator Setpoint", pidController.getSetpoint());
     }
 
 }

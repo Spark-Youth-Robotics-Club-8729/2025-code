@@ -23,6 +23,7 @@ import frc.robot.commands.ClimberSet;
 import frc.robot.commands.ElevatorMove;
 import frc.robot.commands.IntakeAlgae;
 import frc.robot.commands.RotateClaw;
+import frc.robot.commands.SetVoltage;
 import frc.robot.commands.ShootAlgae;
 import frc.robot.commands.ShootCoral;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -52,7 +53,7 @@ public class RobotContainer {
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final RotateClawSubsystem m_rotateClawSubsystem = new RotateClawSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
-  private final ClawWheelsSubsystem m_clawWheelsSubsystems = new ClawWheelsSubsystem();
+  private final ClawWheelsSubsystem m_clawWheelsSubsystem = new ClawWheelsSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
@@ -68,44 +69,44 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    //m_clawWheelsSubsystems.setDefaultCommand(new ClawWheelsStall(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeStall));
+    //m_clawWheelsSubsystem.setDefaultCommand(new ClawWheelsStall(m_clawWheelsSubsystem, ClawWheelsConstants.kIntakeAlgaeStall));
     
-    m_driveSubsystem.setDefaultCommand(
-                                // The left stick controls translation of the robot.
-                                // Turning is controlled by the X axis of the right stick.
-                                new RunCommand(
-                                                () -> m_driveSubsystem.drive(
-                                                                -MathUtil.applyDeadband(
-                                                                                m_driverController.getRawAxis(1),
-                                                                                OperatorConstants.kDriveDeadband),
-                                                                -MathUtil.applyDeadband(
-                                                                                m_driverController.getRawAxis(0),
-                                                                                OperatorConstants.kDriveDeadband),
-                                                                -MathUtil.applyDeadband(
-                                                                                m_driverController.getRawAxis(4),
-                                                                                OperatorConstants.kDriveDeadband),
-                                                                true), // True means it moves relative to the field
-                                                                m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //                             // The left stick controls translation of the robot.
+    //                             // Turning is controlled by the X axis of the right stick.
+    //                             new RunCommand(
+    //                                             () -> m_driveSubsystem.drive(
+    //                                                             -MathUtil.applyDeadband(
+    //                                                                             m_driverController.getRawAxis(1),
+    //                                                                             OperatorConstants.kDriveDeadband),
+    //                                                             -MathUtil.applyDeadband(
+    //                                                                             m_driverController.getRawAxis(0),
+    //                                                                             OperatorConstants.kDriveDeadband),
+    //                                                             -MathUtil.applyDeadband(
+    //                                                                             m_driverController.getRawAxis(4),
+    //                                                                             OperatorConstants.kDriveDeadband),
+    //                                                             true), // True means it moves relative to the field
+    //                                                             m_driveSubsystem));
 
                                                               
-    m_driveSubsystem.setDefaultCommand(
-        // Left joystick -> moving 
-        // Right joystick -> rotation
-        // Deadband to avoid small movements
-        new RunCommand(
-            () -> m_driveSubsystem.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OperatorConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OperatorConstants.kDriveDeadband),
-                true),
-            m_driveSubsystem));
+    // m_driveSubsystem.setDefaultCommand(
+    //     // Left joystick -> moving 
+    //     // Right joystick -> rotation
+    //     // Deadband to avoid small movements
+    //     new RunCommand(
+    //         () -> m_driveSubsystem.drive(
+    //             -MathUtil.applyDeadband(m_driverController.getLeftY(), OperatorConstants.kDriveDeadband),
+    //             -MathUtil.applyDeadband(m_driverController.getLeftX(), OperatorConstants.kDriveDeadband),
+    //             -MathUtil.applyDeadband(m_driverController.getRightX(), OperatorConstants.kDriveDeadband),
+    //             true),
+    //         m_driveSubsystem));
 
     // Named commands to be able to be used in the autos
     // NamedCommands.registerCommand(X, newX());
-    //NamedCommands.registerCommand("AutoIntakeAlgae", new AutoIntakeAlgae(m_clawWheelsSubsystems));
+    //NamedCommands.registerCommand("AutoIntakeAlgae", new AutoIntakeAlgae(m_clawWheelsSubsystem));
     //NamedCommands.registerCommand("AutoMoveElevator", new AutoMoveElevator(m_elevatorSubsystem));
-    //NamedCommands.registerCommand("AutoRotate", new AutoRotate(m_rotateClawSubsystem, m_clawWheelsSubsystems));
-    //NamedCommands.registerCommand("AutoShootCoral", new AutoShootCoral(m_rotateClawSubsystem, m_clawWheelsSubsystems, m_driveSubsystem, m_visionSubsystem, m_elevatorSubsystem, 1));
+    //NamedCommands.registerCommand("AutoRotate", new AutoRotate(m_rotateClawSubsystem, m_clawWheelsSubsystem));
+    //NamedCommands.registerCommand("AutoShootCoral", new AutoShootCoral(m_rotateClawSubsystem, m_clawWheelsSubsystem, m_driveSubsystem, m_visionSubsystem, m_elevatorSubsystem, 1));
     
 
     // Build an auto chooser. (can be changed to specific ones -> https://pathplanner.dev/pplib-build-an-auto.html)
@@ -122,17 +123,25 @@ public class RobotContainer {
   // Binds commands to buttons
   private void configureBindings() {
     //m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
-    m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationElevator));
+    m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationsIntake));
+    m_operatorController.rightTrigger().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationOutake));
+    m_operatorController.rightBumper().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationsIntake));
+    
+    
     // can add control to rotate for intake 
-    m_operatorController.povUp().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kTopPosition));
+    m_operatorController.povUp().onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL4));
     m_operatorController.povDown().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kBottomPosition));
+
+    m_operatorController.leftTrigger().whileTrue(new SetVoltage(m_elevatorSubsystem));
+    m_operatorController.povLeft().onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL2));
 
     // m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, 0.5));
     // m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -0.5)); 
     // // add elevator command when PID
-    // m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kIntakeAlgaeSpeed));
-    // m_operatorController.y().whileTrue(new ShootAlgae(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeAlgaeSpeed));
-    // m_operatorController.x().whileTrue(new ShootCoral(m_clawWheelsSubsystems, ClawWheelsConstants.kOutakeCoralSpeed));
+    // m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystem, ClawWheelsConstants.kIntakeAlgaeSpeed));
+    // m_operatorController.y().whileTrue(new ShootAlgae(m_clawWheelsSubsystem, ClawWheelsConstants.kOutakeAlgaeSpeed));
+    m_operatorController.x().whileTrue(new ShootCoral(m_clawWheelsSubsystem, ClawWheelsConstants.kOutakeCoralSpeed));
+    m_operatorController.y().whileTrue(new ShootCoral(m_clawWheelsSubsystem, -ClawWheelsConstants.kOutakeCoralSpeed));
   }
 
   public DriveSubsystem getDriveSubsystem() {
