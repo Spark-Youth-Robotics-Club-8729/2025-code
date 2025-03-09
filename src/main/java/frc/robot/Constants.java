@@ -87,6 +87,11 @@ public final class Constants {
     public static final int kRearRightTurningCanId = 5;
 
     public static final boolean kGyroReversed = true;
+
+    //slew
+    public static final double kDirectionSlewRate = 2.3; // radians per second default: 1.2
+    public static final double kMagnitudeSlewRate = 3.0; // percent per second (1 = 100%) default: 1.8
+    public static final double kRotationSlewRate = 2.6; // percent per second (1 = 100%) default: 2.0
   }
 
   public static final class ModuleConstants {

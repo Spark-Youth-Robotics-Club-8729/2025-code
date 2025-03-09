@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -44,6 +45,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The gyro sensor
   private final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
+
+  private final SlewRateLimiter m_magnitudeLimiter = new SlewRateLimiter(DriveConstants.kMagnitudeSlewRate);
+  private final SlewRateLimiter m_directionLimiter = new SlewRateLimiter(DriveConstants.kDirectionSlewRate);
+  private final SlewRateLimiter m_rotationLimiter = new SlewRateLimiter(DriveConstants.kRotationSlewRate);
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -113,16 +118,29 @@ public class DriveSubsystem extends SubsystemBase {
    *                      field.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    // Convert the commanded speeds into the correct units for the drivetrain
-    double xSpeedDelivered = xSpeed * DriveConstants.kMaxSpeedMetersPerSecond;
-    double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;
-    double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
+    // Convert joystick inputs to polar coordinates
+    double magnitude = Math.hypot(xSpeed, ySpeed); //speed
+    double direction = Math.atan2(ySpeed, xSpeed); //angle
 
+    // Apply slew rate limiting
+    magnitude = m_magnitudeLimiter.calculate(magnitude);
+    direction = m_directionLimiter.calculate(direction);
+    rot = m_rotationLimiter.calculate(rot);
+
+    // Convert back to x and y speeds
+    double xSpeedLimited = magnitude * Math.cos(direction);
+    double ySpeedLimited = magnitude * Math.sin(direction);
+
+    // Scale by max speed constants
+    xSpeedLimited *= DriveConstants.kMaxSpeedMetersPerSecond;
+    ySpeedLimited *= DriveConstants.kMaxSpeedMetersPerSecond;
+    double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
+    
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedLimited, ySpeedLimited, rotDelivered,
                 Rotation2d.fromDegrees(-m_gyro.getYaw()))
-            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+            : new ChassisSpeeds(xSpeedLimited, ySpeedLimited, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
