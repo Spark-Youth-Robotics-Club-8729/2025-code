@@ -140,10 +140,6 @@ public class ElevatorSubsystem extends SubsystemBase{
         }
     }
 
-    public void resetPID() {
-        pidController.reset();
-    }
-
     public void holdPosition() {
         double ffOutput = feedforward.calculate(0);
         setVoltage(ffOutput);

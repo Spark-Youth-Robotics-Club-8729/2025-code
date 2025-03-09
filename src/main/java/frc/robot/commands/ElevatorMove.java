@@ -8,12 +8,10 @@ import frc.robot.subsystems.RotateClawSubsystem;
 
 public class ElevatorMove extends Command {
     private final ElevatorSubsystem m_elevatorSubsystem;
-    private final RotateClawSubsystem m_rotateSubsystem;
     private final double m_targetPosition;
 
-    public ElevatorMove(ElevatorSubsystem subsystem, RotateClawSubsystem claw, double targetPosition) {
+    public ElevatorMove(ElevatorSubsystem subsystem, double targetPosition) {
         m_elevatorSubsystem = subsystem;
-        m_rotateSubsystem = claw;
         m_targetPosition = targetPosition;
         addRequirements(subsystem);
     }
@@ -28,12 +26,6 @@ public class ElevatorMove extends Command {
     public void execute() {
         m_elevatorSubsystem.setVoltage(m_elevatorSubsystem.setDesiredPosition(m_targetPosition));
     }
-
-    // when button not pressed stop rotating
-    //@Override
-    //public void end(boolean interrupted) {
-    //    m_elevatorSubsystem.stop();
-    //}
     
     // when button not pressed stop rotating
     @Override
