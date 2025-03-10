@@ -15,10 +15,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.studica.frc.AHRS;
 import frc.robot.Constants.DriveConstants;
+import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -46,9 +48,16 @@ public class DriveSubsystem extends SubsystemBase {
   // The gyro sensor
   private final AHRS m_gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
 
+  // Slew rate filter variables for controlling lateral acceleration
+  private double m_currentRotation = 0.0;
+  private double m_currentTranslationDir = 0.0;
+  private double m_currentTranslationMag = 0.0;
+
   private final SlewRateLimiter m_magnitudeLimiter = new SlewRateLimiter(DriveConstants.kMagnitudeSlewRate);
   private final SlewRateLimiter m_directionLimiter = new SlewRateLimiter(DriveConstants.kDirectionSlewRate);
   private final SlewRateLimiter m_rotationLimiter = new SlewRateLimiter(DriveConstants.kRotationSlewRate);
+
+  private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -118,24 +127,46 @@ public class DriveSubsystem extends SubsystemBase {
    *                      field.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    // Convert joystick inputs to polar coordinates
-    double magnitude = Math.hypot(xSpeed, ySpeed); //speed
-    double direction = Math.atan2(ySpeed, xSpeed); //angle
+    double inputTranslationMag = Math.hypot(xSpeed, ySpeed);
+    double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
 
-    // Apply slew rate limiting
-    magnitude = m_magnitudeLimiter.calculate(magnitude);
-    direction = m_directionLimiter.calculate(direction);
-    rot = m_rotationLimiter.calculate(rot);
+    // Calculate the direction slew rate dynamically
+    double directionSlewRate = (m_currentTranslationMag > 1e-4) 
+        ? Math.abs(DriveConstants.kDirectionSlewRate / m_currentTranslationMag) // Normal speed slew rate
+        : 500.0;  // Slew rate for low speeds (instant)
 
-    // Convert back to x and y speeds
-    double xSpeedLimited = magnitude * Math.cos(direction);
-    double ySpeedLimited = magnitude * Math.sin(direction);
+    double currentTime = WPIUtilJNI.now() * 1e-6;
+    double elapsedTime = currentTime - m_prevTime;
+    double angleDif = SwerveUtils.AngleDifference(inputTranslationDir, m_currentTranslationDir);
 
-    // Scale by max speed constants
+    if (angleDif < 0.4 * Math.PI) {  
+        // Small angle -> smoothly adjust direction and magnitude
+        m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir, directionSlewRate * elapsedTime);
+        m_currentTranslationMag = m_magnitudeLimiter.calculate(inputTranslationMag);
+    } else if (angleDif > 0.9 * Math.PI) {  
+        // Large angle -> slow down briefly then reverse
+        m_currentTranslationMag *= 0.4;  // Reduce speed 
+        if (m_currentTranslationMag < 0.1) {  // Flip once speed is low enough
+            m_currentTranslationDir = SwerveUtils.WrapAngle(m_currentTranslationDir + Math.PI);
+        }
+    } else {  
+        // Mid-range angle change → gradual transition
+        m_currentTranslationDir = SwerveUtils.StepTowardsCircular(m_currentTranslationDir, inputTranslationDir, directionSlewRate * elapsedTime);
+        m_currentTranslationMag *= 0.6;  // Reduce speed instead of fully stopping
+    }
+
+    m_prevTime = currentTime;
+
+    // Convert to cartesian
+    double xSpeedLimited = m_currentTranslationMag * Math.cos(m_currentTranslationDir);
+    double ySpeedLimited = m_currentTranslationMag * Math.sin(m_currentTranslationDir);
+    double rotLimited = m_rotationLimiter.calculate(rot);
+
+    // Scale with max speed
     xSpeedLimited *= DriveConstants.kMaxSpeedMetersPerSecond;
     ySpeedLimited *= DriveConstants.kMaxSpeedMetersPerSecond;
-    double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
-    
+    double rotDelivered = rotLimited * DriveConstants.kMaxAngularSpeed;
+
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedLimited, ySpeedLimited, rotDelivered,
@@ -148,6 +179,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
+
 
   /**
    * Sets the wheels into an X formation to prevent movement.
