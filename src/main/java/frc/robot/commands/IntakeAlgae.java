@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ClawWheelsConstants;
 import frc.robot.subsystems.ClawWheelsSubsystem;
 
 /** Spins the top wheel to intake algae. */
@@ -22,7 +23,7 @@ public class IntakeAlgae extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        m_clawWheels.stopAll();
+        m_clawWheels.spinTopWheel(ClawWheelsConstants.kIntakeAlgaeStall);
     }
 
     @Override

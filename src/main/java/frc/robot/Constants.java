@@ -124,8 +124,10 @@ public final class Constants {
     
     public static final double kDesiredClawRotationsIntake = 0.0;
     public static final double kDesiredClawRotationElevator = 0.977;
-    public static final double kDesiredClawRotationOutake = 0.94;
-    public static final double kDesiredClawRotationOutaking = 0.92;
+    public static final double kDesiredClawRotationOutake = 0.935;
+    public static final double kDesiredClawRotationOutaking = 0.9;
+    public static final double kDesiredClawRotationAlgae = 0.008;
+    public static final double kDesiredClawRotationBottom = 0.07;
     // public static final int kClawEncoderDioPort = 0; // Check dio port
   }
 
@@ -142,7 +144,7 @@ public final class Constants {
 
     // public static final double kGravityFeedForward = 0.05;
     
-    public static final double kKrakenTolerance = 0.3;
+    public static final double kKrakenTolerance = 0.2;
 
     public static final double kL4 = 32.8; //change //32.2 with 0.016
     public static final double kL3 = 20.0;
@@ -150,7 +152,9 @@ public final class Constants {
     public static final double kL1 = 9.5;
     public static final double kBottomPosition = 0.0; //change
 
-    public static final double k23Algae = 3.0; //change
+    public static final double k23Algae = 6.8; //change
+    public static final double k34Algae = 15.8; //change
+
 
     // public static final double kLevel4 = 34.0; //change //32.2 with 0.016
     // public static final double kLevel3 = 11.5;
@@ -174,10 +178,10 @@ public final class Constants {
 
   /** Constants for Claw Wheels Subsystem. */
   public class ClawWheelsConstants {
-      public static final double kIntakeAlgaeSpeed = 0.2; // Speed for algae intake
+      public static final double kIntakeAlgaeSpeed = -0.5; // Speed for algae intake
       public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
       public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
-      public static final double kIntakeAlgaeStall = 0.025;
+      public static final double kIntakeAlgaeStall = -0.025;
       public static final int kTopWheelMotorID = 12;
 
       public static final int kBottomWheelMotorID = 13;

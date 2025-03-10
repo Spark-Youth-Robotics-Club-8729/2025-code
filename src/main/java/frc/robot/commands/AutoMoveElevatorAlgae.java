@@ -16,9 +16,12 @@ import frc.robot.subsystems.RotateClawSubsystem;
 public class AutoMoveElevatorAlgae extends SequentialCommandGroup {
   public AutoMoveElevatorAlgae(ElevatorSubsystem m_elevatorSubsystem, RotateClawSubsystem m_rotateClaw, ClawWheelsSubsystem m_clawWheels, double desiredPosition) {
     addCommands(
+        new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationElevator),
+        new ElevatorMove(m_elevatorSubsystem, desiredPosition), 
+        new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationBottom),
         new ParallelCommandGroup(
-            new ElevatorMove(m_elevatorSubsystem, desiredPosition), 
-            new IntakeAlgae(m_clawWheels, ClawWheelsConstants.kIntakeAlgaeSpeed).withTimeout(1.5)
+            new IntakeAlgae(m_clawWheels, ClawWheelsConstants.kIntakeAlgaeSpeed).withTimeout(0.5)
+            //new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationAlgae)
         )
       //new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationElevator),
       //new ElevatorMove(m_elevatorSubsystem, desiredPosition)
