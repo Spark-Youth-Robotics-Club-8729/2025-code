@@ -59,12 +59,12 @@ public class RotateClawSubsystem extends SubsystemBase{
 
         // Clamp output
         // output = -Math.max(-0.05, Math.min(0.05, output));
-        if (output > 0.075) {
-            output = 0.075;
+        if (output > 0.25) {
+            output = 0.25;
         }
 
-        if (output < -0.075) {
-            output = -0.075;
+        if (output < -0.25) {
+            output = -0.25;
         }
 
         // Apply the calculated output to the motor
