@@ -14,8 +14,8 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.RotateClawSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.AlignRobot;
+import frc.robot.commands.AutoAlgaeProcessor;
 import frc.robot.commands.AutoDropElevator;
-import frc.robot.commands.AutoIntakeAlgae;
 import frc.robot.commands.AutoMoveElevator;
 import frc.robot.commands.AutoMoveElevatorAlgae;
 import frc.robot.commands.AutoRotate;
@@ -28,6 +28,7 @@ import frc.robot.commands.RotateClaw;
 import frc.robot.commands.SetVoltage;
 import frc.robot.commands.ShootAlgae;
 import frc.robot.commands.ShootCoral;
+import frc.robot.commands.ShootCoralVoltage;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -119,15 +120,16 @@ public class RobotContainer {
 
     m_operatorController.povDown().onTrue(new AutoDropElevator(m_elevatorSubsystem, m_rotateClawSubsystem));
     m_operatorController.leftBumper().onTrue(new AutoMoveElevatorAlgae(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.k34Algae));
-    // m_operatorController.povLeft(). onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL2));
+    m_operatorController.povRight(). onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL3));
 
-    m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, 0.5));
-    m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -0.5)); 
+    //m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, 0.5));
+    //m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -0.5)); 
     // // add elevator command when PID
-    // m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystem, ClawWheelsConstants.kIntakeAlgaeSpeed));
-    // m_operatorController.y().whileTrue(new ShootAlgae(m_clawWheelsSubsystem, ClawWheelsConstants.kOutakeAlgaeSpeed));
+    m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystem, ClawWheelsConstants.kIntakeAlgaeSpeed));
+    m_operatorController.leftTrigger().onTrue(new AutoAlgaeProcessor(m_clawWheelsSubsystem, m_rotateClawSubsystem));
     m_operatorController.x().whileTrue(new ShootCoral(m_clawWheelsSubsystem, ClawWheelsConstants.kOutakeCoralSpeed));
     m_operatorController.y().whileTrue(new ShootCoral(m_clawWheelsSubsystem, -ClawWheelsConstants.kOutakeCoralSpeed));
+    m_operatorController.povLeft().whileTrue(new ShootCoralVoltage(m_clawWheelsSubsystem, ClawWheelsConstants.kShootCoralVoltage));
 
     m_driverController.x().whileTrue(new RunCommand(() -> m_driveSubsystem.setX(), m_driveSubsystem));
   }

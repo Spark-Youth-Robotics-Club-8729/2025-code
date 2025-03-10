@@ -125,7 +125,7 @@ public final class Constants {
     public static final double kDesiredClawRotationsIntake = 0.0;
     public static final double kDesiredClawRotationElevator = 0.977;
     public static final double kDesiredClawRotationOutake = 0.935;
-    public static final double kDesiredClawRotationOutaking = 0.9;
+    public static final double kDesiredClawRotationOutaking = 0.89;
     public static final double kDesiredClawRotationAlgae = 0.008;
     public static final double kDesiredClawRotationBottom = 0.07;
     // public static final int kClawEncoderDioPort = 0; // Check dio port
@@ -138,7 +138,7 @@ public final class Constants {
 
     public static final int kLimitSwitchPort = 1;
 
-    public static final double kKrakenP = 0.08; // 0.01
+    public static final double kKrakenP = 0.2; // 0.01
     public static final double kKrakenI = 0.008; // 0.0007
     public static final double kKrakenD = 0.0;
 
@@ -180,10 +180,13 @@ public final class Constants {
 
   /** Constants for Claw Wheels Subsystem. */
   public class ClawWheelsConstants {
-      public static final double kIntakeAlgaeSpeed = -0.5; // Speed for algae intake
+      public static final double kIntakeAlgaeSpeed = -0.9; // Speed for algae intake
       public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
       public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
-      public static final double kIntakeAlgaeStall = -0.025;
+
+      public static final double kShootCoralVoltage = 6.0;
+
+      public static final double kIntakeAlgaeStall = -0.028;
       public static final int kTopWheelMotorID = 12;
 
       public static final int kBottomWheelMotorID = 13;

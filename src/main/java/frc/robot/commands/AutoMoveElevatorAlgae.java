@@ -20,7 +20,7 @@ public class AutoMoveElevatorAlgae extends SequentialCommandGroup {
         new ElevatorMove(m_elevatorSubsystem, desiredPosition), 
         new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationBottom),
         new ParallelCommandGroup(
-            new IntakeAlgae(m_clawWheels, ClawWheelsConstants.kIntakeAlgaeSpeed).withTimeout(0.5)
+            new IntakeAlgae(m_clawWheels, ClawWheelsConstants.kIntakeAlgaeSpeed).withTimeout(0.3)
             //new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationAlgae)
         )
       //new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationElevator),

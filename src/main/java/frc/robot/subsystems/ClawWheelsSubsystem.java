@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClawWheelsConstants;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // https://docs.wpilib.org/en/stable/docs/software/hardware-apis/sensors/digital-inputs-software.html -> for IR Break Beam Sensor
 
@@ -25,6 +26,14 @@ public class ClawWheelsSubsystem extends SubsystemBase {
     /* Spins top wheel. */
     public void spinTopWheel(double speed) {
         topWheelMotor.set(speed);
+    }
+
+    public void spinBottomWheelVoltage(double voltage) {
+        bottomWheelMotor.setVoltage(voltage);
+    }
+
+    public boolean checkCurrent() {
+        return (bottomWheelMotor.getOutputCurrent() != 0.0);
     }
 
     /* Spins bottom wheel. */
@@ -59,6 +68,12 @@ public class ClawWheelsSubsystem extends SubsystemBase {
         if (!coralInIntake()) {
             stopBottomWheel();
         }
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("CLAW VOLTAGE", bottomWheelMotor.getBusVoltage()); // 0.2 V
+        SmartDashboard.putNumber("CLAW CURRENT", bottomWheelMotor.getOutputCurrent());
     }
 
 }

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+// run pid until reaches -0.5
 
 public class ElevatorSubsystem extends SubsystemBase{
     private final TalonFX m_rightKraken = new TalonFX(ElevatorConstants.kRightKrakenCanId);
@@ -63,6 +64,14 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public void setVoltage(double voltage) {
+        if (voltage > 3.0) {
+            voltage = 3.0;
+        }
+
+        if (voltage < -3.0) {
+            voltage = -3.0;
+        }
+
         m_rightKraken.setVoltage(voltage); 
         m_leftKraken.setVoltage(voltage);
     }
@@ -88,6 +97,13 @@ public class ElevatorSubsystem extends SubsystemBase{
         // Apply the calculated output to the motor
         return outputSpeed;
     } 
+
+    public boolean checkDownwardsVoltage(double voltage) {
+        if (voltage >= -0.5 && voltage < 0.0) {
+            return true;
+        }
+        return false;
+    }
 
     public void setSetpoint(double desiredPosition) {
         pidController.setSetpoint(desiredPosition);
@@ -173,7 +189,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     public void periodic() {
         // resetEncodersAtBottom();
         SmartDashboard.putNumber("ELEVATOR Current position ", getPosition());
-        SmartDashboard.putNumber("Calculated speed top", setDesiredPosition(ElevatorConstants.kL4));
+        SmartDashboard.putNumber("Calculated voltage top", setDesiredPosition(ElevatorConstants.kL4));
         SmartDashboard.putNumber("Calculated speed bottom", setDesiredPosition(ElevatorConstants.kBottomPosition));
         SmartDashboard.putBoolean("Elevator at Max Height", isAtSetpoint(0.5, ElevatorConstants.kL4, getPosition()));
         SmartDashboard.putNumber("Elevator Setpoint", pidController.getSetpoint());
