@@ -123,6 +123,7 @@ public class ElevatorSubsystem extends SubsystemBase{
         double currentLeft = m_leftKraken.getStatorCurrent().getValueAsDouble();
 
         if (currentRight > ElevatorConstants.kBottomCurrentThreshold || currentLeft > ElevatorConstants.kBottomCurrentThreshold) {
+            resetEncoders();
             return true;
         }
         return false;
@@ -170,12 +171,15 @@ public class ElevatorSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
-        resetEncodersAtBottom();
+        // resetEncodersAtBottom();
         SmartDashboard.putNumber("ELEVATOR Current position ", getPosition());
         SmartDashboard.putNumber("Calculated speed top", setDesiredPosition(ElevatorConstants.kL4));
         SmartDashboard.putNumber("Calculated speed bottom", setDesiredPosition(ElevatorConstants.kBottomPosition));
         SmartDashboard.putBoolean("Elevator at Max Height", isAtSetpoint(0.5, ElevatorConstants.kL4, getPosition()));
         SmartDashboard.putNumber("Elevator Setpoint", pidController.getSetpoint());
+        SmartDashboard.putNumber("Current", m_rightKraken.getStatorCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("Current", m_leftKraken.getStatorCurrent().getValueAsDouble());
+
     }
 
 }

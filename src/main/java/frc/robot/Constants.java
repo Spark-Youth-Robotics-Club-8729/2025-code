@@ -150,7 +150,9 @@ public final class Constants {
     public static final double kL3 = 20.0;
     public static final double kL2 = 11.0;
     public static final double kL1 = 9.5;
-    public static final double kBottomPosition = 0.0; //change
+
+    public static final double kBottomPosition = 0.0;
+    public static final double kBottomVoltage = -0.5; //change
 
     public static final double k23Algae = 6.8; //change
     public static final double k34Algae = 15.8; //change
@@ -173,7 +175,7 @@ public final class Constants {
     // public static final int kTopLimitSwitchPort = 3;
     // public static final int kBottomLimitSwitchPort = 4;
     
-    public static final double kBottomCurrentThreshold = 40.0; // 40A motors
+    public static final double kBottomCurrentThreshold = 25.0; // 40A motors
   }
 
   /** Constants for Claw Wheels Subsystem. */

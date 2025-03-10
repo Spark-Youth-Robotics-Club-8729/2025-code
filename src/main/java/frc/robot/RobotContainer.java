@@ -14,6 +14,7 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.RotateClawSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.AlignRobot;
+import frc.robot.commands.AutoDropElevator;
 import frc.robot.commands.AutoIntakeAlgae;
 import frc.robot.commands.AutoMoveElevator;
 import frc.robot.commands.AutoMoveElevatorAlgae;
@@ -114,11 +115,11 @@ public class RobotContainer {
     
     // can add control to rotate for intake 
     m_operatorController.povUp().onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL4));
-    m_operatorController.povDown().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kBottomPosition));
+    // m_operatorController.povDown().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kBottomPosition));
 
-    m_operatorController.leftTrigger().whileTrue(new SetVoltage(m_elevatorSubsystem));
+    m_operatorController.povDown().onTrue(new AutoDropElevator(m_elevatorSubsystem, m_rotateClawSubsystem));
     m_operatorController.leftBumper().onTrue(new AutoMoveElevatorAlgae(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.k34Algae));
-    // m_operatorController.povLeft().onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL2));
+    // m_operatorController.povLeft(). onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL2));
 
     m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, 0.5));
     m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -0.5)); 
