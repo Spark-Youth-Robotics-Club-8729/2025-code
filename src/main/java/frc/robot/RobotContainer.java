@@ -16,6 +16,7 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.AlignRobot;
 import frc.robot.commands.AutoIntakeAlgae;
 import frc.robot.commands.AutoMoveElevator;
+import frc.robot.commands.AutoMoveElevatorAlgae;
 import frc.robot.commands.AutoRotate;
 import frc.robot.commands.AutoShootCoral;
 import frc.robot.commands.ClawWheelsStall;
@@ -115,6 +116,7 @@ public class RobotContainer {
     m_operatorController.povDown().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kBottomPosition));
 
     m_operatorController.leftTrigger().whileTrue(new SetVoltage(m_elevatorSubsystem));
+    m_operatorController.leftBumper().onTrue(new AutoMoveElevatorAlgae(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.k23Algae));
     // m_operatorController.povLeft().onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL2));
 
     m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, 0.5));

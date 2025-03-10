@@ -149,6 +149,8 @@ public final class Constants {
     public static final double kL1 = 9.5;
     public static final double kBottomPosition = 0.0; //change
 
+    public static final double k23Algae = 2.0;
+
     // public static final double kLevel4 = 34.0; //change //32.2 with 0.016
     // public static final double kLevel3 = 11.5;
     // public static final double kLevel2 = 0.0; //change
@@ -171,7 +173,7 @@ public final class Constants {
 
   /** Constants for Claw Wheels Subsystem. */
   public class ClawWheelsConstants {
-      public static final double kIntakeAlgaeSpeed = 0.2; // Speed for algae intake
+      public static final double kIntakeAlgaeSpeed = 0.3; // Speed for algae intake
       public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
       public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
       public static final double kIntakeAlgaeStall = 0.025;

@@ -10,7 +10,7 @@ public class IntakeAlgae extends Command {
 
     public IntakeAlgae(ClawWheelsSubsystem subsystem, double speed) {
         m_clawWheels = subsystem;
-        m_speed = -speed;
+        m_speed = speed;
 
         addRequirements(m_clawWheels);
     }
