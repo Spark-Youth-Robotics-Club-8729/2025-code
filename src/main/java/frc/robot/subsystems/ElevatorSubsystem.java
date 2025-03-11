@@ -188,7 +188,7 @@ public class ElevatorSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         // resetEncodersAtBottom();
-        SmartDashboard.putNumber("ELEVATOR Current position ", getPosition());
+        SmartDashboard.putNumber("Elevator Current position ", getPosition());
         SmartDashboard.putNumber("Calculated voltage top", setDesiredPosition(ElevatorConstants.kL4));
         SmartDashboard.putNumber("Calculated speed bottom", setDesiredPosition(ElevatorConstants.kBottomPosition));
         SmartDashboard.putBoolean("Elevator at Max Height", isAtSetpoint(0.5, ElevatorConstants.kL4, getPosition()));

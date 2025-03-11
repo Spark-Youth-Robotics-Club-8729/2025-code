@@ -30,7 +30,7 @@ public final class Constants {
   }
 
   public static class VisionConstants {
-    public static final String kCameraName = "testingcam";
+    public static final String kCameraName = "8729_OV9281";
 
     // April Tag Layout for Pose Estimator
     public static final AprilTagFieldLayout TAG_LAYOUT = AprilTagFields.kDefaultField.loadAprilTagLayoutField();
@@ -141,6 +141,7 @@ public final class Constants {
     public static final double kKrakenP = 0.2; // 0.01
     public static final double kKrakenI = 0.008; // 0.0007
     public static final double kKrakenD = 0.0;
+    
 
     // public static final double kGravityFeedForward = 0.05;
     
