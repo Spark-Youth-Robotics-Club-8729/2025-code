@@ -36,6 +36,10 @@ public class ClawWheelsSubsystem extends SubsystemBase {
         return (bottomWheelMotor.getOutputCurrent() != 0.0);
     }
 
+    public double getCurrent() {
+        return bottomWheelMotor.getOutputCurrent();
+    }
+
     /* Spins bottom wheel. */
     public void spinBottomWheel(double speed) {
         bottomWheelMotor.set(-speed);

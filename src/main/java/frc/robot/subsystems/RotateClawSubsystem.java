@@ -87,7 +87,7 @@ public class RotateClawSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Claw Current position", getPosition());
-        SmartDashboard.putNumber("Calculated speed", setDesiredPosition(0));
+        SmartDashboard.putNumber("Claw/Current position", getPosition());
+        SmartDashboard.putNumber("Claw/Calculated speed", setDesiredPosition(0));
     }
 }

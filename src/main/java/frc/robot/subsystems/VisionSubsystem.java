@@ -53,13 +53,13 @@ public class VisionSubsystem extends SubsystemBase{
             // Get the yaw of the first detected target (you can adjust this if you want all targets)
             var target = result.getTargets().get(0);  // Assuming only interested in the first target
             yaw = target.getYaw();
-            SmartDashboard.putNumber("ID", target.getFiducialId());
+            SmartDashboard.putNumber("Vision/April Tag ID", target.getFiducialId());
         }
 
         // Log data to SmartDashboard (or Shuffleboard)
         SmartDashboard.putBoolean("Vision/HasTargets", hasTargets);
         SmartDashboard.putNumber("Vision/Yaw", yaw);
-        SmartDashboard.putNumber("Number of targets:", result.getTargets().size());
+        SmartDashboard.putNumber("Vision/Number of targets:", result.getTargets().size());
 
         SmartDashboard.putNumber("Vision/Timestamp", System.currentTimeMillis());
         SmartDashboard.putNumber("Vision/NumberOfTargets", result.getTargets().size());

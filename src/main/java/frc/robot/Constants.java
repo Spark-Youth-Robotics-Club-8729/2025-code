@@ -158,15 +158,6 @@ public final class Constants {
     public static final double k23Algae = 6.8; //change
     public static final double k34Algae = 15.8; //change
 
-
-    // public static final double kLevel4 = 34.0; //change //32.2 with 0.016
-    // public static final double kLevel3 = 11.5;
-    // public static final double kLevel2 = 0.0; //change
-    // public static final double kLevel1 = 0.0; //change
-    // public static final double kBottomPosition = 0.0; //change
-
-
-
     public static final double kS = 0.15; //test at min
     public static final double kG = 0.387; //test at max
     public static final double kV = 0.00;
@@ -183,7 +174,7 @@ public final class Constants {
   public class ClawWheelsConstants {
       public static final double kIntakeAlgaeSpeed = -0.9; // Speed for algae intake
       public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
-      public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
+      public static final double kOutakeCoralSpeed = 0.1; // Speed for coral outtake
 
       public static final double kShootCoralVoltage = 6.0;
 
