@@ -13,18 +13,15 @@ import frc.robot.subsystems.ClawWheelsSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.RotateClawSubsystem;
 
-public class AutoMoveElevator extends SequentialCommandGroup {
-  public AutoMoveElevator(ElevatorSubsystem m_elevatorSubsystem, RotateClawSubsystem m_rotateClaw,
+public class AutoMoveElevator23 extends SequentialCommandGroup {
+  public AutoMoveElevator23(ElevatorSubsystem m_elevatorSubsystem, RotateClawSubsystem m_rotateClaw,
       ClawWheelsSubsystem m_clawWheels, double desiredPosition) {
     addCommands(
         // new ShootCoral(m_clawWheels, 0.4).withTimeout(0.2),
         new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationElevator),
         new ElevatorMove(m_elevatorSubsystem, desiredPosition),
         new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationOutake),
-        new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeed).withTimeout(0.2),
-        new ParallelCommandGroup(new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeed).withTimeout(0.4),
-            new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationOutaking))
-
+        new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeed).withTimeout(0.6)
     );
   }
 }

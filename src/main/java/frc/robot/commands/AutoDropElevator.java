@@ -17,7 +17,8 @@ public class AutoDropElevator extends SequentialCommandGroup {
             new ElevatorMoveDown(m_elevatorSubsystem, ElevatorConstants.kBottomPosition),
             new SetVoltage(m_elevatorSubsystem, ElevatorConstants.kBottomVoltage),
             new WaitCommand(0.5),
-            new ResetEncoders(m_elevatorSubsystem)
+            new ResetEncoders(m_elevatorSubsystem),
+            new RotateClaw(m_rotateclaw, RotateClawConstants.kDesiredClawRotationBottom)
         );
     }
 }

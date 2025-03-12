@@ -64,7 +64,7 @@ public class ClawWheelsSubsystem extends SubsystemBase {
 
     /* Checks if coral is inside intake */
     public boolean coralInIntake() {
-        return coralBreakSensor.get(); // True if not broken
+        return !coralBreakSensor.get(); // True if not broken
     }
 
     /* Stops bottom wheel if coral is detected */
@@ -78,6 +78,7 @@ public class ClawWheelsSubsystem extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("CLAW VOLTAGE", bottomWheelMotor.getBusVoltage()); // 0.2 V
         SmartDashboard.putNumber("CLAW CURRENT", bottomWheelMotor.getOutputCurrent());
+        SmartDashboard.putBoolean("BREAK SENSOR", coralInIntake());
     }
 
 }

@@ -16,7 +16,9 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.AlignRobot;
 import frc.robot.commands.AutoAlgaeProcessor;
 import frc.robot.commands.AutoDropElevator;
+import frc.robot.commands.AutoIntakeCoral;
 import frc.robot.commands.AutoMoveElevator;
+import frc.robot.commands.AutoMoveElevator23;
 import frc.robot.commands.AutoMoveElevatorAlgae;
 import frc.robot.commands.AutoRotate;
 import frc.robot.commands.AutoShootCoral;
@@ -108,30 +110,27 @@ public class RobotContainer {
 
   // Binds commands to buttons
   private void configureBindings() {
-    //m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem, OperatorConstants.kAprilTagBlue));
+    m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem));
 
     m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationsIntake));
-    m_operatorController.rightTrigger().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationOutake));
-    m_operatorController.rightBumper().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationsIntake));
+    //m_operatorController.rightTrigger().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationOutake));
+    //m_operatorController.rightBumper().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationsIntake));
     
     // can add control to rotate for intake 
     m_operatorController.povUp().onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL4));
-    // m_operatorController.povDown().onTrue(new ElevatorMove(m_elevatorSubsystem, ElevatorConstants.kBottomPosition));
 
     m_operatorController.povDown().onTrue(new AutoDropElevator(m_elevatorSubsystem, m_rotateClawSubsystem));
-    m_operatorController.leftBumper().onTrue(new AutoMoveElevatorAlgae(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.k34Algae));
-    m_operatorController.povRight(). onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL3));
+    //m_operatorController.leftBumper().onTrue(new AutoMoveElevatorAlgae(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.k34Algae));
+    m_operatorController.povRight(). onTrue(new AutoMoveElevator23(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL3));
 
-    //m_operatorController.povLeft().whileTrue(new ClimberSet(m_climbSubsystem, 0.5));
-    //m_operatorController.povRight().whileTrue(new ClimberSet(m_climbSubsystem, -0.5)); 
     // // add elevator command when PID
-    m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystem, ClawWheelsConstants.kIntakeAlgaeSpeed));
-    m_operatorController.leftTrigger().onTrue(new AutoAlgaeProcessor(m_clawWheelsSubsystem, m_rotateClawSubsystem));
+    //m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystem, ClawWheelsConstants.kIntakeAlgaeSpeed));
+    //m_operatorController.leftTrigger().onTrue(new AutoAlgaeProcessor(m_clawWheelsSubsystem, m_rotateClawSubsystem));
     m_operatorController.x().whileTrue(new ShootCoral(m_clawWheelsSubsystem, ClawWheelsConstants.kOutakeCoralSpeed));
-    m_operatorController.y().whileTrue(new ShootCoral(m_clawWheelsSubsystem, -ClawWheelsConstants.kOutakeCoralSpeed));
-    m_operatorController.povLeft().whileTrue(new ShootCoralVoltage(m_clawWheelsSubsystem, ClawWheelsConstants.kShootCoralVoltage));
+    //m_operatorController.y().whileTrue(new ShootCoral(m_clawWheelsSubsystem, -ClawWheelsConstants.kOutakeCoralSpeed));
+    m_operatorController.povLeft().onTrue(new AutoIntakeCoral(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem));
 
-    m_driverController.x().whileTrue(new RunCommand(() -> m_driveSubsystem.setX(), m_driveSubsystem));
+    //m_driverController.x().whileTrue(new RunCommand(() -> m_driveSubsystem.setX(), m_driveSubsystem));
   }
 
 }

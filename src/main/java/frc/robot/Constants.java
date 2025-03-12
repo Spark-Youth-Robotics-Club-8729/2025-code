@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.lang.reflect.Array;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.VecBuilder;
@@ -14,6 +16,9 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.Matrix;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -38,6 +43,8 @@ public final class Constants {
     public static final int kCameraRoll = 0;
     public static final int kCameraPitch = 0;
     public static final double kCameraYaw = Math.PI;
+
+    public static final List<Integer> kAprilTagIds = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22));
 
 
     // Where the camera is mounted with regards to the robot
@@ -123,9 +130,9 @@ public final class Constants {
     public static final int kClawRotationCanId = 11;
     
     public static final double kDesiredClawRotationsIntake = 0.0;
-    public static final double kDesiredClawRotationElevator = 0.977;
+    public static final double kDesiredClawRotationElevator = 0.97;
     public static final double kDesiredClawRotationOutake = 0.935;
-    public static final double kDesiredClawRotationOutaking = 0.89;
+    public static final double kDesiredClawRotationOutaking = 0.86;
     public static final double kDesiredClawRotationAlgae = 0.008;
     public static final double kDesiredClawRotationBottom = 0.07;
     // public static final int kClawEncoderDioPort = 0; // Check dio port
@@ -174,9 +181,9 @@ public final class Constants {
   public class ClawWheelsConstants {
       public static final double kIntakeAlgaeSpeed = -0.9; // Speed for algae intake
       public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
-      public static final double kOutakeCoralSpeed = 0.1; // Speed for coral outtake
+      public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
 
-      public static final double kShootCoralVoltage = 6.0;
+      public static final double kShootCoralVoltage = 2.0;
 
       public static final double kIntakeAlgaeStall = -0.028;
       public static final int kTopWheelMotorID = 12;
