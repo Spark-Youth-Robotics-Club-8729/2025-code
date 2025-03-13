@@ -32,17 +32,29 @@ public final class Constants {
 
     public static final int kAprilTagBlue = 21;
     public static final int kAprilTagRed = 10;
+
+    public static final String kOperatorCamera = "Microsoft LifeCam HD-3000";
   }
 
   public static class VisionConstants {
+    public static final double kP_Steering = 0.01;
+    public static final double kI_Steering = 0.0;
+    public static final double kD_Steering = 0.0;
+
+    public static final double kP_Strafing = 0.2;
+    public static final double kI_Strafing = 0.0;
+    public static final double kD_Strafing = 0.0;
+
     public static final String kCameraName = "8729_OV9281";
 
     // April Tag Layout for Pose Estimator
     public static final AprilTagFieldLayout TAG_LAYOUT = AprilTagFields.kDefaultField.loadAprilTagLayoutField();
 
-    public static final int kCameraRoll = 0;
-    public static final int kCameraPitch = 0;
+    public static final double kCameraRoll = 0.0;
+    public static final double kCameraPitch = 0.0;
+    public static final double kCameraHeight = Units.inchesToMeters(9.0);
     public static final double kCameraYaw = Math.PI;
+    public static final double kCoralAprilTagHeight = Units.inchesToMeters(6.875); // From Game Manual
 
     public static final List<Integer> kAprilTagIds = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22));
 

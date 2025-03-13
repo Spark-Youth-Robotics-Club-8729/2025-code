@@ -5,6 +5,12 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClawWheelsConstants;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.MjpegServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -15,6 +21,7 @@ public class ClawWheelsSubsystem extends SubsystemBase {
     private final SparkMax topWheelMotor; // Algae intake
     private final SparkMax bottomWheelMotor; // Coral & algae outtake
     private final DigitalInput coralBreakSensor;
+    
 
     /* Initializes motors. */
     public ClawWheelsSubsystem() {
@@ -79,6 +86,7 @@ public class ClawWheelsSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("CLAW VOLTAGE", bottomWheelMotor.getBusVoltage()); // 0.2 V
         SmartDashboard.putNumber("CLAW CURRENT", bottomWheelMotor.getOutputCurrent());
         SmartDashboard.putBoolean("BREAK SENSOR", coralInIntake());
+
     }
 
 }

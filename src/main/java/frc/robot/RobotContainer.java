@@ -112,7 +112,7 @@ public class RobotContainer {
   private void configureBindings() {
     m_driverController.a().onTrue(new AlignRobot(m_driveSubsystem, m_visionSubsystem));
 
-    m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationsIntake));
+    // m_operatorController.b().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationsIntake));
     //m_operatorController.rightTrigger().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationOutake));
     //m_operatorController.rightBumper().onTrue(new RotateClaw(m_rotateClawSubsystem, RotateClawConstants.kDesiredClawRotationsIntake));
     
@@ -120,12 +120,12 @@ public class RobotContainer {
     m_operatorController.povUp().onTrue(new AutoMoveElevator(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL4));
 
     m_operatorController.povDown().onTrue(new AutoDropElevator(m_elevatorSubsystem, m_rotateClawSubsystem));
-    //m_operatorController.leftBumper().onTrue(new AutoMoveElevatorAlgae(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.k34Algae));
-    m_operatorController.povRight(). onTrue(new AutoMoveElevator23(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL3));
+    m_operatorController.leftBumper().onTrue(new AutoMoveElevatorAlgae(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.k23Algae));
+    m_operatorController.povRight().onTrue(new AutoMoveElevator23(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL2));
 
     // // add elevator command when PID
     //m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystem, ClawWheelsConstants.kIntakeAlgaeSpeed));
-    //m_operatorController.leftTrigger().onTrue(new AutoAlgaeProcessor(m_clawWheelsSubsystem, m_rotateClawSubsystem));
+    m_operatorController.leftTrigger().onTrue(new AutoAlgaeProcessor(m_clawWheelsSubsystem, m_rotateClawSubsystem));
     m_operatorController.x().whileTrue(new ShootCoral(m_clawWheelsSubsystem, ClawWheelsConstants.kOutakeCoralSpeed));
     //m_operatorController.y().whileTrue(new ShootCoral(m_clawWheelsSubsystem, -ClawWheelsConstants.kOutakeCoralSpeed));
     m_operatorController.povLeft().onTrue(new AutoIntakeCoral(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem));

@@ -17,11 +17,11 @@ public class AutoIntakeCoral extends SequentialCommandGroup {
   public AutoIntakeCoral(ElevatorSubsystem m_elevatorSubsystem, RotateClawSubsystem m_rotateClaw,
       ClawWheelsSubsystem m_clawWheels) {
     addCommands(
-        new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationBottom),
+        new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationsIntake),
         new CoralInIntake(m_clawWheels),
         new ParallelCommandGroup(
             new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationsIntake),
-            new ShootCoralVoltage(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeed).withTimeout(1.55)
+            new ShootCoralVoltage(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeed).withTimeout(1.35)
         )
     );
   }
