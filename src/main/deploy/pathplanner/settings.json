@@ -10,9 +10,12 @@
     "TopStart"
   ],
   "autoFolders": [
-    "TopStartAutos",
-    "MidStartAutos",
-    "BotStartAutos"
+    "BotStartAutosL2",
+    "BotStartAutosL4",
+    "MidStartAutosL2",
+    "MidStartAutosL4",
+    "TopStartAutosL2",
+    "TopStartAutosL4"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

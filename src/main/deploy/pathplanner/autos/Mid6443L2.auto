@@ -1,0 +1,97 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueMidStartTo6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LeftL2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue6ToBotStation"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueBotStationTo4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RightL2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue4ToBotStation"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueBotStationTo4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LeftL2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue4ToBotStation"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueBotStationTo3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RightL2"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "MidStartAutosL2",
+  "choreoAuto": false
+}

@@ -1,0 +1,25 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueMidStartTo6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LeftL4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "MidStartAutosL4",
+  "choreoAuto": false
+}

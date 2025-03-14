@@ -1,0 +1,97 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueBotStartTo5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RightL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue5ToBotStation"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueBotStationTo5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LeftL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue5ToBotStation"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueBotStationTo3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RightL4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue3ToBotStation"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueBotStationTo3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LeftL4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "BotStartAutosL4",
+  "choreoAuto": false
+}
