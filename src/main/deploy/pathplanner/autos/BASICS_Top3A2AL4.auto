@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue3AToTopStation"
+            "pathName": "Blue3AToRightStation"
           }
         },
         {
@@ -37,7 +37,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueTopStationTo2A"
+            "pathName": "BlueRightStationTo2A"
           }
         },
         {
