@@ -9,6 +9,8 @@ import java.lang.reflect.Array;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -37,11 +39,11 @@ public final class Constants {
   }
 
   public static class VisionConstants {
-    public static final double kP_Steering = 0.01;
+    public static final double kP_Steering = 0.05; // 0.025
     public static final double kI_Steering = 0.0;
-    public static final double kD_Steering = 0.0;
+    public static final double kD_Steering = 0.018; // 0.018
 
-    public static final double kP_Strafing = 0.2;
+    public static final double kP_Strafing = 0.4;
     public static final double kI_Strafing = 0.0;
     public static final double kD_Strafing = 0.0;
 
@@ -50,14 +52,47 @@ public final class Constants {
     // April Tag Layout for Pose Estimator
     public static final AprilTagFieldLayout TAG_LAYOUT = AprilTagFields.kDefaultField.loadAprilTagLayoutField();
 
+    public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(0.1, 0.1, 0.5);
+    public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.05, 0.05, 0.2);
+
+    // Poses around the reef
+    // Blue
+    public static final Pose2d k1A_BLUE = new Pose2d(3.25, 4.2, new Rotation2d(0.0));
+    public static final Pose2d k1B_BLUE = new Pose2d(3.25, 3.9, new Rotation2d(0.0));
+    public static final Pose2d k2A_BLUE = new Pose2d(4.050, 5.2, new Rotation2d(-Math.PI/3));
+    public static final Pose2d k2B_BLUE = new Pose2d(3.750, 5.05, new Rotation2d(-Math.PI/3));
+    public static final Pose2d k3A_BLUE = new Pose2d(5.275, 5.05, new Rotation2d(-Math.PI * 2 / 3));
+    public static final Pose2d k3B_BLUE = new Pose2d(4.95, 5.15, new Rotation2d(-Math.PI * 2 / 3));
+    public static final Pose2d k4A_BLUE = new Pose2d(5.7, 3.9, new Rotation2d(Math.PI));
+    public static final Pose2d k4B_BLUE = new Pose2d(5.7, 4.2, new Rotation2d(Math.PI));
+    public static final Pose2d k5A_BLUE = new Pose2d(4.9, 2.9, new Rotation2d(Math.PI * 2 / 3));
+    public static final Pose2d k5B_BLUE = new Pose2d(5.275, 3.05, new Rotation2d(Math.PI * 2 / 3));
+    public static final Pose2d k6A_BLUE = new Pose2d(3.750, 3.050, new Rotation2d(Math.PI/3));
+    public static final Pose2d k6B_BLUE = new Pose2d(4.050, 2.9, new Rotation2d(Math.PI/3));
+
+    public static final Pose2d k1A_RED = new Pose2d(17.55-3.25, 8.05-4.2, new Rotation2d(0.0));
+    public static final Pose2d k1B_RED = new Pose2d(17.55-3.25, 8.05-3.9, new Rotation2d(0.0));
+    public static final Pose2d k2A_RED = new Pose2d(17.55-4.050, 8.05-5.2, new Rotation2d(-Math.PI/3));
+    public static final Pose2d k2B_RED = new Pose2d(17.55-3.70, 8.05-5.0, new Rotation2d(-Math.PI/3));
+    public static final Pose2d k3A_RED = new Pose2d(17.55-5.275, 8.05-5.0, new Rotation2d(-Math.PI * 2 / 3));
+    public static final Pose2d k3B_RED = new Pose2d(17.55-4.95, 8.05-5.2, new Rotation2d(-Math.PI * 2 / 3));
+    public static final Pose2d k4A_RED = new Pose2d(17.55-5.7, 8.05-3.85, new Rotation2d(Math.PI));
+    public static final Pose2d k4B_RED = new Pose2d(17.55-5.7, 8.05-4.2, new Rotation2d(Math.PI));
+    public static final Pose2d k5A_RED = new Pose2d(17.55-4.9, 8.05-2.9, new Rotation2d(Math.PI * 2 / 3));
+    public static final Pose2d k5B_RED = new Pose2d(17.55-5.275, 8.05-3.1, new Rotation2d(Math.PI * 2 / 3));
+    public static final Pose2d k6A_RED = new Pose2d(17.55-3.750, 8.05-3.050, new Rotation2d(Math.PI/3));
+    public static final Pose2d k6B_RED = new Pose2d(17.55-4.050, 8.05-2.90, new Rotation2d(Math.PI/3));
+
     public static final double kCameraRoll = 0.0;
     public static final double kCameraPitch = 0.0;
     public static final double kCameraHeight = Units.inchesToMeters(9.0);
-    public static final double kCameraYaw = Math.PI;
+    public static final double kCameraYaw = 0.0;
     public static final double kCoralAprilTagHeight = Units.inchesToMeters(6.875); // From Game Manual
 
     public static final List<Integer> kAprilTagIds = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22));
 
+    public static final double yOffsetRight = 0.2381;
+    public static final double yOffsetLeft = -0.14;
 
     // Where the camera is mounted with regards to the robot
     public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0, 0, 0),
@@ -78,6 +113,7 @@ public final class Constants {
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
     // Chassis configuration
+    public static final double kRobotMass = Units.lbsToKilograms(100.0); //in kg
     public static final double kTrackWidth = Units.inchesToMeters(26.5);
     // Distance between centers of right and left wheels on robot
     public static final double kWheelBase = Units.inchesToMeters(26.5);
@@ -106,6 +142,20 @@ public final class Constants {
     public static final int kRearRightTurningCanId = 5;
 
     public static final boolean kGyroReversed = true;
+
+    //translation PID constants
+    // public static final double xControllerP = 0.1;
+    // public static final double xControllerI = 0.0;
+    // public static final double xControllerD = 0.0;
+    // public static final double yControllerP = 0.1;
+    // public static final double yControllerI = 0.0;
+    // public static final double yControllerD = 0.0;
+
+    //rotation PID constants
+    // public static final double thetaControllerP = 0.1;
+    // public static final double thetaControllerI = 0.0;
+    // public static final double thetaControllerD = 0.0;
+
 
     //slew
     public static final double kDirectionSlewRate = 2.3; // radians per second default: 1.2
@@ -144,9 +194,11 @@ public final class Constants {
     public static final double kDesiredClawRotationsIntake = 0.0;
     public static final double kDesiredClawRotationElevator = 0.97;
     public static final double kDesiredClawRotationOutake = 0.935;
-    public static final double kDesiredClawRotationOutaking = 0.86;
+    public static final double kDesiredClawRotationOutaking = 0.88; // was 0.84, then 0.89, chose middle (0.865), then 0.87, then 0.88
     public static final double kDesiredClawRotationAlgae = 0.008;
-    public static final double kDesiredClawRotationBottom = 0.07;
+    public static final double kDesiredClawRotationBottom = 0.07; 
+    public static final double kDesiredClawRotationNet = 0.935;// change for the max rotation for net
+    public static final double kDesiredClawRotationNetOutaking = 0.97;// net outaking
     // public static final int kClawEncoderDioPort = 0; // Check dio port
   }
 
@@ -169,13 +221,14 @@ public final class Constants {
     public static final double kL4 = 32.8; //change //32.2 with 0.016
     public static final double kL3 = 20.0;
     public static final double kL2 = 11.0;
-    public static final double kL1 = 9.5;
+    public static final double kL1 = 6.5;
 
     public static final double kBottomPosition = 0.0;
     public static final double kBottomVoltage = -0.5; //change
 
     public static final double k23Algae = 6.8; //change
     public static final double k34Algae = 15.8; //change
+
 
     public static final double kS = 0.15; //test at min
     public static final double kG = 0.387; //test at max
@@ -193,7 +246,12 @@ public final class Constants {
   public class ClawWheelsConstants {
       public static final double kIntakeAlgaeSpeed = -0.9; // Speed for algae intake
       public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
-      public static final double kOutakeCoralSpeed = 0.5; // Speed for coral outtake
+      public static final double kShootNetAlgaeSpeed = 0.7; // Speed for shooting algae in net
+      public static final double kOutakeCoralSpeed = 0.65; // Speed for coral outtake
+      public static final double kOutakeCoralSpeedL4 = 0.5; // Speed for coral outtake
+      public static final double kOutakeCoralSpeedL4_Outaking = 0.25; // Speed for coral outtake
+      public static final double kOutakeCoralVoltage = 0.5; // Speed for coral outtake
+
 
       public static final double kShootCoralVoltage = 2.0;
 

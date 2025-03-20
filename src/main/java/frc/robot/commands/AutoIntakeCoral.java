@@ -21,7 +21,7 @@ public class AutoIntakeCoral extends SequentialCommandGroup {
         new CoralInIntake(m_clawWheels),
         new ParallelCommandGroup(
             new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationsIntake),
-            new ShootCoralVoltage(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeed).withTimeout(1.35)
+            new ShootCoralVoltage(m_clawWheels, ClawWheelsConstants.kOutakeCoralVoltage).withTimeout(1.25)
         )
     );
   }

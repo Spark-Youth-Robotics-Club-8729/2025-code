@@ -21,9 +21,10 @@ public class AutoMoveElevator extends SequentialCommandGroup {
         new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationElevator),
         new ElevatorMove(m_elevatorSubsystem, desiredPosition),
         new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationOutake),
-        new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeed).withTimeout(0.2),
-        new ParallelCommandGroup(new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeed).withTimeout(0.4),
+        new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeedL4).withTimeout(0.3),
+        new ParallelCommandGroup(new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeedL4_Outaking).withTimeout(0.6),
             new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationOutaking))
+            
 
     );
   }

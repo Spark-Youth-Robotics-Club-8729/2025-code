@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "pushBack"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "pushForward"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "midto4B"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoMoveElevatorL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DropElevator"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Basics",
+  "choreoAuto": false
+}

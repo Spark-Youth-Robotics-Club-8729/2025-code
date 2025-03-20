@@ -1,0 +1,55 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "midto4B"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoMoveElevatorL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DropElevator"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "adjustForAlgae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoIntakeAlgae23"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DropElevator"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "pushBackFromReef"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Basics",
+  "choreoAuto": false
+}

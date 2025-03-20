@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.pathplanner.lib.commands.FollowPathCommand;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     SmartDashboard.putData(CommandScheduler.getInstance());
     CameraServer.startAutomaticCapture();
+    FollowPathCommand.warmupCommand().schedule();
     
   }
 

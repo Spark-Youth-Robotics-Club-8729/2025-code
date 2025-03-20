@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueBotStartTo5B"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoMoveElevatorL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DropElevator"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue5BToBotStation"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeCoral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueBotStationTo6B"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoMoveElevatorL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DropElevator"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Basics",
+  "choreoAuto": false
+}

@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ClawWheelsConstants;
 import frc.robot.subsystems.ClawWheelsSubsystem;
 
 /** Spins the bottom wheel to shoot coral. */
@@ -17,11 +18,14 @@ public class ShootCoral extends Command {
     @Override
     public void initialize() {
         m_clawWheels.spinBottomWheel(m_speed);
+        m_clawWheels.spinTopWheel(ClawWheelsConstants.kIntakeAlgaeSpeed);
     }
 
     @Override
     public void end(boolean interrupted) {
         m_clawWheels.stopAll();
+        m_clawWheels.spinTopWheel(ClawWheelsConstants.kIntakeAlgaeStall);
+
     }
 
     @Override
