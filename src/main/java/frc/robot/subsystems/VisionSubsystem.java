@@ -209,7 +209,7 @@ public class VisionSubsystem extends SubsystemBase{
         return listy;
     }
 
-    public List<Double> getTagPoseTrajectory(List<Integer> aprilTagIDs, double yOffset) {
+    public List<Double> getTagPoseTrajectoryPID(List<Integer> aprilTagIDs, double yOffset) {
         PhotonPipelineResult result = camera.getLatestResult();
         List<Double> listy = new ArrayList<>();
         
@@ -246,8 +246,36 @@ public class VisionSubsystem extends SubsystemBase{
 
     }
 
+    public Pose2d getTagPoseTrajectory(List<Integer> aprilTagIDs, double yOffset) {
+        PhotonPipelineResult result = camera.getLatestResult();
+
+        if (result.hasTargets()) {
+            SmartDashboard.putBoolean("Vision/HasTargets", result.hasTargets());
+
+            for (PhotonTrackedTarget target : result.getTargets()) {
+                for (int aprilTagID : aprilTagIDs) {
+                    if (target.getFiducialId() == aprilTagID) {
+                        Transform3d tagPose = target.getBestCameraToTarget();
+                        double value = tagPose.getRotation().getZ();
+                        if (value > 0) {
+                            value = -(Math.abs(value)-(Math.PI/2));
+                        } else {
+                            value = (Math.abs(value)-(Math.PI/2));
+                        }
+                        Pose2d pose = new Pose2d(Math.abs(tagPose.getX()*Math.cos(value)), tagPose.getY(), new Rotation2d(value));
+                        return pose;
+
+                    }
+                }
+            }
+        }
+
+        return new Pose2d(0.0, 0.0, new Rotation2d(0.0));
+    }
+
+
     public List<Double> applyPIDMarch19Code(double yOffset) {
-        List<Double> result = getTagPoseTrajectory(VisionConstants.kAprilTagIds, yOffset);
+        List<Double> result = getTagPoseTrajectoryPID(VisionConstants.kAprilTagIds, yOffset);
 
         double outputXStrafing = pidControllerXStrafe.calculate(result.get(0));
         double outputYStrafing = pidControllerYStrafe.calculate(result.get(1));
