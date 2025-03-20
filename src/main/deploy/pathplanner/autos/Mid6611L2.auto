@@ -19,7 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue4BToTopStation"
+            "pathName": "Blue4BToRightStation"
           }
         },
         {
@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueTopStationTo6"
+            "pathName": "BlueRightStationTo6"
           }
         },
         {
@@ -43,7 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue4BToTopStation"
+            "pathName": "Blue4BToRightStation"
           }
         },
         {
@@ -55,7 +55,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueTopStationTo3B"
+            "pathName": "BlueRightStationTo3B"
           }
         },
         {
@@ -67,7 +67,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue3AToTopStation"
+            "pathName": "Blue3AToRightStation"
           }
         },
         {
@@ -79,7 +79,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueTopStationTo3B"
+            "pathName": "BlueRightStationTo3B"
           }
         },
         {

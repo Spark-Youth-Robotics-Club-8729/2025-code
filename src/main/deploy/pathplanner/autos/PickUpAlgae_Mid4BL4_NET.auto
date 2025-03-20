@@ -17,12 +17,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "DropElevator"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "adjustForAlgae"
@@ -43,7 +37,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "pushBackFromReef"
+            "pathName": "AlgaeNetScore"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlgaeNet"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DropElevator"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "AfterAlgaeNet"
           }
         }
       ]

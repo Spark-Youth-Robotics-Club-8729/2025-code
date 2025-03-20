@@ -3,11 +3,11 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+    "BotCycle",
     "BotStart",
     "MidStart",
-    "BotCycle",
-    "TopCycle",
-    "TopStart"
+    "RightCycle",
+    "RightStart"
   ],
   "autoFolders": [
     "BotStartAutosL2",
