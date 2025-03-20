@@ -113,7 +113,7 @@ public class RobotContainer {
     // NamedCommands.registerCommand("RightL4", new AlignRobot(m_driveSubsystem, m_visionSubsystem, true));
     // NamedCommands.registerCommand("LeftL4", new AlignRobot(m_driveSubsystem, m_visionSubsystem, false));
     NamedCommands.registerCommand("IntakeCoral", new AutoIntakeCoral(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem));
-
+    NamedCommands.registerCommand("AlgaeNet", new AutoShootNet(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL4));
 
     // Build an auto chooser. (can be changed to specific ones -> https://pathplanner.dev/pplib-build-an-auto.html)
     autoChooser = AutoBuilder.buildAutoChooser(); // This will use Commands.none() as the default option. Put a value inside brackets for default.
