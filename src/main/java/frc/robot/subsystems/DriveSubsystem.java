@@ -400,10 +400,12 @@ public class DriveSubsystem extends SubsystemBase {
   }
   
 
-  public void pathToPose(Pose2d target_pose) {
-    List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(new Pose2d(target_pose.getX()+0.5, target_pose.getY(), new Rotation2d(0.0)), target_pose);
+  public void pathToPose() {
+    Pose2d target_pose;
+    target_pose = m_visionSubsystem.getTagPose2dConditionals(VisionConstants.kAprilTagIds, true);
+    List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(new Pose2d(getPose().getX(), getPose().getY(), target_pose.getRotation()), target_pose);
 
-    PathConstraints constraints = new PathConstraints(1.0, 1.0, Math.PI, 2*Math.PI);
+    PathConstraints constraints = new PathConstraints(0.5, 0.5, Math.PI, 2*Math.PI);
 
     PathPlannerPath path = new PathPlannerPath(waypoints, constraints, null, new GoalEndState(0.0, Rotation2d.fromDegrees(0)));
     path.preventFlipping = true;

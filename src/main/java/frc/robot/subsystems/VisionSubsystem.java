@@ -247,7 +247,7 @@ public class VisionSubsystem extends SubsystemBase{
 
     }
 
-    public Pose2d getTagPose2dConditionals(List<Integer> aprilTagIDs, double yOffset, boolean left) {
+    public Pose2d getTagPose2dConditionals(List<Integer> aprilTagIDs, boolean left) {
         PhotonPipelineResult result = camera.getLatestResult();
 
         if (result.hasTargets()) {
@@ -256,7 +256,10 @@ public class VisionSubsystem extends SubsystemBase{
             for (PhotonTrackedTarget target : result.getTargets()) {
                 for (int aprilTagID : aprilTagIDs) {
                     if (target.getFiducialId() == aprilTagID) {
-                        int id = target.getFiducialId(); //2.4375 
+                        int id = target.getFiducialId(); //0.164338
+                        if (id == -1) {
+                            return null;
+                        }
                         Pose3d tagPose = fieldPoseLayout.getTagPose(id).get();
                         double lx = tagPose.getX();
                         double rx = tagPose.getX();
@@ -265,36 +268,37 @@ public class VisionSubsystem extends SubsystemBase{
                         double angle = tagPose.getRotation().getZ();
 
                         if (id==7 || id==21) {
-                            ly -= 2.4375;
-                            ry += 2.4375;
+                            ly -= 0.164338;
+                            ry += 0.164338;
                         } else if (id==8 || id==20) {
-                            ly -= 2.4375*Math.sin(Math.PI/3);
-                            ry += 2.4375*Math.cos(Math.PI/3);
-                            lx += 2.4375*Math.sin(Math.PI/3);
-                            rx -= 2.4375*Math.cos(Math.PI/3);
+                            ly -= 0.164338*Math.sin(Math.PI/3);
+                            ry += 0.164338*Math.cos(Math.PI/3);
+                            lx += 0.164338*Math.sin(Math.PI/3);
+                            rx -= 0.164338*Math.cos(Math.PI/3);
                         } else if (id==9 || id==19) {
-                            ly += 2.4375*Math.sin(Math.PI/3);
-                            ry -= 2.4375*Math.cos(Math.PI/3);
-                            lx += 2.4375*Math.sin(Math.PI/3);
-                            rx -= 2.4375*Math.cos(Math.PI/3);
+                            ly += 0.164338*Math.sin(Math.PI/3);
+                            ry -= 0.164338*Math.cos(Math.PI/3);
+                            lx += 0.164338*Math.sin(Math.PI/3);
+                            rx -= 0.164338*Math.cos(Math.PI/3);
                         } else if (id==10 || id==18) {
-                            ly += 2.4375;
-                            ry -= 2.4375;
+                            ly += 0.164338;
+                            ry -= 0.164338;
                         } else if (id==11 || id==17) {
-                            ly += 2.4375*Math.sin(Math.PI/3);
-                            ry -= 2.4375*Math.cos(Math.PI/3);
-                            lx -= 2.4375*Math.sin(Math.PI/3);
-                            rx += 2.4375*Math.cos(Math.PI/3);
+                            ly += 0.164338*Math.sin(Math.PI/3);
+                            ry -= 0.164338*Math.cos(Math.PI/3);
+                            lx -= 0.164338*Math.sin(Math.PI/3);
+                            rx += 0.164338*Math.cos(Math.PI/3);
                         } else if (id==6 || id==22) {
-                            ly -= 2.4375*Math.sin(Math.PI/3);
-                            ry += 2.4375*Math.cos(Math.PI/3);
-                            lx -= 2.4375*Math.sin(Math.PI/3);
-                            rx += 2.4375*Math.cos(Math.PI/3);
+                            ly -= 0.164338*Math.sin(Math.PI/3);
+                            ry += 0.164338*Math.cos(Math.PI/3);
+                            lx -= 0.164338*Math.sin(Math.PI/3);
+                            rx += 0.164338*Math.cos(Math.PI/3);
                         }
 
                         Pose2d pose;
                         if (left) {
                             pose = new Pose2d(lx, ly, new Rotation2d(angle));
+                            
                         } else {
                             pose = new Pose2d(rx, ry, new Rotation2d(angle));
                         }
@@ -331,7 +335,7 @@ public class VisionSubsystem extends SubsystemBase{
             }
         }
 
-        return new Pose2d(0.0, 0.0, new Rotation2d(0.0));
+        return null;
     }
 
 
