@@ -160,7 +160,7 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_driveSubsystem.setX(), m_driveSubsystem));
     // m_driverController.y().whileTrue(new MoveToPositionCommand(m_driveSubsystem, m_visionSubsystem.getTagPoseTrajectory(VisionConstants.kAprilTagIds, 0.0)));
     m_driverController.povUp().whileTrue(new RunCommand(() -> m_driveSubsystem.m_gyro.zeroYaw(), m_driveSubsystem));
-    m_driverController.x().onTrue(new RunCommand(() -> m_driveSubsystem.pathToPose(new Pose2d(5.7, 4.08, new Rotation2d(0.0))), m_driveSubsystem));
+    m_driverController.x().onTrue(new RunCommand(() -> m_driveSubsystem.pathToPose(), m_driveSubsystem));
   }
 
   
