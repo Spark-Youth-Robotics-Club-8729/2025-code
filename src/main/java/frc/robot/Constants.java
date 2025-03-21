@@ -47,7 +47,7 @@ public final class Constants {
     public static final double kI_Strafing = 0.0;
     public static final double kD_Strafing = 0.0;
 
-    public static final String kCameraName = "8729_OV9281";
+    public static final String kCameraName = "OV9281";
 
     // April Tag Layout for Pose Estimator
     public static final AprilTagFieldLayout TAG_LAYOUT = AprilTagFields.kDefaultField.loadAprilTagLayoutField();
