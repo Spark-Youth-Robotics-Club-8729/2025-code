@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 5.478250015712699,
-        "y": 1.5923718810659588
+        "y": 1.592371881065959
       },
       "isLocked": false,
       "linkedName": null
@@ -45,7 +45,7 @@
     "rotation": 54.0
   },
   "reversed": false,
-  "folder": "BotCycle",
+  "folder": "LeftCycle",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 119.99999999999999

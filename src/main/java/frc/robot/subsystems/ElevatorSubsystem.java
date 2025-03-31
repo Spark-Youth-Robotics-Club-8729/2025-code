@@ -64,12 +64,12 @@ public class ElevatorSubsystem extends SubsystemBase{
     }
 
     public void setVoltage(double voltage) {
-        if (voltage > 3.0) {
-            voltage = 3.0;
+        if (voltage > 4.5) {
+            voltage = 4.5;
         }
 
-        if (voltage < -3.0) {
-            voltage = -3.0;
+        if (voltage < -3.5) {
+            voltage = -3.5;
         }
 
         m_rightKraken.setVoltage(voltage); 

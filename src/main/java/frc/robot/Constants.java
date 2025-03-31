@@ -84,7 +84,7 @@ public final class Constants {
     public static final Pose2d k6B_RED = new Pose2d(17.55-4.050, 8.05-2.90, new Rotation2d(Math.PI/3));
 
     public static final double kCameraRoll = 0.0;
-    public static final double kCameraPitch = 0.0;
+    public static final double kCameraPitch = 10.0;
     public static final double kCameraHeight = Units.inchesToMeters(9.0);
     public static final double kCameraYaw = 0.0;
     public static final double kCoralAprilTagHeight = Units.inchesToMeters(6.875); // From Game Manual
@@ -95,7 +95,7 @@ public final class Constants {
     public static final double yOffsetLeft = -0.14;
 
     // Where the camera is mounted with regards to the robot
-    public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0, 0, 0),
+    public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(0.445, 0, 0.2032),
       new Rotation3d(kCameraRoll, kCameraPitch * Math.PI/180, kCameraYaw));
         // Translation3d is offset from center or robot/robot origin
         // Rotation3d is rotation on forward/back axis, rotation on left/right axis, rotation on up/down axis
@@ -193,8 +193,10 @@ public final class Constants {
     
     public static final double kDesiredClawRotationsIntake = 0.0;
     public static final double kDesiredClawRotationElevator = 0.97;
-    public static final double kDesiredClawRotationOutake = 0.935;
+    public static final double kDesiredClawRotationElevatorL1 = 0.95;
+    public static final double kDesiredClawRotationOutake = 0.955;
     public static final double kDesiredClawRotationOutaking = 0.88; // was 0.84, then 0.89, chose middle (0.865), then 0.87, then 0.88
+    public static final double kDesiredClawRotationNetEarly = 0.80; // was 0.84, then 0.89, chose middle (0.865), then 0.87, then 0.88
     public static final double kDesiredClawRotationAlgae = 0.008;
     public static final double kDesiredClawRotationBottom = 0.07; 
     public static final double kDesiredClawRotationNet = 0.935;// change for the max rotation for net
@@ -209,29 +211,29 @@ public final class Constants {
 
     public static final int kLimitSwitchPort = 1;
 
-    public static final double kKrakenP = 0.2; // 0.01
-    public static final double kKrakenI = 0.008; // 0.0007
+    public static final double kKrakenP = 0.27; // 0.01
+    public static final double kKrakenI = 0.0135; // 0.0007
     public static final double kKrakenD = 0.0;
     
 
     // public static final double kGravityFeedForward = 0.05;
     
-    public static final double kKrakenTolerance = 0.2;
+    public static final double kKrakenTolerance = 0.13;
 
     public static final double kL4 = 32.8; //change //32.2 with 0.016
     public static final double kL3 = 20.0;
     public static final double kL2 = 11.0;
-    public static final double kL1 = 6.5;
+    public static final double kL1 = 5.5;
 
     public static final double kBottomPosition = 0.0;
     public static final double kBottomVoltage = -0.5; //change
 
-    public static final double k23Algae = 6.8; //change
-    public static final double k34Algae = 15.8; //change
+    public static final double k23Algae = 6.0; //change
+    public static final double k34Algae = 14.75; //change
 
 
     public static final double kS = 0.15; //test at min
-    public static final double kG = 0.387; //test at max
+    public static final double kG = 0.39075; //test at max
     public static final double kV = 0.00;
     public static final double kA = 0.00;
 
@@ -246,7 +248,7 @@ public final class Constants {
   public class ClawWheelsConstants {
       public static final double kIntakeAlgaeSpeed = -0.9; // Speed for algae intake
       public static final double kOutakeAlgaeSpeed = 0.5; // Speed for algae outtake
-      public static final double kShootNetAlgaeSpeed = 0.7; // Speed for shooting algae in net
+      public static final double kShootNetAlgaeSpeed = 0.85; // Speed for shooting algae in net
       public static final double kOutakeCoralSpeed = 0.65; // Speed for coral outtake
       public static final double kOutakeCoralSpeedL4 = 0.5; // Speed for coral outtake
       public static final double kOutakeCoralSpeedL4_Outaking = 0.25; // Speed for coral outtake

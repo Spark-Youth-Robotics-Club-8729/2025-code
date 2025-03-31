@@ -5,12 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "midto4B"
@@ -38,30 +32,6 @@
           "type": "named",
           "data": {
             "name": "DropElevator"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "AlgaeNetScore"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AlgaeNet"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DropElevator"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "AfterAlgaeNet"
           }
         }
       ]

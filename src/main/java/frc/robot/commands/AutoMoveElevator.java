@@ -5,7 +5,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ClawWheelsConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.RotateClawConstants;
@@ -23,9 +26,8 @@ public class AutoMoveElevator extends SequentialCommandGroup {
         new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationOutake),
         new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeedL4).withTimeout(0.3),
         new ParallelCommandGroup(new ShootCoral(m_clawWheels, ClawWheelsConstants.kOutakeCoralSpeedL4_Outaking).withTimeout(0.6),
-            new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationOutaking))
+            new ParallelRaceGroup(new RotateClaw(m_rotateClaw, RotateClawConstants.kDesiredClawRotationOutaking), new WaitCommand(1)))
             
-
     );
   }
 }

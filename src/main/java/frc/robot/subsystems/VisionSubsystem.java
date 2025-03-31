@@ -25,6 +25,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
@@ -42,6 +43,7 @@ public class VisionSubsystem extends SubsystemBase{
 
     public VisionSubsystem() { // Constructor
         camera = new PhotonCamera(kCameraName);
+        fieldPoseLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
         pidControllerSteering = new PIDController(VisionConstants.kP_Steering, VisionConstants.kI_Steering, VisionConstants.kD_Steering);
         pidControllerSteering.setTolerance(0.1);
         pidControllerYStrafe = new PIDController(VisionConstants.kP_Strafing, VisionConstants.kI_Strafing, VisionConstants.kD_Strafing);
@@ -247,6 +249,23 @@ public class VisionSubsystem extends SubsystemBase{
 
     }
 
+    public Pose2d returnAprilTagPose(int aprilTag) {
+        Pose3d tagPose = fieldPoseLayout.getTagPose(aprilTag).get();
+        double lx = tagPose.getX();
+        double rx = tagPose.getX();
+        double ly = tagPose.getY();
+        double ry = tagPose.getY();
+        double angle = tagPose.getRotation().getZ();
+        SmartDashboard.putNumber("TagDETECT X", lx);
+        SmartDashboard.putNumber("TagDETECT Y", ly);
+        SmartDashboard.putNumber("TagDETECT Z", angle*180/Math.PI);
+
+        angle += Math.PI;
+        Pose2d pose;
+        pose = new Pose2d(lx, ly, new Rotation2d(angle));
+        return pose;
+    }
+
     public Pose2d getTagPose2dConditionals(List<Integer> aprilTagIDs, boolean left) {
         PhotonPipelineResult result = camera.getLatestResult();
 
@@ -257,58 +276,67 @@ public class VisionSubsystem extends SubsystemBase{
                 for (int aprilTagID : aprilTagIDs) {
                     if (target.getFiducialId() == aprilTagID) {
                         int id = target.getFiducialId(); //0.164338
-                        if (id == -1) {
-                            return null;
-                        }
                         Pose3d tagPose = fieldPoseLayout.getTagPose(id).get();
                         double lx = tagPose.getX();
                         double rx = tagPose.getX();
                         double ly = tagPose.getY();
                         double ry = tagPose.getY();
                         double angle = tagPose.getRotation().getZ();
+                        SmartDashboard.putNumber("TagDETECT X", lx);
+                        SmartDashboard.putNumber("TagDETECT Y", ly);
+                        SmartDashboard.putNumber("TagDETECT Z", angle*180/Math.PI);
 
-                        if (id==7 || id==21) {
-                            ly -= 0.164338;
-                            ry += 0.164338;
-                        } else if (id==8 || id==20) {
-                            ly -= 0.164338*Math.sin(Math.PI/3);
-                            ry += 0.164338*Math.cos(Math.PI/3);
-                            lx += 0.164338*Math.sin(Math.PI/3);
-                            rx -= 0.164338*Math.cos(Math.PI/3);
-                        } else if (id==9 || id==19) {
-                            ly += 0.164338*Math.sin(Math.PI/3);
-                            ry -= 0.164338*Math.cos(Math.PI/3);
-                            lx += 0.164338*Math.sin(Math.PI/3);
-                            rx -= 0.164338*Math.cos(Math.PI/3);
-                        } else if (id==10 || id==18) {
-                            ly += 0.164338;
-                            ry -= 0.164338;
-                        } else if (id==11 || id==17) {
-                            ly += 0.164338*Math.sin(Math.PI/3);
-                            ry -= 0.164338*Math.cos(Math.PI/3);
-                            lx -= 0.164338*Math.sin(Math.PI/3);
-                            rx += 0.164338*Math.cos(Math.PI/3);
-                        } else if (id==6 || id==22) {
-                            ly -= 0.164338*Math.sin(Math.PI/3);
-                            ry += 0.164338*Math.cos(Math.PI/3);
-                            lx -= 0.164338*Math.sin(Math.PI/3);
-                            rx += 0.164338*Math.cos(Math.PI/3);
-                        }
+                        SmartDashboard.putNumber("MODIFIED Z", angle);
+
+                        angle += Math.PI;
+
+
+
+                        // if (id==7 || id==21) {
+                        //     ly -= 0.164338;
+                        //     ry += 0.164338;
+                        // } else if (id==8 || id==20) {
+                        //     ly -= 0.164338*Math.sin(Math.PI/3);
+                        //     ry += 0.164338*Math.cos(Math.PI/3);
+                        //     lx += 0.164338*Math.sin(Math.PI/3);
+                        //     rx -= 0.164338*Math.cos(Math.PI/3);
+                        // } else if (id==9 || id==19) {
+                        //     ly += 0.164338*Math.sin(Math.PI/3);
+                        //     ry -= 0.164338*Math.cos(Math.PI/3);
+                        //     lx += 0.164338*Math.sin(Math.PI/3);
+                        //     rx -= 0.164338*Math.cos(Math.PI/3);
+                        // } else if (id==10 || id==18) {
+                        //     ly += 0.164338;
+                        //     ry -= 0.164338;
+                        // } else if (id==11 || id==17) {
+                        //     ly += 0.164338*Math.sin(Math.PI/3);
+                        //     ry -= 0.164338*Math.cos(Math.PI/3);
+                        //     lx -= 0.164338*Math.sin(Math.PI/3);
+                        //     rx += 0.164338*Math.cos(Math.PI/3);
+                        // } else if (id==6 || id==22) {
+                        //     ly -= 0.164338*Math.sin(Math.PI/3);
+                        //     ry += 0.164338*Math.cos(Math.PI/3);
+                        //     lx -= 0.164338*Math.sin(Math.PI/3);
+                        //     rx += 0.164338*Math.cos(Math.PI/3);
+                        // }
+
+                        // Pose2d pose;
+                        // if (left) {
+                        //     pose = new Pose2d(lx, ly, new Rotation2d(angle));
+                            
+                        // } else {
+                        //     pose = new Pose2d(rx, ry, new Rotation2d(angle));
+                        // }
 
                         Pose2d pose;
-                        if (left) {
-                            pose = new Pose2d(lx, ly, new Rotation2d(angle));
-                            
-                        } else {
-                            pose = new Pose2d(rx, ry, new Rotation2d(angle));
-                        }
+                        pose = new Pose2d(lx, ly, new Rotation2d(angle));
                         return pose;
                     }
                 }
             }
         }
 
-        return new Pose2d(0.0, 0.0, new Rotation2d(0.0));
+        return null;
     }
 
     public Pose2d getTagPoseTrajectory(List<Integer> aprilTagIDs, double yOffset) {
@@ -411,6 +439,7 @@ public class VisionSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         SmartDashboard.putNumber("getAngleOffset Number", getAngleOffset(VisionConstants.kAprilTagIds));
+        getTagPose2dConditionals(VisionConstants.kAprilTagIds, isAtSetpoint());
     }
 
     

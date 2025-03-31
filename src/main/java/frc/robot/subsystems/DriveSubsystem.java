@@ -32,7 +32,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
@@ -219,9 +222,10 @@ public class DriveSubsystem extends SubsystemBase {
             
         });
 
-        var visionEst = m_visionSubsystem.getEstimatedGlobalPose();
+        // if (DriverStation.isTeleopEnabled()) {
+          var visionEst = m_visionSubsystem.getEstimatedGlobalPose();
 
-        visionEst.ifPresent(
+          visionEst.ifPresent(
 
                 est -> {
 
@@ -235,10 +239,23 @@ public class DriveSubsystem extends SubsystemBase {
                             est.estimatedPose.toPose2d(), est.timestampSeconds); //estStdDevs
 
                 });
-    SmartDashboard.putNumber("Yaw", -m_gyro.getYaw());
+        // }
+
+    //SmartDashboard.putNumber("Yaw", -m_gyro.getYaw());
+    SmartDashboard.putNumber("ROBOT X", getPose().getX());
+    SmartDashboard.putNumber("ROBOT Y", getPose().getY());
+    SmartDashboard.putNumber("ROBOT Z", getPose().getRotation().getDegrees());
+
+    double angle = getPose().getRotation().getDegrees();
+    if (angle > 0.0) {
+      angle -= 180.0;
+    } else {
+      angle += 180.0;
+    }
+
+    SmartDashboard.putNumber("ROBOT Z changed", angle);
     m_field.setRobotPose(getPose());
   }
-
   /**
    * Returns the currently-estimated pose of the robot.
    *
@@ -398,16 +415,79 @@ public class DriveSubsystem extends SubsystemBase {
   public double getTurnRate() {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
+
+  public Pose2d chooseAprilTag() {
+    Pose2d robotPose = getPose();
+    Pose2d desiredPose = new Pose2d();
+
+    boolean good = false;
+
+    if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red && robotPose.getX()>8.775) {
+      Map<String, Double> distances = new HashMap<>();
+    
+      distances.put("6", Math.sqrt(Math.pow(robotPose.getX()-13.47, 2) + Math.pow(robotPose.getY()-3.31, 2)));
+      distances.put("7", Math.sqrt(Math.pow(robotPose.getX()-13.89, 2) + Math.pow(robotPose.getY()-4.03, 2)));
+      distances.put("8", Math.sqrt(Math.pow(robotPose.getX()-13.47, 2) + Math.pow(robotPose.getY()-4.75, 2)));
+      distances.put("9", Math.sqrt(Math.pow(robotPose.getX()-12.64, 2) + Math.pow(robotPose.getY()-4.75, 2)));
+      distances.put("10", Math.sqrt(Math.pow(robotPose.getX()-12.23, 2) + Math.pow(robotPose.getY()-4.03, 2)));
+      distances.put("11", Math.sqrt(Math.pow(robotPose.getX()-12.64, 2) + Math.pow(robotPose.getY()-3.31, 2)));
+
+      String minKey = Collections.min(distances.entrySet(), Map.Entry.comparingByValue()).getKey();
+      double minValue = distances.get(minKey);
+      int aprilTag = Integer.parseInt(minKey);
+
+      desiredPose = m_visionSubsystem.returnAprilTagPose(aprilTag);
+      good = true;
+
+    } else if (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue && robotPose.getX()<8.775) {
+      Map<String, Double> distances = new HashMap<>();
+    
+      distances.put("17", Math.sqrt(Math.pow(robotPose.getX()-4.07, 2) + Math.pow(robotPose.getY()-3.31, 2)));
+      distances.put("18", Math.sqrt(Math.pow(robotPose.getX()-3.66, 2) + Math.pow(robotPose.getY()-4.03, 2)));
+      distances.put("19", Math.sqrt(Math.pow(robotPose.getX()-4.07, 2) + Math.pow(robotPose.getY()-4.75, 2)));
+      distances.put("20", Math.sqrt(Math.pow(robotPose.getX()-4.90, 2) + Math.pow(robotPose.getY()-4.75, 2)));
+      distances.put("21", Math.sqrt(Math.pow(robotPose.getX()-5.32, 2) + Math.pow(robotPose.getY()-4.03, 2)));
+      distances.put("22", Math.sqrt(Math.pow(robotPose.getX()-4.90, 2) + Math.pow(robotPose.getY()-3.31, 2)));
+
+      String minKey = Collections.min(distances.entrySet(), Map.Entry.comparingByValue()).getKey();
+      double minValue = distances.get(minKey);
+      int aprilTag = Integer.parseInt(minKey);
+
+      desiredPose = m_visionSubsystem.returnAprilTagPose(aprilTag);
+      good = true;
+    }
+
+    if (good) {
+      return desiredPose;
+    }
+    return null;
+
+  }
   
 
   public void pathToPose() {
     Pose2d target_pose;
-    target_pose = m_visionSubsystem.getTagPose2dConditionals(VisionConstants.kAprilTagIds, true);
-    List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(new Pose2d(getPose().getX(), getPose().getY(), target_pose.getRotation()), target_pose);
+    target_pose = chooseAprilTag();
+
+    if (target_pose == null) {
+      return;
+    }
+
+    // target_pose = new Pose2d(0, 0, new Rotation2d(0));
+
+    // double angle = target_pose.getRotation().getDegrees();
+    // if (angle > 0.0) {
+    //   angle -= 180.0;
+    // } else {
+    //   angle += 180.0;
+    // }
+
+    // List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(new Pose2d(getPose().getX(), getPose().getY(), new Rotation2d(angle*Math.PI/180.0)), target_pose);
+    List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(new Pose2d(getPose().getX(), getPose().getY(), getPose().getRotation()), target_pose);
 
     PathConstraints constraints = new PathConstraints(0.5, 0.5, Math.PI, 2*Math.PI);
 
-    PathPlannerPath path = new PathPlannerPath(waypoints, constraints, null, new GoalEndState(0.0, Rotation2d.fromDegrees(0)));
+    PathPlannerPath path = new PathPlannerPath(waypoints, constraints, null, new GoalEndState(0.0, Rotation2d.fromDegrees(target_pose.getRotation().getDegrees())));
     path.preventFlipping = true;
 
     AutoBuilder.followPath(path).schedule();

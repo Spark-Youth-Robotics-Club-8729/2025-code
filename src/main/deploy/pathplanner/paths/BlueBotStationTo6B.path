@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 4.05,
-        "y": 2.9
+        "x": 3.9799180327868857,
+        "y": 2.7722848360655736
       },
       "prevControl": {
-        "x": 3.0698107230177802,
-        "y": 2.243454039856567
+        "x": 2.999728755804666,
+        "y": 2.115738875922141
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": "BotCycle",
+  "folder": "LeftCycle",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 54.0

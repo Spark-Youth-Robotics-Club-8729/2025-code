@@ -17,10 +17,13 @@ import frc.robot.commands.AlignRobot;
 import frc.robot.commands.AutoAlgaeProcessor;
 import frc.robot.commands.AutoDropElevator;
 import frc.robot.commands.AutoIntakeCoral;
+import frc.robot.commands.AutoL4Shoot;
 import frc.robot.commands.AutoMoveElevator;
 import frc.robot.commands.AutoMoveElevator1;
 import frc.robot.commands.AutoMoveElevator23;
 import frc.robot.commands.AutoMoveElevatorAlgae;
+import frc.robot.commands.AutoMoveElevatorG;
+import frc.robot.commands.AutoMoveElevatorONLY;
 import frc.robot.commands.AutoRotate;
 import frc.robot.commands.AutoShootCoral;
 import frc.robot.commands.AutoShootNet;
@@ -34,8 +37,10 @@ import frc.robot.commands.MoveToPositionCommand;
 import frc.robot.commands.MovingToAprilTag;
 import frc.robot.commands.RotateClaw;
 import frc.robot.commands.SetVoltage;
+import frc.robot.commands.SetVoltageG;
 import frc.robot.commands.ShootAlgae;
 import frc.robot.commands.ShootCoral;
+import frc.robot.commands.ShootCoral2;
 import frc.robot.commands.ShootCoralVoltage;
 import frc.robot.commands.TranslateRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -144,10 +149,15 @@ public class RobotContainer {
     m_operatorController.rightBumper().onTrue(new AutoMoveElevatorAlgae(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.k34Algae));
     m_operatorController.leftTrigger().onTrue(new AutoAlgaeProcessor(m_clawWheelsSubsystem, m_rotateClawSubsystem));
     m_operatorController.povRight().whileTrue(new ShootCoral(m_clawWheelsSubsystem, 0.15));
-    m_operatorController.rightTrigger().whileTrue(new ShootCoral(m_clawWheelsSubsystem, -0.15));
+
+    m_operatorController.rightTrigger().whileTrue(new ShootCoral2(m_clawWheelsSubsystem, -0.15));
     m_operatorController.povLeft().onTrue(new AutoIntakeCoral(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem));
     m_operatorController.povUp().onTrue(new AutoShootNet(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL4));
 
+    m_operatorController.rightStick().onTrue(new AutoMoveElevatorG(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL4));
+
+    //m_operatorController.rightStick().onTrue(new AutoMoveElevatorONLY(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, ElevatorConstants.kL4));
+    //m_operatorController.leftStick().onTrue(new AutoL4Shoot(m_elevatorSubsystem, m_rotateClawSubsystem, m_clawWheelsSubsystem, 0));
     // // add elevator command when PID
     //m_operatorController.a().whileTrue(new IntakeAlgae(m_clawWheelsSubsystem, ClawWheelsConstants.kIntakeAlgaeSpeed));
     //m_operatorController.y().whileTrue(new ShootCoral(m_clawWheelsSubsystem, -ClawWheelsConstants.kOutakeCoralSpeed));
@@ -160,8 +170,7 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_driveSubsystem.setX(), m_driveSubsystem));
     // m_driverController.y().whileTrue(new MoveToPositionCommand(m_driveSubsystem, m_visionSubsystem.getTagPoseTrajectory(VisionConstants.kAprilTagIds, 0.0)));
     m_driverController.povUp().whileTrue(new RunCommand(() -> m_driveSubsystem.m_gyro.zeroYaw(), m_driveSubsystem));
-    m_driverController.x().onTrue(new RunCommand(() -> m_driveSubsystem.pathToPose(), m_driveSubsystem));
+    m_driverController.x().whileTrue(new RunCommand(() -> m_driveSubsystem.pathToPose(), m_driveSubsystem));
   }
 
-  
 }
